@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 
 
+
+
+
 var devconfig;
 try {
 
