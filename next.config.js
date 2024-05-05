@@ -12,7 +12,18 @@ try {
 
 
 const nextConfig = {
-  ...(devconfig ? devconfig : {}),
+  ...(devconfig ? devconfig : {
+    async rewrites() {
+      return [
+        {
+          "source": "/ad/_next/:path*",
+          "destination": "/_next/:path*"
+        }
+      ]
+    }
+  }),
+  assetPrefix: '/ad',
+  crossOrigin: 'use-credentials',
   images: {
     remotePatterns: [
       {
