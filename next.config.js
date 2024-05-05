@@ -16,6 +16,8 @@ try {
 
 const nextConfig = {
   ...(devconfig ? devconfig : {}),
+  basePath: '/ad',
+  crossOrigin: 'use-credentials',
   images: {
     remotePatterns: [
       {

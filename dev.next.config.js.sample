@@ -20,7 +20,7 @@ module.exports = {
             {
                 "source": "/api/auth/:path*",
                 "destination": "https://dev-auth.mitech.ai/api/auth/:path*"
-            },
+            }
         ]
     },
 }
