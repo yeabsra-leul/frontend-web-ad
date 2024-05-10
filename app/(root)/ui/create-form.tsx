@@ -8,7 +8,7 @@ import { useFormState } from 'react-dom';
 import { DatePicker } from "@nextui-org/date-picker";
 
 export default function Form({ channels }: { channels: ChannelField[] }) {
-  const initialState = { message: null, errors: {} };
+  const initialState = { message: "", errors: {} };
   const [state, dispatch] = useFormState(createAds, initialState);
   const [addHeadline, setHeadlines] = useState({
     showHeadline4:false,
