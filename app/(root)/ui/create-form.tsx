@@ -1,5 +1,5 @@
 'use client';
-import React from "react";
+import React, { useState } from "react";
 import { ChannelField } from '@/app/(root)/lib/definitions';
 import Link from 'next/link';
 import { Button } from '@/app/(root)/ui/button';
@@ -7,9 +7,45 @@ import { createAds } from '@/app/(root)/lib/actions';
 import { useFormState } from 'react-dom';
 import { DatePicker } from "@nextui-org/date-picker";
 
+function handleAddSecondInput(showHeadline4:boolean,showHeadline5:boolean,showAddHeadlineButton:boolean) {
+  if (!showHeadline4 && !showHeadline5){
+    showHeadline4 = true;
+  }
+  else if (showHeadline4 && !showHeadline5){
+    showHeadline5 = true;
+    showAddHeadlineButton = false;
+  }
+}
+
 export default function Form({ channels }: { channels: ChannelField[] }) {
   const initialState = { message: null, errors: {} };
   const [state, dispatch] = useFormState(createAds, initialState);
+  const [addHeadline, setHeadlines] = useState({
+    showHeadline4:false,
+    showHeadline5:false,
+    showAddHeadlineButton:true
+  })
+
+  const handleAddHeadlines = () =>{ 
+      if (!addHeadline.showHeadline4 && !addHeadline.showHeadline5){
+        setHeadlines(() => { 
+          return { 
+            showHeadline4:true,
+            showHeadline5:false,
+            showAddHeadlineButton:true
+          }; 
+        });
+      }
+      else if (addHeadline.showHeadline4 && !addHeadline.showHeadline5){
+        setHeadlines(() => { 
+          return { 
+            showHeadline4:true,
+            showHeadline5:true,
+            showAddHeadlineButton:false
+          }; 
+        });
+      }
+  }; 
   return (
     <form action={dispatch}>
       <header className="flex items-center justify-between px-6 py-4 bg-gray-900 text-white">
@@ -184,6 +220,7 @@ export default function Form({ channels }: { channels: ChannelField[] }) {
                       id="adStartDate"
                       name="start"
                       className="max-w-[284px]"
+                      classNames={{base:"bg-blue-50",popoverContent:"bg-blue-50"}}
                       color="danger"
                       aria-describedby="start-error"
                     />
@@ -196,6 +233,7 @@ export default function Form({ channels }: { channels: ChannelField[] }) {
                       id="adEndDate"
                       name="end"
                       className="max-w-[284px]"
+                      classNames={{base:"bg-blue-50",popoverContent:"bg-blue-50"}}
                       aria-describedby="end-error"
                     />
                   </div>
@@ -270,14 +308,40 @@ export default function Form({ channels }: { channels: ChannelField[] }) {
                 <input id="adHeadline3" placeholder="Enter the 3rd headline" className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="text" />
               </div>
             </div>
-            <div className="md:flex md:items-center mb-6">
+            {addHeadline.showHeadline4 && (
+              <div className="md:flex md:items-center mb-6">
+              <div className="md:w-1/4">
+                <label className="block text-gray-500 font-bold mb-1 md:mb-0 pr-4" htmlFor="adHeadline3">
+                  Headline 4
+                </label>
+              </div>
+              <div className="md:w-3/4">
+                <input id="adHeadline3" placeholder="Enter the 4th headline" className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="text" />
+              </div>
+            </div>)
+            }
+            {addHeadline.showHeadline5 && (
+              <div className="md:flex md:items-center mb-6">
+              <div className="md:w-1/4">
+                <label className="block text-gray-500 font-bold mb-1 md:mb-0 pr-4" htmlFor="adHeadline3">
+                  Headline 5
+                </label>
+              </div>
+              <div className="md:w-3/4">
+                <input id="adHeadline3" placeholder="Enter the 5th headline" className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="text" />
+              </div>
+            </div>)
+            }
+            {addHeadline.showAddHeadlineButton && (
+              <div className="md:flex md:items-center mb-6">
               <div className="md:w-1/4"> </div>
               <div className="md:w-3/4">
-                <Button className='float-left' type='button'>
+                <Button className='float-left' type='button' onClick={handleAddHeadlines}>
                   Add new headline
                 </Button>
               </div>
-            </div>
+            </div> )
+            }
             <div className="md:flex md:items-center mb-6">
               <div className="md:w-1/4">
                 <label className="block text-gray-500 font-bold mb-1 md:mb-0 pr-4" htmlFor="adTargetAudience">
