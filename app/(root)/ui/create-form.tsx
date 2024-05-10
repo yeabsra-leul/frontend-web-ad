@@ -7,16 +7,6 @@ import { createAds } from '@/app/(root)/lib/actions';
 import { useFormState } from 'react-dom';
 import { DatePicker } from "@nextui-org/date-picker";
 
-function handleAddSecondInput(showHeadline4:boolean,showHeadline5:boolean,showAddHeadlineButton:boolean) {
-  if (!showHeadline4 && !showHeadline5){
-    showHeadline4 = true;
-  }
-  else if (showHeadline4 && !showHeadline5){
-    showHeadline5 = true;
-    showAddHeadlineButton = false;
-  }
-}
-
 export default function Form({ channels }: { channels: ChannelField[] }) {
   const initialState = { message: null, errors: {} };
   const [state, dispatch] = useFormState(createAds, initialState);
