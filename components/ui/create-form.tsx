@@ -1,9 +1,9 @@
 'use client';
 import React, { useState } from "react";
-import { ChannelField } from '@/app/lib/definitions';
+import { ChannelField } from '@/lib/definitions';
 import Link from 'next/link';
-import { Button } from '@/app/ui/button';
-import { createAds } from '@/app/lib/actions';
+import { Button } from '@/components/ui/button';
+import { createAds } from '@/lib/actions';
 import { useFormState } from 'react-dom';
 import { DatePicker } from "@nextui-org/date-picker";
 
