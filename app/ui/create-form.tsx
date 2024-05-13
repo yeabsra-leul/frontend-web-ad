@@ -1,9 +1,9 @@
 'use client';
 import React, { useState } from "react";
-import { ChannelField } from '@/app/(root)/lib/definitions';
+import { ChannelField } from '@/app/lib/definitions';
 import Link from 'next/link';
-import { Button } from '@/app/(root)/ui/button';
-import { createAds } from '@/app/(root)/lib/actions';
+import { Button } from '@/app/ui/button';
+import { createAds } from '@/app/lib/actions';
 import { useFormState } from 'react-dom';
 import { DatePicker } from "@nextui-org/date-picker";
 
@@ -229,7 +229,7 @@ export default function Form({ channels }: { channels: ChannelField[] }) {
                   </div>
                 </div>
               </div>
-            </div>
+            </div>     
             <div className="md:flex md:items-center mb-6">
               <div className="md:w-1/4"></div>
               <div className="md:w-3/4 inline-flex">
