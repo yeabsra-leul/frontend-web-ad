@@ -14,6 +14,7 @@ This is a starter template using the following stack:
 - Components - [Tremor](https://www.tremor.so) [Headless](https://headlessui.com/) [Heroicons](https://heroicons.com/)
 - Analytics - [Vercel Analytics](https://vercel.com/analytics)
 - Linting - [ESLint](https://eslint.org)
+- Formatting - [Prettier](https://prettier.io)
 - Fetching - [Axios](https://github.com/axios/axios)
 
 # 🌈 Contribution guidelines
