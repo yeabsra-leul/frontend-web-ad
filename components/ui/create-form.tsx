@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { createAds } from '@/lib/actions';
 import { useFormState } from 'react-dom';
 import { DatePicker } from "@nextui-org/date-picker";
+import { FileUpload } from '@/components/ui/file-upload';
 
 export default function Form({ channels }: { channels: ChannelField[] }) {
   const initialState = { message: "", errors: {} };
@@ -15,6 +16,46 @@ export default function Form({ channels }: { channels: ChannelField[] }) {
     showHeadline5:false,
     showAddHeadlineButton:true
   })
+  const initialSeo = ["Sample1","Sample2"];
+  const [inputsRecommanded, setInputs] = useState(initialSeo);
+  const [valueSeoInput, setValue] = useState('');
+
+  const [seoButtons, setSeoButtons] = useState({
+    disableAddButton:true,
+    disableRefreshButton:true
+  })
+  const handleAddInput = () => {
+    let onChangeValue = [...inputsRecommanded];
+    onChangeValue.push(valueSeoInput);
+    setInputs(onChangeValue);
+    setSeoButtons(() =>{
+      return {
+        disableAddButton:true,
+        disableRefreshButton:false
+      }
+    })
+  };
+
+  const handleRefresh = () => {
+    setValue("");
+    setInputs(initialSeo);
+    setSeoButtons(() =>{
+      return {
+        disableAddButton:true,
+        disableRefreshButton:true
+      }
+    })
+  };
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    let inputValue = event.currentTarget.value;
+    setValue(inputValue);
+    setSeoButtons(() =>{
+      return {
+        disableAddButton:false,
+        disableRefreshButton:true
+      }
+    })
+  }
 
   const handleAddHeadlines = () =>{ 
       if (!addHeadline.showHeadline4 && !addHeadline.showHeadline5){
@@ -36,6 +77,9 @@ export default function Form({ channels }: { channels: ChannelField[] }) {
         });
       }
   }; 
+
+
+  
   return (
     <form action={dispatch}>
       <header className="flex items-center justify-between px-6 py-4 bg-gray-900 text-white">
@@ -366,11 +410,11 @@ export default function Form({ channels }: { channels: ChannelField[] }) {
             <div className="md:flex md:items-center mb-6">
               <div className="md:w-1/4">
                 <label className="block text-gray-500 font-bold mb-1 md:mb-0 pr-4" htmlFor="image-upload">
-                  Image Upload
+                  Image Upload (logo, square, rectangular)
                 </label>
               </div>
               <div className="md:w-3/4 inline-flex">
-                <div className="flex items-center justify-center h-32 w-full border-2 border-dashed border-gray-400 rounded-lg hover:border-gray-600 transition-colors cursor-pointer" />
+                <FileUpload/>
               </div>
             </div>
             <hr /><br />
@@ -395,6 +439,45 @@ export default function Form({ channels }: { channels: ChannelField[] }) {
                       </p>
                     ))}
                 </div>
+              </div>
+            </div>
+            <hr /><br />
+            <div className="md:flex md:items-center mb-6">
+              <div className="md:w-1/4">
+                <label className="block text-gray-500 font-bold mb-1 md:mb-0 pr-4" htmlFor="adSeoKeywords">
+                  SEO Keywords
+                </label>
+              </div>
+              <div className="md:w-3/4 inline-flex">
+                <div className="grid grid-rows-2 grid-flow-col gap-2 w-full">
+                  <div className="inline-flex">
+                    <div className='md:w-1/4 m-auto'>
+                      <label htmlFor="adRecommandedSeo">Recommanded</label>
+                    </div>
+                    <div className='md:w-3/4 inline-flex'>
+                      <input id="adRecommandedSeo" name="recommanded" type="text" value={inputsRecommanded} readOnly className="bg-gray-100 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" />
+                      <Button disabled={seoButtons.disableRefreshButton} className='float-right ml-4 disabled:bg-gray-200 disabled:text-gray-500' type='button' onClick={handleRefresh}>
+                        Refresh
+                      </Button>
+                    </div>
+                  </div>
+                 <div className="inline-flex">
+                    <div className='md:w-3/4'>
+                      <input id="adSeoKeywords" name="seo" placeholder="keyword1, keyword2, ..." 
+                      className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" 
+                      type="text" 
+                      value={valueSeoInput}
+                      // onChange={e => { setValue(e.currentTarget.value); }}
+                      onChange={event => handleInputChange(event)}
+                      />
+                    </div>
+                    <div className='md:w-1/4'>
+                      <Button disabled={seoButtons.disableAddButton} className='float-right disabled:bg-gray-200 disabled:text-gray-500' type='button' onClick={handleAddInput}>
+                        Add New SEO Keywords
+                      </Button>
+                    </div>                  
+                 </div>
+                </div>                 
               </div>
             </div>
           </div>
