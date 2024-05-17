@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: 'Manage Ads',
 };
 
-export  async function Page({
+export default async function Page({
   searchParams,
 }: {
   searchParams?: {
@@ -42,4 +42,4 @@ return (
   </div>
 );
 }
-export default Page
+//export default Page
