@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "preinstall": "git config --global url.\"https://$(grep GITHUB_TOKEN .env | cut -d '=' -f2)@github.com\".insteadOf https://github.com && git submodule update --init --recursive",
+    "preinstall": "git config --global url.\"https://$(grep GITHUB_TOKEN | cut -d '=' -f2)@github.com\".insteadOf https://github.com && git submodule update --init --recursive",
     "start": "next start",
     "lint": "next lint"
   },
