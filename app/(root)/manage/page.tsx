@@ -1,5 +1,5 @@
 import Pagination from '@/components/ui/pagination';
-import Search from '@mitech/shared-components/ui/search';
+import Search from '@/components/ui/search';
 import AdsTable from '@/components/ui/ads-table';
 import { CreateAd } from '@/components/ui/button';
 //import { lusitana } from '@/app/ui/fonts';
