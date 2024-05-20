@@ -18,7 +18,6 @@ module.exports = {
                 "source": "/auth/signup",
                 "destination": "https://dev-auth.mitech.ai/api/auth/signup",
                 "basePath": false
-
             },
             {
                 "source": "/api/auth/:path*",

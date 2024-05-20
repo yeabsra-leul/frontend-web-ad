@@ -13,7 +13,7 @@ export default function IndexPage({
 
     return (
         <main className="min-h-screen bg-gray-100 flex flex-col">
-            <Head>
+            {/* <Head>
                 <title>Welcome to My Recruitment Website</title>
                 <meta name="description" content="Find your dream job or your ideal candidate here!" />
                 <link rel="icon" href="/favicon.ico" />
@@ -27,7 +27,7 @@ export default function IndexPage({
                         <a href="contact" className="text-gray-500 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium">Contact</a>
                     </nav>
                 </div>
-            </header>
+            </header> */}
 
             <main className="flex-grow">
                 <section className="text-center py-20 bg-white">
