@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "preinstall": "cross-env-shell \"git config --global credential.oauth_refresh_token=$GITHUB_TOKEN && git submodule update --init --recursive\"",
+    "preinstall": "cross-env-shell \"git config credential.https://github.com.wwwauth [$GITHUB_TOKEN] && git submodule update --init --recursive\"",
     "start": "next start",
     "lint": "next lint"
   },
