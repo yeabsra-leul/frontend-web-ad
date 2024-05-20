@@ -10,8 +10,9 @@
   "dependencies": {
     "@mitech/shared-components": "file:packages/shared-components",
     "@auth/core": "^0.28.1",
-    "@heroicons/react": "*",
     "@hookform/resolvers": "^3.3.4",
+    "@nextui-org/date-picker": "*",
+    "@nextui-org/react": "*",
     "@vercel/analytics": "^1.1.1",
     "@vercel/speed-insights": "^1.0.5",
     "autoprefixer": "^10.4.19",
