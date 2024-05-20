@@ -4,15 +4,15 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "preinstall": "git config --global url.\"https://$GITHUB_TOKEN@github.com\".insteadOf https://github.com && git submodule update --init --recursive",
+    "preinstall": "git submodule update --init --recursive",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
-    "@mitech/shared-components": "file:packages/shared-components",
     "@auth/core": "^0.28.1",
     "@heroicons/react": "*",
     "@hookform/resolvers": "^3.3.4",
+    "@mitech/shared-components": "file:packages/shared-components",
     "@nextui-org/date-picker": "*",
     "@nextui-org/react": "*",
     "@vercel/analytics": "^1.1.1",
@@ -36,11 +36,11 @@
   },
   "devDependencies": {
     "@tailwindcss/typography": "*",
-    "eslint": "*",
-    "eslint-config-next": "*",
-    "typescript": "*",
     "@types/node": "*",
     "@types/react": "*",
-    "@types/react-dom": "*"
+    "@types/react-dom": "*",
+    "eslint": "*",
+    "eslint-config-next": "*",
+    "typescript": "*"
   }
 }
