@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "preinstall": "git submodule update --init --recursive",
+    "preinstall": "cross-env-shell \"git config --global url.\"https://$GITHUB_TOKEN@github.com\".insteadOf https://github.com && git submodule update --init --recursive\"",
     "start": "next start",
     "lint": "next lint"
   },
@@ -39,6 +39,7 @@
     "@types/node": "*",
     "@types/react": "*",
     "@types/react-dom": "*",
+    "cross-env": "^7.0.3",
     "eslint": "*",
     "eslint-config-next": "*",
     "typescript": "*"
