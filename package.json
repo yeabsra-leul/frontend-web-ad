@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "preinstall": "git config --global url.\"https://$(GITHUB_TOKEN)@github.com\".insteadOf https://github.com && git submodule sync",
+    "preinstall": "git config --global url.\"https://$(grep GITHUB_TOKEN)@github.com\".insteadOf https://github.com && git submodule sync",
     "start": "next start",
     "lint": "next lint"
   },
