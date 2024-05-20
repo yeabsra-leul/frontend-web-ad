@@ -1,15 +1,17 @@
 {
   "private": true,
+  "author": "Cullen Lee<cullen@mitech.ai>",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "preinstall": "git config --global user.name \"Cullen\" && git config --global user.email \"cullen@mitech.ai\" && git submodule sync",
+    "preinstall": "git config --global user.name \"Cullen Lee\" && git config --global user.email \"cullen@mitech.ai\" && git submodule sync",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
     "@mitech/shared-components": "file:packages/shared-components",
     "@auth/core": "^0.28.1",
+    "@heroicons/react": "*",
     "@hookform/resolvers": "^3.3.4",
     "@nextui-org/date-picker": "*",
     "@nextui-org/react": "*",
@@ -18,6 +20,7 @@
     "autoprefixer": "^10.4.19",
     "axios": "^1.6.5",
     "next": "^14.2.3",
+    "next-auth": "*",
     "prettier": "*",
     "react": "*",
     "react-dom": "*",
