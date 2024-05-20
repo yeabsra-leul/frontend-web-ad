@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "preinstall": "git config --global user.name \"Cullen Lee\" && git config --global user.email \"cullen@mitech.ai\" && git submodule sync",
+    "preinstall": "git config --global user.name \"Cullen Lee\" && git config --global user.email \"cullen@mitech.ai\" && git submodule update --init --recursive",
     "start": "next start",
     "lint": "next lint"
   },
