@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "preinstall": "cross-env-shell \"git config --global user.name \"Cullen\" && git config --global user.email \"cullen@mitech.ai\" && git config --global credential.https://github.com.wwwauth [$GITHUB_TOKEN] && git submodule update --init --recursive\"",
+    "preinstall": "cross-env-shell \"git config --global user.name \"Cullen Lee\" && git config --global user.password [$GITHUB_TOKEN] && git submodule update --init --recursive\"",
     "start": "next start",
     "lint": "next lint"
   },
