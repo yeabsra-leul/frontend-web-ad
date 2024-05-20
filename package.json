@@ -3,7 +3,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "preinstall": "git submodule sync",
+    "preinstall": "git submodule update --init --recursive",
     "start": "next start",
     "lint": "next lint"
   },
@@ -12,25 +12,16 @@
     "@auth/core": "^0.28.1",
     "@heroicons/react": "*",
     "@hookform/resolvers": "^3.3.4",
-    "@nextui-org/date-picker": "*",
-    "@nextui-org/popover": "*",
-    "@nextui-org/react": "*",
-    "@tremor/react": "*",
-    "@types/node": "*",
-    "@types/react": "*",
-    "@types/react-dom": "*",
     "@vercel/analytics": "^1.1.1",
     "@vercel/speed-insights": "^1.0.5",
     "autoprefixer": "^10.4.19",
     "axios": "^1.6.5",
     "next": "^14.2.3",
-    "next-auth": "*",
     "prettier": "*",
     "react": "*",
     "react-dom": "*",
     "react-hook-form": "^7.49.3",
     "sharp": "*",
-    "tailwindcss": "*",
     "zod": "^3.23.7"
   },
   "prettier": {
@@ -43,6 +34,9 @@
     "@tailwindcss/typography": "*",
     "eslint": "*",
     "eslint-config-next": "*",
-    "typescript": "*"
+    "typescript": "*",
+    "@types/node": "*",
+    "@types/react": "*",
+    "@types/react-dom": "*"
   }
 }
