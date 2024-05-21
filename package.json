@@ -4,10 +4,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "preinstall": "cross-env-shell \"git config url.\"https://keyskull:$GITHUB_TOKEN@github.com/\".insteadOf \"https://github.com/\" && git config url.\"https://keyskull:$GITHUB_TOKEN@github.com/\".insteadOf \"ssh://git@github.com/\" && npm run pull-sub && npm link ./packages/shared-components\"",
+    "preinstall": "cross-env-shell \"$PREINSTALL_CMD\"",
     "start": "next start",
-    "lint": "next lint",
-    "pull-sub": "git submodule update --init --recursive"
+    "lint": "next lint"
   },
   "dependencies": {
     "@auth/core": "^0.28.1",
