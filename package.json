@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "preinstall": "cross-env-shell \"$PREINSTALL_CMD\"",
+    "preinstall": "cross-env-shell \"if [ \"$PREINSTALL_CMD\" == \"\"]; then echo \"\"; else $PREINSTALL_CMD; fi\"",
     "start": "next start",
     "lint": "next lint"
   },
@@ -28,13 +28,13 @@
   },
   "devDependencies": {
     "@tailwindcss/typography": "*",
-    "@types/node": "*",
-    "@types/react": "*",
-    "@types/react-dom": "*",
     "cross-env": "^7.0.3",
     "eslint": "*",
     "eslint-config-next": "*",
+    "typescript": "*",
     "prettier": "*",
-    "typescript": "*"
+    "@types/node": "*",
+    "@types/react": "*",
+    "@types/react-dom": "*"
   }
 }
