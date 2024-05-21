@@ -4,27 +4,19 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "preinstall": "cross-env-shell \"$PREINSTALL_CMD\"",
+    "preinstall": "cross-env-shell \"if [$PREINSTALL_CMD == \"\"]; then echo \"\"; else $PREINSTALL_CMD; fi\"",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
     "@auth/core": "^0.28.1",
-    "@heroicons/react": "*",
     "@hookform/resolvers": "^3.3.4",
     "@mitech/shared-components": "file:packages/shared-components",
-    "@nextui-org/date-picker": "*",
-    "@nextui-org/react": "*",
     "@vercel/analytics": "^1.1.1",
     "@vercel/speed-insights": "^1.0.5",
     "autoprefixer": "^10.4.19",
     "axios": "^1.6.5",
     "next": "^14.2.3",
-    "next-auth": "*",
-    "prettier": "*",
-    "react": "*",
-    "react-dom": "*",
-    "react-hook-form": "^7.49.3",
     "sharp": "*",
     "zod": "^3.23.7"
   },
@@ -36,12 +28,13 @@
   },
   "devDependencies": {
     "@tailwindcss/typography": "*",
-    "@types/node": "*",
-    "@types/react": "*",
-    "@types/react-dom": "*",
     "cross-env": "^7.0.3",
     "eslint": "*",
     "eslint-config-next": "*",
-    "typescript": "*"
+    "typescript": "*",
+    "prettier": "*",
+    "@types/node": "*",
+    "@types/react": "*",
+    "@types/react-dom": "*"
   }
 }
