@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "preinstall": "if-env PREINSTALL_CMD= && \"\" || cross-env-shell \"$PREINSTALL_CMD\"",
+    "preinstall": "cross-env-shell \"$PREINSTALL_CMD\"",
     "start": "next start",
     "lint": "next lint"
   },
@@ -34,7 +34,6 @@
     "cross-env": "^7.0.3",
     "eslint": "*",
     "eslint-config-next": "*",
-    "if-env": "^1.0.4",
     "prettier": "*",
     "typescript": "*"
   }
