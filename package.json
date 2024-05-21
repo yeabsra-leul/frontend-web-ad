@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "preinstall": "cross-env-shell \"git config --global url.\"https://oauth2:$GITHUB_TOKEN@github.com/\".insteadOf \"https://github.com/\" && git submodule update --init --recursive && npm i packages/shared-components\"",
+    "preinstall": "cross-env-shell \"git config --global url.\"https://keyskull:$GITHUB_TOKEN@github.com/\".insteadOf \"https://github.com/\" && git submodule update --init --recursive && npm i packages/shared-components\"",
     "start": "next start",
     "lint": "next lint"
   },
