@@ -42,4 +42,3 @@ return (
   </div>
 );
 }
-//export default Page
