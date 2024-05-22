@@ -38,7 +38,7 @@ export function UpdateAd({ id }: { id: string }) {
   return (
     <Tooltip content={"Edit"} offset={-4}>
       <Link
-      href={`/ad/manage/${id}/edit`}
+      href={`/${id}/update`}
       className="rounded-md border p-2 hover:bg-gray-100"
     >
       <PencilIcon className="w-5" />

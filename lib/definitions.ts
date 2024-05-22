@@ -16,5 +16,9 @@ export type ChannelField = {
     target_audience: string;
     image_url?: string;
     description?: string;
-    seo_keywords: string
+    seo_keywords: string;
+    headline2?: string;
+    headline3?: string;
+    headline4?: string;
+    headline5?: string;
   };

@@ -1,25 +1,28 @@
 'use client';
 import React, { useState } from "react";
-import { ChannelField } from '@/lib/definitions';
+import { Advertisement, ChannelField } from '@/lib/definitions';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { createAd } from '@/lib/actions';
+import { updateAd } from '@/lib/actions';
 import { useFormState } from 'react-dom';
 import { DatePicker } from "@nextui-org/date-picker";
 import { FileUpload } from '@/components/ui/file-upload';
+import {parseDate} from "@internationalized/date";
 import { GetInitialSeoKeywords } from "@/lib/data";
 
-
-export default function Form({ channels }: { channels: ChannelField[] }) {
+export default function Form({ channels, ad }: { channels: ChannelField[], ad:Advertisement }) {
   const initialState = { message: "", errors: {} };
-  const [state, dispatch] = useFormState(createAd, initialState);
+  const updateAdWithId = updateAd.bind(null, ad.id);
+  const [state, dispatch] = useFormState(updateAdWithId, initialState);
   const [addHeadline, setHeadlines] = useState({
     showHeadline4:false,
     showHeadline5:false,
     showAddHeadlineButton:true
   })
-  const initialSeo = GetInitialSeoKeywords();
-  const [inputsRecommanded, setInputs] = useState(initialSeo);
+  const initialSeoKeywords = GetInitialSeoKeywords();
+  const oldSeoKeywords = ad.seo_keywords.split(',');
+  console.log(oldSeoKeywords);
+  const [inputsRecommanded, setInputs] = useState(oldSeoKeywords);
   const [valueSeoInput, setValue] = useState('');
 
   const [seoButtons, setSeoButtons] = useState({
@@ -29,6 +32,7 @@ export default function Form({ channels }: { channels: ChannelField[] }) {
   const handleAddInput = () => {
     let onChangeValue = [...inputsRecommanded];
     onChangeValue.push(valueSeoInput);
+    console.log(onChangeValue);
     setInputs(onChangeValue);
     setSeoButtons(() =>{
       return {
@@ -40,7 +44,7 @@ export default function Form({ channels }: { channels: ChannelField[] }) {
 
   const handleRefresh = () => {
     setValue("");
-    setInputs(initialSeo);
+    setInputs(initialSeoKeywords);
     setSeoButtons(() =>{
       return {
         disableAddButton:true,
@@ -86,7 +90,7 @@ export default function Form({ channels }: { channels: ChannelField[] }) {
     <form action={dispatch}>
       <header className="flex items-center justify-between px-6 py-4 bg-gray-900 text-white">
         <div className="flex items-center space-x-4">
-          <h2 className="text-lg font-medium">Create Advertisement</h2>
+          <h2 className="text-lg font-medium">Update Advertisement</h2>
         </div>
         <div className="mt-6 flex justify-end gap-4">
           <Link
@@ -111,8 +115,14 @@ export default function Form({ channels }: { channels: ChannelField[] }) {
               </div>
               <div className="md:w-3/4 inline-flex">
                 <div className='md:w-3/4'>
-                  <input id="adUrl" name="url" placeholder="https://" 
-                  aria-describedby="url-error" className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="text" />
+                  <input 
+                  id="adUrl" 
+                  name="url" 
+                  placeholder="https://" 
+                  aria-describedby="url-error" 
+                  className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" 
+                  type="text" 
+                  defaultValue={ad.url}/>
                 </div>
                 <div className='md:w-1/4'>
                   <Button className='float-right' type='button'>
@@ -142,7 +152,14 @@ export default function Form({ channels }: { channels: ChannelField[] }) {
                 </label>
               </div>
               <div className="md:w-3/4">
-                <input id="adLocation" name="location" aria-describedby="location-error" placeholder="Enter location" className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="text" />
+                <input 
+                id="adLocation" 
+                name="location" 
+                aria-describedby="location-error" 
+                placeholder="Enter location" 
+                className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" 
+                type="text" 
+                defaultValue={ad.location}/>
               </div>
             </div>
             <div className="md:flex md:items-center mb-6">
@@ -165,7 +182,14 @@ export default function Form({ channels }: { channels: ChannelField[] }) {
                 </label>
               </div>
               <div className="md:w-3/4">
-                <input id="adPhoneNumber" name="phone" aria-describedby="phone-error" placeholder="xxx-xxx-xxxx" className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="text" />
+                <input 
+                id="adPhoneNumber" 
+                name="phone" 
+                aria-describedby="phone-error" 
+                placeholder="xxx-xxx-xxxx" 
+                className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" 
+                type="text" 
+                defaultValue={ad.phone}/>
               </div>
             </div>
             <div className="md:flex md:items-center mb-6">
@@ -192,7 +216,7 @@ export default function Form({ channels }: { channels: ChannelField[] }) {
                   id="adChannel"
                   name="channel"
                   className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-2 text-sm outline-2 placeholder:text-gray-500"
-                  defaultValue=""
+                  defaultValue={ad.channel}
                   aria-describedby="channel-error"
                 >
                   <option value="" disabled>
@@ -226,7 +250,14 @@ export default function Form({ channels }: { channels: ChannelField[] }) {
                 </label>
               </div>
               <div className="md:w-3/4">
-                <input id="adBudget" name="budget" placeholder="$" aria-describedby="budget-error" className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="text" />
+                <input 
+                id="adBudget" 
+                name="budget" 
+                placeholder="$" 
+                aria-describedby="budget-error" 
+                className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" 
+                type="text" 
+                defaultValue={ad.budget}/>
               </div>
             </div>
             <div className="md:flex md:items-center mb-6">
@@ -259,6 +290,7 @@ export default function Form({ channels }: { channels: ChannelField[] }) {
                       classNames={{base:"bg-blue-50",popoverContent:"bg-blue-50"}}
                       color="danger"
                       aria-describedby="start-error"
+                      defaultValue={parseDate(ad.start_date)}
                     />
                   </div>
                 </div>
@@ -271,6 +303,7 @@ export default function Form({ channels }: { channels: ChannelField[] }) {
                       className="max-w-[284px]"
                       classNames={{base:"bg-blue-50",popoverContent:"bg-blue-50"}}
                       aria-describedby="end-error"
+                      defaultValue={parseDate(ad.end_date)}
                     />
                   </div>
                 </div>
@@ -308,7 +341,14 @@ export default function Form({ channels }: { channels: ChannelField[] }) {
                 </label>
               </div>
               <div className="md:w-3/4">
-                <input id="adHeadline1" name="headline1" aria-describedby="headline1-error" placeholder="Enter the 1st headline" className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="text" />
+                <input 
+                id="adHeadline1" 
+                name="headline1" 
+                aria-describedby="headline1-error" 
+                placeholder="Enter the 1st headline" 
+                className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" 
+                type="text" 
+                defaultValue={ad.headline}/>
               </div>
             </div>
             <div className="md:flex md:items-center mb-6">
@@ -331,7 +371,10 @@ export default function Form({ channels }: { channels: ChannelField[] }) {
                 </label>
               </div>
               <div className="md:w-3/4">
-                <input id="adHeadline2" placeholder="Enter the 2nd headline" className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="text" />
+                <input id="adHeadline2" 
+                placeholder="Enter the 2nd headline" 
+                className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" 
+                type="text" />
               </div>
             </div>
             <div className="md:flex md:items-center mb-6">
@@ -341,7 +384,10 @@ export default function Form({ channels }: { channels: ChannelField[] }) {
                 </label>
               </div>
               <div className="md:w-3/4">
-                <input id="adHeadline3" placeholder="Enter the 3rd headline" className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="text" />
+                <input id="adHeadline3" 
+                placeholder="Enter the 3rd headline" 
+                className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" 
+                type="text" />
               </div>
             </div>
             {addHeadline.showHeadline4 && (
@@ -352,7 +398,10 @@ export default function Form({ channels }: { channels: ChannelField[] }) {
                 </label>
               </div>
               <div className="md:w-3/4">
-                <input id="adHeadline3" placeholder="Enter the 4th headline" className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="text" />
+                <input id="adHeadline4" 
+                placeholder="Enter the 4th headline" 
+                className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" 
+                type="text" />
               </div>
             </div>)
             }
@@ -364,7 +413,10 @@ export default function Form({ channels }: { channels: ChannelField[] }) {
                 </label>
               </div>
               <div className="md:w-3/4">
-                <input id="adHeadline3" placeholder="Enter the 5th headline" className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="text" />
+                <input id="adHeadline5" 
+                placeholder="Enter the 5th headline" 
+                className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" 
+                type="text" />
               </div>
             </div>)
             }
@@ -386,7 +438,14 @@ export default function Form({ channels }: { channels: ChannelField[] }) {
               </div>
               <div className="md:w-3/4 inline-flex">
                 <div className='md:w-3/4'>
-                  <input id="adTargetAudience" name="target" aria-describedby="target-error" placeholder="Enter Target Audience" className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="text" />
+                  <input 
+                  id="adTargetAudience" 
+                  name="target" 
+                  aria-describedby="target-error" 
+                  placeholder="Enter Target Audience" 
+                  className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" 
+                  type="text" 
+                  defaultValue={ad.target_audience}/>
                 </div>
                 <div className='md:w-1/4'>
                   <Button className='float-right' type='button'>
@@ -427,7 +486,14 @@ export default function Form({ channels }: { channels: ChannelField[] }) {
                 </label>
               </div>
               <div className="md:w-3/4">
-                <textarea id="adDescription" name="description" aria-describedby="description-error" placeholder="Enter the discription" className="min-h-[150px] appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" />
+                <textarea 
+                id="adDescription" 
+                name="description" 
+                aria-describedby="description-error" 
+                placeholder="Enter the discription" 
+                className="min-h-[150px] appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" 
+                defaultValue={ad.description}
+                />
               </div>
             </div>
             <div className="md:flex md:items-center mb-6">
@@ -457,7 +523,15 @@ export default function Form({ channels }: { channels: ChannelField[] }) {
                       <label htmlFor="adRecommandedSeo">Recommanded</label>
                     </div>
                     <div className='md:w-3/4 inline-flex'>
-                      <input id="adRecommandedSeo" name="recommanded" type="text" value={inputsRecommanded} readOnly className="bg-gray-100 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" />
+                      <input 
+                      id="adRecommandedSeo" 
+                      name="recommanded" 
+                      type="text" 
+                      defaultValue={ad.seo_keywords}
+                      value={inputsRecommanded} 
+                      readOnly 
+                      className="bg-gray-100 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" 
+                      />
                       <Button disabled={seoButtons.disableRefreshButton} className='float-right ml-4 disabled:bg-gray-200 disabled:text-gray-500' type='button' onClick={handleRefresh}>
                         Refresh
                       </Button>
@@ -465,11 +539,13 @@ export default function Form({ channels }: { channels: ChannelField[] }) {
                   </div>
                  <div className="inline-flex">
                     <div className='md:w-3/4'>
-                      <input id="adSeoKeywords" name="seo" placeholder="keyword1, keyword2, ..." 
+                      <input 
+                      id="adSeoKeywords" 
+                      name="seo" 
+                      placeholder="keyword1, keyword2, ..." 
                       className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" 
                       type="text" 
                       value={valueSeoInput}
-                      // onChange={e => { setValue(e.currentTarget.value); }}
                       onChange={event => handleInputChange(event)}
                       />
                     </div>
