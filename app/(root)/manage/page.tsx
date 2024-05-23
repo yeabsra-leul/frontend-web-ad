@@ -5,6 +5,7 @@ import { CreateAd } from '@/components/ui/button';
 //import { lusitana } from '@/app/ui/fonts';
 import { Suspense } from 'react';
 import { Metadata } from 'next';
+import { GetAllAds } from '@/lib/data';
  
 export const metadata: Metadata = {
   title: 'Manage Ads',
@@ -18,9 +19,10 @@ export default async function Page({
     page?: string;
   };
 }) {
+  const ITEMS_PER_PAGE = 6;
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
-  const totalPages = 1;
+  const totalPages =Math.ceil(GetAllAds().length / ITEMS_PER_PAGE);
 return (
   
   <div className="w-full">
