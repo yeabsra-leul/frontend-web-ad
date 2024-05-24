@@ -154,6 +154,6 @@ export async function createAd(prevState: State, formData: FormData) {
     }
    
     // Revalidate the cache for the ads page and redirect the user.
-    revalidatePath('/');
-    redirect('/');
+    revalidatePath('/manage');
+    redirect('/manage');
   }
