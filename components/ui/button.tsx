@@ -41,7 +41,7 @@ export function StopAd({ id }: { id: string }) {
   return (
     <form action={stopAdWithId}>
       <Tooltip content={"Stop"} offset={-4}>
-      <Button className="rounded-md border p-2 hover:bg-gray-100" onPress={onOpen}>
+      <Button className="rounded-md border p-2 hover:bg-gray-100 min-w-0" onPress={onOpen}>
         <span className="sr-only">Stop</span>
         <StopIcon className="w-4" />
       </Button>
@@ -78,7 +78,7 @@ export function RepostAd({ id }: { id: string }) {
   return (
     <form action={repostAdWithId}>
       <Tooltip content={"Repost"} offset={-4}>
-        <Button className="rounded-md border p-2 hover:bg-gray-100" onPress={onOpen}>
+        <Button className="rounded-md border p-2 hover:bg-gray-100 min-w-0" onPress={onOpen}>
           <span className="sr-only">Repost</span>
           <ArrowUpOnSquareIcon className="w-4" />
         </Button>
