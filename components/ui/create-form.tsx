@@ -7,6 +7,7 @@ import { useFormState } from 'react-dom';
 import { DatePicker } from "@nextui-org/date-picker";
 import { FileUpload } from '@/components/ui/file-upload';
 import { GetInitialSeoKeywords } from "@/lib/data";
+import { Button} from "@nextui-org/react";
 
 
 export default function Form({ channels }: { channels: ChannelField[] }) {
@@ -94,9 +95,9 @@ export default function Form({ channels }: { channels: ChannelField[] }) {
           >
             Cancel
           </Link>
-          <button type="submit" className="flex h-10 items-center rounded-lg bg-blue-600 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
+          <Button type="submit" color="primary" >
             Save
-          </button>
+          </Button>
         </div>
       </header>
       <div className="flex justify-center py-8">
@@ -114,9 +115,9 @@ export default function Form({ channels }: { channels: ChannelField[] }) {
                   aria-describedby="url-error" className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="text" />
                 </div>
                 <div className='md:w-1/4'>
-                  <button className='float-right flex h-10 items-center rounded-lg bg-blue-600 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600' type='button'>
+                  <Button className='float-right' color="primary" type='button'>
                     Generate info below
-                  </button>
+                  </Button>
                 </div>
               </div>
             </div>
@@ -255,7 +256,7 @@ export default function Form({ channels }: { channels: ChannelField[] }) {
                       id="adStartDate"
                       name="start"
                       className="max-w-[284px]"
-                      classNames={{base:"bg-white",popoverContent:"bg-white"}}
+                      //classNames={{base:"bg-white",popoverContent:"bg-white"}}
                       color="danger"
                       aria-describedby="start-error"
                     />
@@ -268,7 +269,7 @@ export default function Form({ channels }: { channels: ChannelField[] }) {
                       id="adEndDate"
                       name="end"
                       className="max-w-[284px]"
-                      classNames={{base:"bg-white",popoverContent:"bg-white"}}
+                      //classNames={{base:"bg-white",popoverContent:"bg-white"}}
                       aria-describedby="end-error"
                     />
                   </div>
@@ -371,9 +372,9 @@ export default function Form({ channels }: { channels: ChannelField[] }) {
               <div className="md:flex md:items-center mb-6">
               <div className="md:w-1/4"> </div>
               <div className="md:w-3/4">
-                <button className='float-left flex h-10 items-center rounded-lg bg-blue-600 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600' type='button' onClick={handleAddHeadlines}>
+                <Button className='float-left' color="primary" type='button' onClick={handleAddHeadlines}>
                   Add new headline
-                </button>
+                </Button>
               </div>
             </div> )
             }
@@ -388,9 +389,9 @@ export default function Form({ channels }: { channels: ChannelField[] }) {
                   <input id="adTargetAudience" name="target" aria-describedby="target-error" placeholder="Enter Target Audience" className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="text" />
                 </div>
                 <div className='md:w-1/4'>
-                  <button className='float-right flex h-10 items-center rounded-lg bg-blue-600 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600' type='button'>
+                  <Button className='float-right' color="primary" type='button'>
                     ReGenerate
-                  </button>
+                  </Button>
                 </div>
               </div>
             </div>
@@ -457,9 +458,9 @@ export default function Form({ channels }: { channels: ChannelField[] }) {
                     </div>
                     <div className='md:w-3/4 inline-flex'>
                       <input id="adRecommandedSeo" name="recommanded" type="text" value={inputsRecommanded} readOnly className="bg-gray-100 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" />
-                      <button disabled={seoButtons.disableRefreshButton} className='float-right flex h-10 items-center rounded-lg bg-blue-600 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 ml-4 disabled:bg-gray-200 disabled:text-gray-500' type='button' onClick={handleRefresh}>
+                      <Button disabled={seoButtons.disableRefreshButton} color="primary" className='float-right ml-4 disabled:bg-gray-200 disabled:text-gray-500' type='button' onClick={handleRefresh}>
                         Refresh
-                      </button>
+                      </Button>
                     </div>
                   </div>
                  <div className="inline-flex">
@@ -473,9 +474,9 @@ export default function Form({ channels }: { channels: ChannelField[] }) {
                       />
                     </div>
                     <div className='md:w-1/4'>
-                      <button disabled={seoButtons.disableAddButton} className='float-right flex h-10 items-center rounded-lg bg-blue-600 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 disabled:bg-gray-200 disabled:text-gray-500' type='button' onClick={handleAddInput}>
+                      <Button disabled={seoButtons.disableAddButton} color="primary" className='float-right disabled:bg-gray-200 disabled:text-gray-500' type='button' onClick={handleAddInput}>
                         Add New SEO Keywords
-                      </button>
+                      </Button>
                     </div>                  
                  </div>
                 </div>                 
