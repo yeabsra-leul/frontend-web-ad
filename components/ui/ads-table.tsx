@@ -5,7 +5,7 @@ import {
   Advertisement,
 } from '@/lib/definitions';
 //import { fetchFilteredAds } from '@/lib/data';
-import { UpdateAd, StopAd, RepostAd } from '@/components/ui/button';
+import { UpdateAd, StopAd, RepostAd, AdDetails } from '@/components/ui/button';
 import { GetAllAds } from '@/lib/data';
 
 export default async function AdsTable({
@@ -86,6 +86,7 @@ export default async function AdsTable({
                       </td>
                       <td className="whitespace-nowrap py-3 pl-6 pr-3">
                         <div className="flex gap-3">
+                          <AdDetails id={ad.id} />
                           <UpdateAd id={ad.id} />
                           <StopAd id={ad.id} />
                           <RepostAd id={ad.id} />

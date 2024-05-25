@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { PlusIcon, PencilIcon, StopIcon, ArrowUpOnSquareIcon } from '@heroicons/react/24/outline';
+import { PlusIcon, PencilIcon, StopIcon, ArrowUpOnSquareIcon, EyeIcon } from '@heroicons/react/24/outline';
 import {Tooltip, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure} from "@nextui-org/react";
 
 export function CreateAd() {
@@ -25,6 +25,19 @@ export function UpdateAd({ id }: { id: string }) {
       className="rounded-md border p-2 bg-zinc-300 hover:bg-gray-100"
     >
       <PencilIcon className="w-5" />
+    </Link>
+    </Tooltip>
+  );
+}
+
+export function AdDetails({ id }: { id: string }) {
+  return (
+    <Tooltip content={"Details"} offset={-4}>
+      <Link 
+      href={`/${id}`}
+      className="rounded-md border p-2 bg-zinc-300 hover:bg-gray-100"
+    >
+      <EyeIcon className="w-5" />
     </Link>
     </Tooltip>
   );
