@@ -94,7 +94,7 @@ export default function Form({ channels, ad }: { channels: ChannelField[], ad:Ad
         </div>
         <div className="mt-6 flex justify-end gap-4">
           <Link
-            href="/"
+            href="/manage"
             className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
           >
             Cancel
@@ -287,8 +287,6 @@ export default function Form({ channels, ad }: { channels: ChannelField[], ad:Ad
                       id="adStartDate"
                       name="start"
                       className="max-w-[284px]"
-                      classNames={{base:"bg-white",popoverContent:"bg-white"}}
-                      color="danger"
                       aria-describedby="start-error"
                       defaultValue={parseDate(ad.start_date)}
                     />
@@ -301,7 +299,6 @@ export default function Form({ channels, ad }: { channels: ChannelField[], ad:Ad
                       id="adEndDate"
                       name="end"
                       className="max-w-[284px]"
-                      classNames={{base:"bg-white",popoverContent:"bg-white"}}
                       aria-describedby="end-error"
                       defaultValue={parseDate(ad.end_date)}
                     />

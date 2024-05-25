@@ -1,13 +1,8 @@
 'use client';
 
-import clsx from 'clsx';
 import Link from 'next/link';
 import { PlusIcon, PencilIcon, StopIcon, ArrowUpOnSquareIcon } from '@heroicons/react/24/outline';
 import {Tooltip, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure} from "@nextui-org/react";
-
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  children: React.ReactNode;
-}
 
 export function CreateAd() {
   return (
@@ -27,7 +22,7 @@ export function UpdateAd({ id }: { id: string }) {
     <Tooltip content={"Edit"} offset={-4}>
       <Link 
       href={`/${id}/update`}
-      className="rounded-md border p-2 hover:bg-gray-100"
+      className="rounded-md border p-2 bg-zinc-300 hover:bg-gray-100"
     >
       <PencilIcon className="w-5" />
     </Link>

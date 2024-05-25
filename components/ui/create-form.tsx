@@ -256,8 +256,6 @@ export default function Form({ channels }: { channels: ChannelField[] }) {
                       id="adStartDate"
                       name="start"
                       className="max-w-[284px]"
-                      //classNames={{base:"bg-white",popoverContent:"bg-white"}}
-                      color="danger"
                       aria-describedby="start-error"
                     />
                   </div>
@@ -269,7 +267,6 @@ export default function Form({ channels }: { channels: ChannelField[] }) {
                       id="adEndDate"
                       name="end"
                       className="max-w-[284px]"
-                      //classNames={{base:"bg-white",popoverContent:"bg-white"}}
                       aria-describedby="end-error"
                     />
                   </div>
