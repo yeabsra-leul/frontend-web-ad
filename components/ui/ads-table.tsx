@@ -4,9 +4,8 @@ import Search from '@/components/ui/search';
 import {
   Advertisement,
 } from '@/lib/definitions';
-//import { fetchFilteredAds } from '@/lib/data';
 import { UpdateAd, StopAd, RepostAd, AdDetails } from '@/components/ui/button';
-import { GetAllAds } from '@/lib/data';
+import {GetFilteredAds } from '@/lib/data';
 
 export default async function AdsTable({
   query,
@@ -15,8 +14,7 @@ export default async function AdsTable({
   query: string;
   currentPage: number;
 }) {
-  //const ads = await fetchFilteredAds(query, currentPage);
-  const ads = GetAllAds();
+  const ads = await GetFilteredAds(query, currentPage);
   return (
       <div className="mt-6 flow-root">
         <div className="overflow-x-auto">

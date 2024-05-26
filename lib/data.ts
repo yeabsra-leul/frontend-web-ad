@@ -34,7 +34,20 @@ export async function fetchChannels() {
                                 seo_keywords:'sample1,sample2,car', description:'car for business guys'},
                                 {id:'4', headline:'The best bowl', url:'http://www.bowl.com', location:'address4', phone:'800-000-0004', 
                                 channel: 'LinkedIn', budget:'60000', start_date:'2024-01-16', end_date:'2024-05-26', target_audience:'house wife ', 
-                                seo_keywords:'sample1,sample2,bowl', description:'bowl for house wife'},];
+                                seo_keywords:'sample1,sample2,bowl', description:'bowl for house wife'},
+                                {id:'5', headline:'The best TV', url:'http://www.tv.com', location:'address5', phone:'800-000-0005', 
+                                channel: 'Google', budget:'90000', start_date:'2024-03-16', end_date:'2024-05-09', target_audience:'old guys ', 
+                                seo_keywords:'sample1,sample2,tv', description:'tv for old guys'},
+                                {id:'6', headline:'The best laptop', url:'http://www.laptop.com', location:'address6', phone:'800-000-0006', 
+                                channel: 'Facebook', budget:'100000', start_date:'2024-02-16', end_date:'2024-04-26', target_audience:'student ', 
+                                seo_keywords:'sample1,sample2,laptop', description:'laptop for student'},
+                                {id:'7', headline:'The best sun glass', url:'http://www.sunglass.com', location:'address7', phone:'800-000-0007', 
+                                channel: 'Twitter', budget:'4000', start_date:'2024-01-01', end_date:'2024-01-26', target_audience:'driver ', 
+                                seo_keywords:'sample1,sample2,sun glass', description:'sun glass for driver'},
+                                {id:'8', headline:'The best phone', url:'http://www.phone.com', location:'address8', phone:'800-000-0008', 
+                                channel: 'LinkedIn', budget:'80000', start_date:'2024-01-20', end_date:'2024-05-20', target_audience:'student ', 
+                                seo_keywords:'sample1,sample2,phone', description:'phone for student'},
+                              ];
     return ads;
   }
 
@@ -86,3 +99,50 @@ export async function fetchChannels() {
       throw new Error('Failed to fetch ad.');
     }
   }
+  
+  const ITEMS_PER_PAGE = 6;
+  export async function GetFilteredAds(
+    query: string,
+    currentPage: number,) 
+  {
+      const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+      noStore();
+      try {
+        const ads = GetAllAds();
+        const filteredAds = ads.filter(ad=>ad.headline.toLowerCase().includes(query.toLowerCase()) 
+        || ad.location.toLowerCase().includes(query.toLowerCase())
+        || ad.phone.toLowerCase().includes(query.toLowerCase())
+        || ad.url.toLowerCase().includes(query.toLowerCase())
+        || ad.channel.toLowerCase().includes(query.toLowerCase())
+        || ad.start_date.toLowerCase().includes(query.toLowerCase())
+        || ad.end_date.toLowerCase().includes(query.toLowerCase())
+        )
+        const start = Math.min(filteredAds.length - 1, offset);
+        const end = Math.min(filteredAds.length, offset + ITEMS_PER_PAGE);
+        return filteredAds.slice(start, end);
+      } catch (error) {
+        console.error('Database Error:', error);
+        throw new Error('Failed to fetch ads.');
+      }
+  }
+
+  export async function GetFilteredAdsPages(query: string) {
+    noStore();
+    try {
+      const ads = GetAllAds();
+      const filteredAds = ads.filter(ad=>ad.headline.toLowerCase().includes(query.toLowerCase()) 
+      || ad.location.toLowerCase().includes(query.toLowerCase())
+      || ad.phone.toLowerCase().includes(query.toLowerCase())
+      || ad.url.toLowerCase().includes(query.toLowerCase())
+      || ad.channel.toLowerCase().includes(query.toLowerCase())
+      || ad.start_date.toLowerCase().includes(query.toLowerCase())
+      || ad.end_date.toLowerCase().includes(query.toLowerCase())
+      )
+      const totalPages = Math.ceil(Number(filteredAds.length) / ITEMS_PER_PAGE);
+      return totalPages;
+    } catch (error) {
+      console.error('Database Error:', error);
+      throw new Error('Failed to fetch total number of ads.');
+    }
+  }
+  

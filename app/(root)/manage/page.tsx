@@ -5,7 +5,7 @@ import { CreateAd } from '@/components/ui/button';
 //import { lusitana } from '@/app/ui/fonts';
 import { Suspense } from 'react';
 import { Metadata } from 'next';
-import { GetAllAds } from '@/lib/data';
+import { GetAllAds,GetFilteredAdsPages } from '@/lib/data';
  
 export const metadata: Metadata = {
   title: 'Manage Ads',
@@ -19,12 +19,12 @@ export default async function Page({
     page?: string;
   };
 }) {
-  const ITEMS_PER_PAGE = 6;
+  //const ITEMS_PER_PAGE = 6;
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
-  const totalPages =Math.ceil(GetAllAds().length / ITEMS_PER_PAGE);
-return (
-  
+  //const totalPages =Math.ceil(GetAllAds().length / ITEMS_PER_PAGE);
+  const totalPages = await GetFilteredAdsPages(query);
+return ( 
   <div className="w-full">
      <header className="flex items-center justify-between px-6 py-8 bg-gray-900 text-white">
         <div className="flex items-center space-x-4">
