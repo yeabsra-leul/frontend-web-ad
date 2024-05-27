@@ -1,8 +1,8 @@
 import Form from '@/components/ui/create-form';
-//import { fetchChannels } from '@/lib/data';
+import { GetAllChannels } from '@/lib/data';
  
 export default async function Page() {
-  const channels = [{id:'1',name:'Google'},{id:'2',name:'Facebook'},{id:'3',name:'Twitter'},{id:'4',name:'LinkedIn'}];
+  const channels = GetAllChannels();
   //console.log(channels);
   return (
     <main>

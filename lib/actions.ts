@@ -29,6 +29,7 @@ const FormSchema = z.object({
   });
 
   const CreateAds = FormSchema.omit({ id: true, adHeadline2: true, adHeadline3: true });
+  const UpdateAd = FormSchema.omit({ id: true, adHeadline2: true, adHeadline3: true });
 
   export type State = {
     errors?: {
@@ -66,7 +67,7 @@ const FormSchema = z.object({
   // }
 
 
-export async function createAds(prevState: State, formData: FormData) {
+export async function createAd(prevState: State, formData: FormData) {
     
     // Validate form using Zod
     const validatedFields = CreateAds.safeParse({
@@ -107,6 +108,52 @@ export async function createAds(prevState: State, formData: FormData) {
     }
    
     // Revalidate the cache for the ads page and redirect the user.
-    revalidatePath('/ad');
-    redirect('/ad');
+    revalidatePath('/');
+    redirect('/');
+  }
+
+  export async function updateAd(id: string, prevState: State, formData: FormData) {
+    
+    // Validate form using Zod
+    const validatedFields = CreateAds.safeParse({
+      adUrl: formData.get('url'),
+      adLocation: formData.get('location'),
+      adPhoneNumber: formData.get('phone'),
+      adChannel: formData.get('channel'),
+      adBudget: formData.get('budget'),
+      adHeadline1: formData.get('headline1'),
+      adTargetAudience: formData.get('target'),
+      adStartDate: formData.get('start'),
+      adEndDate: formData.get('end'),
+      adDescription: formData.get('description'),
+    });
+   
+    // If form validation fails, return errors early. Otherwise, continue.
+    if (!validatedFields.success) {
+      return {
+        errors: validatedFields.error.flatten().fieldErrors,
+        message: 'Missing Fields. Failed to Update Ad.',
+      };
+    }
+   
+    // Prepare data for insertion into the database
+    //const { adUrl, adLocation, adPhoneNumber, adChannel, adBudget, adHeadline1, adHeadline2,adHeadline3,adTargetAudience,adDescription }= validatedFields.data;
+   
+    // Update the database data
+    try {
+    //   await sql`
+    //     UPDATE ads 
+    //     Set ...
+    //     WHERE id = ${id}
+    //   `;
+    } catch (error) {
+      // If a database error occurs, return a more specific error.
+      return {
+        message: 'Database Error: Failed to Update Ad.',
+      };
+    }
+   
+    // Revalidate the cache for the ads page and redirect the user.
+    revalidatePath('/manage');
+    redirect('/manage');
   }
