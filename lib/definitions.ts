@@ -9,7 +9,7 @@ export type ChannelField = {
     url: string;
     location: string;
     phone: string;
-    budget: string;
+    budget: number;
     channel: string;
     start_date: string;
     end_date:string;
