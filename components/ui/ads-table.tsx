@@ -1,20 +1,43 @@
-import Image from 'next/image';
-//import { lusitana } from '@/app/ui/fonts';
-import Search from '@/components/ui/search';
-import {
-  Advertisement,
-} from '@/lib/definitions';
+'use client';
 import { UpdateAd, StopAd, RepostAd, AdDetails } from '@/components/ui/button';
 import {GetFilteredAds } from '@/lib/data';
+import { useState } from 'react';
 
-export default async function AdsTable({
+export default function AdsTable({
   query,
   currentPage,
 }: {
   query: string;
   currentPage: number;
 }) {
-  const ads = await GetFilteredAds(query, currentPage);
+  const [sortColumn, setSortColumn] = useState("headline");
+  const [sortOrder, setSortOrder] = useState("asc");
+  const handleSort = (column:string) => {
+    if (sortColumn === column) {
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+    } else {
+      setSortColumn(column);
+      setSortOrder("asc");
+    }
+  };
+  const sortSvg = (column:string) =>
+    sortColumn === column ? (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        width="24"
+        height="24"
+      >
+        {sortOrder === "desc" ? (
+          <path d="M7 10l5 5 5-5z" />
+        ) : (
+          <path d="M7 14l5-5 5 5z" />
+        )}
+
+        <path d="M0 0h24v24H0z" fill="none" />
+      </svg>
+    ) : null;
+  const ads = GetFilteredAds(query, currentPage, sortColumn,sortOrder);
   return (
       <div className="mt-6 flow-root">
         <div className="overflow-x-auto">
@@ -23,29 +46,29 @@ export default async function AdsTable({
               <table className="hidden min-w-full rounded-md text-gray-900 md:table">
                 <thead className="rounded-md bg-gray-50 text-left text-sm font-normal">
                   <tr>
-                    <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
-                      Headline
+                    <th scope="col" onClick={() => handleSort("headline")} className="px-4 py-5 font-medium sm:pl-6">
+                      <p className='inline-flex cursor-pointer font-bold'>Headline{sortSvg("headline")}</p> 
                     </th>
-                    <th scope="col" className="px-3 py-5 font-medium">
-                      Url
+                    <th scope="col" onClick={() => handleSort("url")} className="px-3 py-5 font-medium">
+                      <p className='inline-flex cursor-pointer font-bold'>Url{sortSvg("url")}</p> 
                     </th>
-                    <th scope="col" className="px-3 py-5 font-medium">
-                      Location
+                    <th scope="col" onClick={() => handleSort("location")} className="px-3 py-5 font-medium">
+                      <p className='inline-flex cursor-pointer font-bold'>Location{sortSvg("location")}</p> 
                     </th>
-                    <th scope="col" className="px-3 py-5 font-medium">
-                      Phone
+                    <th scope="col" onClick={() => handleSort("phone")} className="px-3 py-5 font-medium">
+                      <p className='inline-flex cursor-pointer font-bold'>Phone{sortSvg("phone")}</p> 
                     </th>
-                    <th scope="col" className="px-3 py-5 font-medium">
-                      Budget
+                    <th scope="col" onClick={() => handleSort("budget")} className="px-3 py-5 font-medium">
+                      <p className='inline-flex cursor-pointer font-bold'>Budget{sortSvg("budget")}</p> 
                     </th>
-                    <th scope="col" className="px-3 py-5 font-medium">
-                      Channel
+                    <th scope="col" onClick={() => handleSort("channel")}  className="px-3 py-5 font-medium">
+                      <p className='inline-flex cursor-pointer font-bold'>Channel{sortSvg("channel")}</p> 
                     </th>
-                    <th scope="col" className="px-3 py-5 font-medium">
-                      Start Date
+                    <th scope="col" onClick={() => handleSort("start_date")} className="px-3 py-5 font-medium">
+                      <p className='inline-flex cursor-pointer font-bold'>Start Date{sortSvg("start_date")}</p> 
                     </th>
-                    <th scope="col" className="px-4 py-5 font-medium">
-                      End Date
+                    <th scope="col" onClick={() => handleSort("end_date")} className="px-4 py-5 font-medium">
+                      <p className='inline-flex cursor-pointer font-bold'>End Date{sortSvg("end_date")}</p> 
                     </th>
                     <th scope="col" className="relative py-3 pl-6 pr-3">
                       <span className="sr-only">Edit</span>

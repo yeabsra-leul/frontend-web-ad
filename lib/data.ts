@@ -24,28 +24,28 @@ export async function fetchChannels() {
 
   export function GetAllAds(){
     const ads:Advertisement[] = [{id:'1', headline:'The best drink', url:'http://www.drink.com', location:'address1', phone:'800-000-0001', 
-                                channel: 'Google', budget:'20000', start_date:'2024-01-01', end_date:'2024-04-30', target_audience:'teenager', 
+                                channel: 'Google', budget:20000, start_date:'2024-01-01', end_date:'2024-04-30', target_audience:'teenager', 
                                 seo_keywords:'sample1,sample2, drink', description:'drink for teenager'},
                                 {id:'2', headline:'The best food', url:'http://www.food.com', location:'address2', phone:'800-000-0002', 
-                                channel: 'Facebook', budget:'30000', start_date:'2024-02-01', end_date:'2024-03-31', target_audience:'yang people ', 
+                                channel: 'Facebook', budget:30000, start_date:'2024-02-01', end_date:'2024-03-31', target_audience:'yang people ', 
                                 seo_keywords:'sample1,sample2,food', description:'food for yang people'},
                                 {id:'3', headline:'The best car', url:'http://www.car.com', location:'address3', phone:'800-000-0003', 
-                                channel: 'Twitter', budget:'300000', start_date:'2024-01-11', end_date:'2024-05-31', target_audience:'Business guys ', 
+                                channel: 'Twitter', budget:300000, start_date:'2024-01-11', end_date:'2024-05-31', target_audience:'Business guys ', 
                                 seo_keywords:'sample1,sample2,car', description:'car for business guys'},
                                 {id:'4', headline:'The best bowl', url:'http://www.bowl.com', location:'address4', phone:'800-000-0004', 
-                                channel: 'LinkedIn', budget:'60000', start_date:'2024-01-16', end_date:'2024-05-26', target_audience:'house wife ', 
+                                channel: 'LinkedIn', budget:60000, start_date:'2024-01-16', end_date:'2024-05-26', target_audience:'house wife ', 
                                 seo_keywords:'sample1,sample2,bowl', description:'bowl for house wife'},
-                                {id:'5', headline:'The best TV', url:'http://www.tv.com', location:'address5', phone:'800-000-0005', 
-                                channel: 'Google', budget:'90000', start_date:'2024-03-16', end_date:'2024-05-09', target_audience:'old guys ', 
+                                {id:'5', headline:'The best tv', url:'http://www.tv.com', location:'address5', phone:'800-000-0005', 
+                                channel: 'Google', budget:90000, start_date:'2024-03-16', end_date:'2024-05-09', target_audience:'old guys ', 
                                 seo_keywords:'sample1,sample2,tv', description:'tv for old guys'},
                                 {id:'6', headline:'The best laptop', url:'http://www.laptop.com', location:'address6', phone:'800-000-0006', 
-                                channel: 'Facebook', budget:'100000', start_date:'2024-02-16', end_date:'2024-04-26', target_audience:'student ', 
+                                channel: 'Facebook', budget:100000, start_date:'2024-02-16', end_date:'2024-04-26', target_audience:'student ', 
                                 seo_keywords:'sample1,sample2,laptop', description:'laptop for student'},
                                 {id:'7', headline:'The best sun glass', url:'http://www.sunglass.com', location:'address7', phone:'800-000-0007', 
-                                channel: 'Twitter', budget:'4000', start_date:'2024-01-01', end_date:'2024-01-26', target_audience:'driver ', 
+                                channel: 'Twitter', budget:4000, start_date:'2024-01-01', end_date:'2024-01-26', target_audience:'driver ', 
                                 seo_keywords:'sample1,sample2,sun glass', description:'sun glass for driver'},
                                 {id:'8', headline:'The best phone', url:'http://www.phone.com', location:'address8', phone:'800-000-0008', 
-                                channel: 'LinkedIn', budget:'80000', start_date:'2024-01-20', end_date:'2024-05-20', target_audience:'student ', 
+                                channel: 'LinkedIn', budget:80000, start_date:'2024-01-20', end_date:'2024-05-20', target_audience:'student ', 
                                 seo_keywords:'sample1,sample2,phone', description:'phone for student'},
                               ];
     return ads;
@@ -101,9 +101,11 @@ export async function fetchChannels() {
   }
   
   const ITEMS_PER_PAGE = 6;
-  export async function GetFilteredAds(
+  export function GetFilteredAds(
     query: string,
-    currentPage: number,) 
+    currentPage: number,
+    sortColumn: string,
+    sortOrder: string) 
   {
       const offset = (currentPage - 1) * ITEMS_PER_PAGE;
       noStore();
@@ -119,7 +121,19 @@ export async function fetchChannels() {
         )
         const start = Math.min(filteredAds.length - 1, offset);
         const end = Math.min(filteredAds.length, offset + ITEMS_PER_PAGE);
-        return filteredAds.slice(start, end);
+        const filteredResult = filteredAds.slice(start, end);
+        const sortedFilteredResult = [...filteredResult].sort((a, b) => {
+          if (sortColumn) {
+            if (sortOrder === "asc") {
+              return (a[sortColumn as keyof Advertisement] || '' ) < (b[sortColumn as keyof Advertisement] || '' )  ? -1 : 1;
+            } else {
+              return (a[sortColumn as keyof Advertisement] || '' )> (b[sortColumn as keyof Advertisement] || '') ? -1 : 1;
+            }
+          } else {
+            return 0;
+          }
+        });
+        return sortedFilteredResult;
       } catch (error) {
         console.error('Database Error:', error);
         throw new Error('Failed to fetch ads.');
