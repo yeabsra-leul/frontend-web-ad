@@ -34,7 +34,7 @@ export function AdDetails({ id }: { id: string }) {
   return (
     <Tooltip content={"Details"} offset={-4}>
       <Link 
-      href={`/${id}`}
+      href={`/${id}/details`}
       className="rounded-md border p-2 bg-zinc-300 hover:bg-gray-100"
     >
       <EyeIcon className="w-5" />
