@@ -27,7 +27,7 @@ export function UpdateAd({ id }: { id: string }) {
   return (
     <Tooltip content={"Edit"} offset={-4}>
     <Button onClick={handleRedirect}
-    className="rounded-md border p-2 bg-zinc-300 hover:bg-gray-100">
+    className="rounded-md border p-2 hover:bg-gray-100 min-w-0">
       <PencilIcon className="w-5" />
     </Button>
     </Tooltip>
@@ -42,7 +42,7 @@ export function AdDetails({ id }: { id: string }) {
   return (
     <Tooltip content={"Details"} offset={-4}>
     <Button onClick={handleRedirect}
-    className="rounded-md border p-2 bg-zinc-300 hover:bg-gray-100">
+    className="rounded-md border p-2 hover:bg-gray-100 min-w-0">
       <EyeIcon className="w-5" />
     </Button>
     </Tooltip>
