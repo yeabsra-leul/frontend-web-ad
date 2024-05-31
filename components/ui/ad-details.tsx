@@ -12,7 +12,7 @@ export default function Form({ channels, ad }: { channels: ChannelField[], ad:Ad
       </div>
       <div className="flex justify-end gap-4">
           <Link
-            href="/manage"
+            href="/ad/manage"
             className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
           >
             Back
@@ -143,7 +143,7 @@ export default function Form({ channels, ad }: { channels: ChannelField[], ad:Ad
                 <div className="md:w-3/4">
                   {ad.headline5}
                 </div>
-              </div>):null}
+              </div>): null}
             <div className="md:flex md:items-center mb-6">
               <div className="md:w-1/4">
                 <label className="block text-gray-500 font-bold mb-1 md:mb-0 pr-4" htmlFor="adTargetAudience">
@@ -156,17 +156,22 @@ export default function Form({ channels, ad }: { channels: ChannelField[], ad:Ad
                 </div>
               </div>
             </div>
-            <hr /><br />
-            <div className="md:flex md:items-center mb-6">
-              <div className="md:w-1/4">
-                <label className="block text-gray-500 font-bold mb-1 md:mb-0 pr-4" htmlFor="image-upload">
-                  Images:
-                </label>
-              </div>
-              <div className="md:w-1/4 inline-flex">
-                <img src={ad.image_url} />
-              </div>
-            </div>
+            
+            {ad.image_url? (
+              <div>
+                <hr /><br />
+                <div className="md:flex md:items-center mb-6">
+                  <div className="md:w-1/4">
+                    <label className="block text-gray-500 font-bold mb-1 md:mb-0 pr-4" htmlFor="image-upload">
+                      Images:
+                    </label>
+                  </div>
+                  <div className="md:w-1/4 inline-flex">
+                    <img src={ad.image_url} />
+                  </div>
+                </div>
+              </div>): null}
+            
             <hr /><br />
             <div className="md:flex md:items-center mb-6">
               <div className="md:w-1/4">
