@@ -24,14 +24,14 @@ export async function fetchChannels() {
 
   export function GetAllAds(){
     const ads:Advertisement[] = [{id:'1', headline:'The best drink', url:'http://www.drink.com', location:'address1', phone:'800-000-0001', 
-                                channel: 'Google', budget:20000, start_date:'2024-01-01', end_date:'2024-04-30', target_audience:'teenager', 
-                                seo_keywords:'sample1,sample2, drink', description:'drink for teenager'},
+                                channel: 'Google', budget:20000, start_date:'2024-01-01', end_date:'2024-04-30', target_audience:'teenager', headline2: 'bot', headline3: 'bot', headline4: 'bot', headline5: 'bot',
+                                seo_keywords:'sample1,sample2, drink', description:'drink for teenager', image_url:'https://www.fodors.com/wp-content/uploads/2019/03/HERO_Worlds_Best_Soda_Bundaberg_shutterstock_679079920.jpg'},
                                 {id:'2', headline:'The best food', url:'http://www.food.com', location:'address2', phone:'800-000-0002', 
                                 channel: 'Facebook', budget:30000, start_date:'2024-02-01', end_date:'2024-03-31', target_audience:'yang people ', 
-                                seo_keywords:'sample1,sample2,food', description:'food for yang people'},
+                                seo_keywords:'sample1,sample2,food', description:'food for yang people', image_url: 'https://www.allrecipes.com/thmb/8fe_5pLNz2eHcpknNhL52fdq5hE=/0x512/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/25473-the-perfect-basic-burger-DDMFS-4x3-56eaba3833fd4a26a82755bcd0be0c54.jpg'},
                                 {id:'3', headline:'The best car', url:'http://www.car.com', location:'address3', phone:'800-000-0003', 
                                 channel: 'Twitter', budget:300000, start_date:'2024-01-11', end_date:'2024-05-31', target_audience:'Business guys ', 
-                                seo_keywords:'sample1,sample2,car', description:'car for business guys'},
+                                seo_keywords:'sample1,sample2,car', description:'car for business guys', image_url: 'https://hips.hearstapps.com/hmg-prod/images/dsc02822-jpg-1597027407.jpg?crop=1.00xw:1.00xh;0,0&resize=1200:*'},
                                 {id:'4', headline:'The best bowl', url:'http://www.bowl.com', location:'address4', phone:'800-000-0004', 
                                 channel: 'LinkedIn', budget:60000, start_date:'2024-01-16', end_date:'2024-05-26', target_audience:'house wife ', 
                                 seo_keywords:'sample1,sample2,bowl', description:'bowl for house wife'},
