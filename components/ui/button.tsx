@@ -1,8 +1,10 @@
 'use client';
 
+import React from 'react';
 import Link from 'next/link';
 import { PlusIcon, PencilIcon, StopIcon, ArrowUpOnSquareIcon, EyeIcon } from '@heroicons/react/24/outline';
 import {Tooltip, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure} from "@nextui-org/react";
+import { useRouter } from 'next/navigation';
 
 export function CreateAd() {
   return (
@@ -18,27 +20,31 @@ export function CreateAd() {
 
 
 export function UpdateAd({ id }: { id: string }) {
+  const router = useRouter();
+  const handleRedirect = () => {
+    router.push(`/${id}/update`);
+  };
   return (
     <Tooltip content={"Edit"} offset={-4}>
-      <Link 
-      href={`/${id}/update`}
-      className="rounded-md border p-2 bg-zinc-300 hover:bg-gray-100"
-    >
+    <Button onClick={handleRedirect}
+    className="rounded-md border p-2 bg-zinc-300 hover:bg-gray-100">
       <PencilIcon className="w-5" />
-    </Link>
+    </Button>
     </Tooltip>
   );
 }
 
 export function AdDetails({ id }: { id: string }) {
+  const router = useRouter();
+  const handleRedirect = () => {
+    router.push(`/${id}`);
+  };
   return (
     <Tooltip content={"Details"} offset={-4}>
-      <Link 
-      href={`/${id}`}
-      className="rounded-md border p-2 bg-zinc-300 hover:bg-gray-100"
-    >
+    <Button onClick={handleRedirect}
+    className="rounded-md border p-2 bg-zinc-300 hover:bg-gray-100">
       <EyeIcon className="w-5" />
-    </Link>
+    </Button>
     </Tooltip>
   );
 }
