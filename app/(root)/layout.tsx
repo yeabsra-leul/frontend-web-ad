@@ -21,17 +21,16 @@ export default async function RootLayout({
   return (
     <html lang="en" >
       <body className="static h-full bg-gray-50">
-        <NextUIProvider>
-          <main className="text-foreground bg-background">
-            <SessionProvider>
+        <SessionProvider>
+          <NextUIProvider>
+            <main className="text-foreground bg-background">
               <Navbar />
               {children}
               <Analytics />
               <SpeedInsights />{/* Vercel Speed Insights */}
-            </SessionProvider>
-          </main>
-        </NextUIProvider>
-
+            </main>
+          </NextUIProvider>
+        </SessionProvider>
       </body>
     </html>
   );
