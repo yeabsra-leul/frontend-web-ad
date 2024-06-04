@@ -2,10 +2,10 @@ import Pagination from '@/components/ui/pagination';
 import Search from '@mitech/shared-components/ui/search';
 import AdsTable from '@/components/ui/ads-table';
 import { CreateAd } from '@/components/ui/button';
+//import { lusitana } from '@/app/ui/fonts';
 import { Suspense } from 'react';
 import { Metadata } from 'next';
 import { GetAllAds,GetFilteredAdsPages } from '@/lib/data';
-import GanttChart from '@/components/ui/gantt-chart/gantt-chart';
  
 export const metadata: Metadata = {
   title: 'Manage Ads',
@@ -19,8 +19,10 @@ export default async function Page({
     page?: string;
   };
 }) {
+  //const ITEMS_PER_PAGE = 6;
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
+  //const totalPages =Math.ceil(GetAllAds().length / ITEMS_PER_PAGE);
   const totalPages = await GetFilteredAdsPages(query);
 return ( 
   <div className="w-full">
@@ -38,16 +40,7 @@ return (
       <div className="mt-5 flex w-full justify-center">
         <Pagination totalPages={totalPages} />
       </div>
-    </div> 
-    <br /><hr />
-    <div className='w-full max-w-[80%] justify-center items-center m-auto pb-40'>
-      <div className="mt-4 items-center justify-center gap-2 md:mt-8">
-        <div className='row'><p className='ml-3 font-bold'>AD Campaign Gantt Chart</p></div>
-        <div className="row">
-          <GanttChart />          
-        </div>
-        </div>
-    </div>   
+    </div>    
   </div>
 );
 }
