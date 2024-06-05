@@ -27,7 +27,7 @@ const FormSchema = z.object({
       adDescription: z.string().min(1, { message: 'This is required' }),
   });
 
-  const CreateAds = FormSchema.omit({ id: true, adHeadline2: true, adHeadline3: true });
+  const CreateAd = FormSchema.omit({ id: true, adHeadline2: true, adHeadline3: true });
   const UpdateAd = FormSchema.omit({ id: true, adHeadline2: true, adHeadline3: true });
 
   export type State = {
@@ -69,7 +69,7 @@ const FormSchema = z.object({
 export async function createAd(prevState: State, formData: FormData) {
     
     // Validate form using Zod
-    const validatedFields = CreateAds.safeParse({
+    const validatedFields = CreateAd.safeParse({
       adUrl: formData.get('url'),
       adLocation: formData.get('location'),
       adPhoneNumber: formData.get('phone'),
@@ -114,7 +114,7 @@ export async function createAd(prevState: State, formData: FormData) {
   export async function updateAd(id: string, prevState: State, formData: FormData) {
     
     // Validate form using Zod
-    const validatedFields = CreateAds.safeParse({
+    const validatedFields = UpdateAd.safeParse({
       adUrl: formData.get('url'),
       adLocation: formData.get('location'),
       adPhoneNumber: formData.get('phone'),
