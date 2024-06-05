@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { Advertisement, ChannelField } from '@/lib/definitions';
 import { Button, Link } from "@nextui-org/react";
+import Image from "next/image";
 
 export default function Form({ channels, ad }: { channels: ChannelField[], ad:Advertisement }) {
 
@@ -167,7 +168,7 @@ export default function Form({ channels, ad }: { channels: ChannelField[], ad:Ad
                     </label>
                   </div>
                   <div className="md:w-1/4 inline-flex">
-                    <img src={ad.image_url} />
+                  <Image src={ad.image_url} alt={ad.image_url} width={500} height={500}/>
                   </div>
                 </div>
               </div>): null}

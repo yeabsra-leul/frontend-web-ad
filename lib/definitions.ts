@@ -22,3 +22,19 @@ export type ChannelField = {
     headline4?: string;
     headline5?: string;
   };
+
+  export type Task = {
+    id: number;
+    name: string
+  }
+  
+  export type TaskDuration ={
+    id: number;
+    start: string;
+    end: string;
+    task: number;
+    headline: string;
+    channel: string;
+    url: string;
+    budget:number;
+  }

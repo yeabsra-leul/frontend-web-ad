@@ -1,8 +1,8 @@
 import {
-    ChannelField,
+    ChannelField,TaskDuration,
   } from './definitions';
 import { unstable_noStore as noStore } from 'next/cache';
-import { Advertisement } from './definitions';
+import { Advertisement, Task } from './definitions';
 
 export async function fetchChannels() {
     noStore();
@@ -23,32 +23,62 @@ export async function fetchChannels() {
   }
 
   export function GetAllAds(){
-    const ads:Advertisement[] = [{id:'1', headline:'The best drink', url:'http://www.drink.com', location:'address1', phone:'800-000-0001', 
-                                channel: 'Google', budget:20000, start_date:'2024-01-01', end_date:'2024-04-30', target_audience:'teenager', headline2: 'bot', headline3: 'bot', headline4: 'bot', headline5: 'bot',
-                                seo_keywords:'sample1,sample2, drink', description:'drink for teenager', image_url:'https://www.fodors.com/wp-content/uploads/2019/03/HERO_Worlds_Best_Soda_Bundaberg_shutterstock_679079920.jpg'},
-                                {id:'2', headline:'The best food', url:'http://www.food.com', location:'address2', phone:'800-000-0002', 
-                                channel: 'Facebook', budget:30000, start_date:'2024-02-01', end_date:'2024-03-31', target_audience:'yang people ', 
-                                seo_keywords:'sample1,sample2,food', description:'food for yang people', image_url: 'https://www.allrecipes.com/thmb/8fe_5pLNz2eHcpknNhL52fdq5hE=/0x512/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/25473-the-perfect-basic-burger-DDMFS-4x3-56eaba3833fd4a26a82755bcd0be0c54.jpg'},
-                                {id:'3', headline:'The best car', url:'http://www.car.com', location:'address3', phone:'800-000-0003', 
-                                channel: 'Twitter', budget:300000, start_date:'2024-01-11', end_date:'2024-05-31', target_audience:'Business guys ', 
-                                seo_keywords:'sample1,sample2,car', description:'car for business guys', image_url: 'https://hips.hearstapps.com/hmg-prod/images/dsc02822-jpg-1597027407.jpg?crop=1.00xw:1.00xh;0,0&resize=1200:*'},
-                                {id:'4', headline:'The best bowl', url:'http://www.bowl.com', location:'address4', phone:'800-000-0004', 
-                                channel: 'LinkedIn', budget:60000, start_date:'2024-01-16', end_date:'2024-05-26', target_audience:'house wife ', 
-                                seo_keywords:'sample1,sample2,bowl', description:'bowl for house wife'},
-                                {id:'5', headline:'The best tv', url:'http://www.tv.com', location:'address5', phone:'800-000-0005', 
-                                channel: 'Google', budget:90000, start_date:'2024-03-16', end_date:'2024-05-09', target_audience:'old guys ', 
-                                seo_keywords:'sample1,sample2,tv', description:'tv for old guys'},
-                                {id:'6', headline:'The best laptop', url:'http://www.laptop.com', location:'address6', phone:'800-000-0006', 
-                                channel: 'Facebook', budget:100000, start_date:'2024-02-16', end_date:'2024-04-26', target_audience:'student ', 
-                                seo_keywords:'sample1,sample2,laptop', description:'laptop for student'},
-                                {id:'7', headline:'The best sun glass', url:'http://www.sunglass.com', location:'address7', phone:'800-000-0007', 
+    const ads:Advertisement[] = [{id:'1', headline:'The sweet drink', url:'http://www.drink.com', location:'address1', phone:'800-000-0001', 
+                                channel: 'Google', budget:20000, start_date:'2024-01-01', end_date:'2024-01-13', target_audience:'teenager', 
+                                seo_keywords:'sample1,sample2, drink,sweet', description:'drink for teenager',image_url:'/ad/upload/images/ads-001.jpg'},
+                                {id:'2', headline:'The most delicious food', url:'http://www.food.com', location:'address2', phone:'800-000-0002', 
+                                channel: 'Facebook', budget:30000, start_date:'2024-02-01', end_date:'2024-02-15', target_audience:'yang people ', 
+                                seo_keywords:'sample1,sample2,food,delicious', description:'food for yang people',image_url:'/ad/upload/images/ads-002.jpg'},
+                                {id:'3', headline:'The electric car', url:'http://www.car.com', location:'address3', phone:'800-000-0003', 
+                                channel: 'Twitter', budget:300000, start_date:'2024-01-11', end_date:'2024-02-19', target_audience:'Business guys ', 
+                                seo_keywords:'sample1,sample2,car,electric', description:'car for business guys',image_url:'/ad/upload/images/ads-003.jpg'},
+                                {id:'4', headline:'The big bowl', url:'http://www.bowl.com', location:'address4', phone:'800-000-0004', 
+                                channel: 'LinkedIn', budget:60000, start_date:'2024-01-16', end_date:'2024-03-16', target_audience:'house wife ', 
+                                seo_keywords:'sample1,sample2,bowl,big', description:'bowl for house wife',image_url:'/ad/upload/images/ads-004.jpg'},
+                                {id:'5', headline:'The clearest tv', url:'http://www.tv.com', location:'address5', phone:'800-000-0005', 
+                                channel: 'Google', budget:90000, start_date:'2024-02-16', end_date:'2024-03-09', target_audience:'old guys ', 
+                                seo_keywords:'sample1,sample2,tv,clear', description:'tv for old guys',image_url:'/ad/upload/images/ads-005.jpg'},
+                                {id:'6', headline:'The cheapest laptop', url:'http://www.laptop.com', location:'address6', phone:'800-000-0006', 
+                                channel: 'Facebook', budget:100000, start_date:'2024-02-19', end_date:'2024-03-26', target_audience:'student ', 
+                                seo_keywords:'sample1,sample2,laptop,cheap', description:'laptop for student',image_url:'/ad/upload/images/ads-006.jpg'},
+                                {id:'7', headline:'The fashionable sun glass', url:'http://www.sunglass.com', location:'address7', phone:'800-000-0007', 
                                 channel: 'Twitter', budget:4000, start_date:'2024-01-01', end_date:'2024-01-26', target_audience:'driver ', 
-                                seo_keywords:'sample1,sample2,sun glass', description:'sun glass for driver'},
-                                {id:'8', headline:'The best phone', url:'http://www.phone.com', location:'address8', phone:'800-000-0008', 
-                                channel: 'LinkedIn', budget:80000, start_date:'2024-01-20', end_date:'2024-05-20', target_audience:'student ', 
-                                seo_keywords:'sample1,sample2,phone', description:'phone for student'},
+                                seo_keywords:'sample1,sample2,sun glass, fashionable', description:'sun glass for driver',image_url:'/ad/upload/images/ads-007.jpg'},
+                                {id:'8', headline:'The foldable phone', url:'http://www.phone.com', location:'address8', phone:'800-000-0008', 
+                                channel: 'LinkedIn', budget:80000, start_date:'2024-01-20', end_date:'2024-02-20', target_audience:'student ', 
+                                seo_keywords:'sample1,sample2,phone,foldable', description:'phone for student',image_url:'/ad/upload/images/ads-008.jpg'},
                               ];
     return ads;
+  }
+
+  export function GetAllTasks(){
+    const tasks: Task[]  = [];
+    const allAds = GetAllAds();
+    allAds.forEach(ad => {
+      var task:Task = {"id":0,"name":""};
+      task.id = +ad.id;
+      task.name = ad.headline;
+      tasks.push(task);
+    });
+    return tasks;
+  }
+
+  export function GetAllTaskDurations(){
+    const taskDuration: TaskDuration[]  = [];
+    const allAds = GetAllAds();
+    allAds.forEach(ad => {
+      var taskD:TaskDuration = {"id":0,"start":"","end":"","task":0,"headline":"", "channel":"", "url":"", "budget":0};
+      taskD.id = +ad.id;
+      taskD.start = ad.start_date;
+      taskD.end = ad.end_date;
+      taskD.task = +ad.id;  
+      taskD.headline = ad.headline;
+      taskD.url = ad.url;
+      taskD.channel = ad.channel;
+      taskD.budget = ad.budget;
+      taskDuration.push(taskD);
+    });
+    return taskDuration;
   }
 
   export function GetAllChannels(){
