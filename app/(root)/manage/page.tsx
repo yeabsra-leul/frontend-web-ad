@@ -1,17 +1,19 @@
+'use client';
 import Pagination from '@/components/ui/pagination';
 import Search from '@mitech/shared-components/ui/search';
 import AdsTable from '@/components/ui/ads-table';
 import { CreateAd } from '@/components/ui/button';
-import { Suspense } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { Metadata } from 'next';
-import { GetAllAds,GetFilteredAdsPages } from '@/lib/data';
+import { GetFilteredAdsPages } from '@/lib/data';
 import GanttChart from '@/components/ui/gantt-chart/gantt-chart';
+import { Advertisement } from '@/lib/definitions';
  
-export const metadata: Metadata = {
-  title: 'Manage Ads',
-};
+// export const metadata: Metadata = {
+//   title: 'Manage Ads',
+// };
 
-export default async function Page({
+export default function Page({
   searchParams,
 }: {
   searchParams?: {
@@ -21,7 +23,17 @@ export default async function Page({
 }) {
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
-  const totalPages = await GetFilteredAdsPages(query);
+  const [adsAll, setData] = useState<Advertisement[]>([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      const res = await fetch('/ad/api/manage');
+      const result = await res.json();
+      setData(result);
+    }
+    fetchData();
+  }, []);
+  const totalPages = GetFilteredAdsPages(adsAll,query);
 return ( 
   <div className="w-full">
      <header className="flex items-center justify-between px-6 py-8 bg-gray-900 text-white">
@@ -34,7 +46,7 @@ return (
         <Search placeholder="Search ad..." />
         <CreateAd />
       </div>
-      <AdsTable query={query} currentPage={currentPage} />
+      <AdsTable query={query} currentPage={currentPage} adsAll={adsAll}/>
       <div className="mt-5 flex w-full justify-center">
         <Pagination totalPages={totalPages} />
       </div>
@@ -44,7 +56,7 @@ return (
       <div className="mt-4 items-center justify-center gap-2 md:mt-8">
         <div className='row'><p className='ml-3 font-bold'>AD Campaign Gantt Chart</p></div>
         <div className="row">
-          <GanttChart />          
+          <GanttChart adsAll={adsAll}/>          
         </div>
         </div>
     </div>    

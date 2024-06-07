@@ -4,6 +4,7 @@ import Grid from '@/components/ui/gantt-chart/grid';
 import Tasks from '@/components/ui/gantt-chart/tasks';
 import TimeTable from '@/components/ui/gantt-chart/time-table';
 import { GetAllTaskDurations, GetAllTasks } from '@/lib/data';
+import { Advertisement } from '@/lib/definitions';
 
 interface TimeTableProps {
 
@@ -40,7 +41,7 @@ interface TimeTableProps {
   }[]) => void;
 }
 
-const GanttChart: FC = () => {
+const GanttChart: FC<{adsAll:Advertisement[]}> = (adsAll) => {
   const [tasks, setTasks] = useState<null | any>(null);
   const [taskDurations, setTaskDurations] = useState<null | any>(null);
   const [timeRange, setTimeRange] = useState<TimeTableProps["timeRange"]>({
@@ -51,11 +52,11 @@ const GanttChart: FC = () => {
   });
 
   useEffect(() => {
-    const tasktemp = GetAllTasks();
+    const tasktemp = GetAllTasks(adsAll.adsAll);
     setTasks(tasktemp);
-    const taskDurationtemp = GetAllTaskDurations();
+    const taskDurationtemp = GetAllTaskDurations(adsAll.adsAll);
     setTaskDurations(taskDurationtemp);
-  }, []);
+  }, [adsAll.adsAll]);
 
   return (
     <div id="gantt-container">
