@@ -420,7 +420,7 @@ export default function Form({ channels }: { channels: ChannelField[] }) {
             <div className="md:flex md:items-center mb-6">
               <div className="md:w-1/4">
                 <label className="block text-gray-500 font-bold mb-1 md:mb-0 pr-4" htmlFor="adDescription">
-                  Discription*
+                  Description*
                 </label>
               </div>
               <div className="md:w-3/4">
