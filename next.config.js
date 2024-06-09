@@ -1,21 +1,12 @@
 /** @type {import('next').NextConfig} */
 
-
-
-
-
-var devconfig;
+var devconfig = {};
 try {
-
-  devconfig = require('./dev.next.config.js')
-
-} catch (ex) {
-
-}
+devconfig = require('./dev.next.config.js')
+} catch (ex) {}
 
 
 const nextConfig = {
-  ...(devconfig ? devconfig : {}),
   basePath: '/ad',
   crossOrigin: 'use-credentials',
   images: {
@@ -29,7 +20,8 @@ const nextConfig = {
         hostname: 'avatar.vercel.sh'
       }
     ]
-  }
+  },
+  ...devconfig
 };
 
 module.exports = nextConfig;
