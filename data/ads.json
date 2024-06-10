@@ -129,7 +129,7 @@
     "location": "address9",
     "phone": "800-000-0009",
     "channel": "Google",
-    "budget": 5555,
+    "budget": 55559,
     "headline": "the free tree",
     "target_audience": "gardener",
     "start_date": "2024-06-10",
@@ -164,5 +164,33 @@
     "end_date": "2024-05-06",
     "description": "The sale of furniture",
     "seo_keywords": "Sample1,Sample2,furniture, discount"
+  },
+  {
+    "id": "12",
+    "url": "http://www.clothes.com",
+    "location": "123 clothes drive",
+    "phone": "800-000-0012",
+    "channel": "Facebook",
+    "budget": 66666,
+    "headline": "the beautiful clothes",
+    "target_audience": "Ladies",
+    "start_date": "2024-03-01",
+    "end_date": "2024-03-22",
+    "description": "The beautiful clothes for ladies",
+    "seo_keywords": "Sample1,Sample2,lady, clothes"
+  },
+  {
+    "id": "13",
+    "url": "http://www.woods.com",
+    "location": "123 woods drive",
+    "phone": "800-000-0013",
+    "channel": "Google",
+    "budget": 4553,
+    "headline": "The dry wood",
+    "target_audience": "decorator",
+    "start_date": "2024-02-02",
+    "end_date": "2024-03-29",
+    "description": "The dry wood for decorator",
+    "seo_keywords": "Sample1,Sample2,wood, decorator"
   }
 ]

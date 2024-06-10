@@ -5,7 +5,9 @@ export async function POST(req: NextRequest) {
   const {id, adUrl, adLocation, adPhoneNumber, adChannel, adBudget, adHeadline1,adTargetAudience,adStartDate,adEndDate,adDescription,adSeoKeywords  } = await req.json();
   const updatedAd = updateAdvertisement(id, adUrl, adLocation, adPhoneNumber, adChannel, adBudget, adHeadline1,adTargetAudience,adStartDate,adEndDate,adDescription,adSeoKeywords);
   if (updatedAd) {
-    return NextResponse.redirect(`/ad/${id}`);
+    const url = req.nextUrl.clone()
+    url.pathname = '/ad/${id}'
+    return NextResponse.redirect(url)
   } else {
     return NextResponse.json({ message: 'Ad not found' }, { status: 404 });
   }

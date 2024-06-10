@@ -21,7 +21,6 @@ export default function Form({ channels, ad }: { channels: ChannelField[], ad:Ad
   })
   const initialSeoKeywords = GetInitialSeoKeywords();
   const oldSeoKeywords = ad.seo_keywords.split(',');
-  console.log(oldSeoKeywords);
   const [inputsRecommanded, setInputs] = useState(oldSeoKeywords);
   const [valueSeoInput, setValue] = useState('');
 

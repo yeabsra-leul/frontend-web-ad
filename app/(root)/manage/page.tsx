@@ -8,6 +8,9 @@ import { Metadata } from 'next';
 import { GetFilteredAdsPages } from '@/lib/data';
 import GanttChart from '@/components/ui/gantt-chart/gantt-chart';
 import { Advertisement } from '@/lib/definitions';
+import Cookies from 'js-cookie';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
  
 // export const metadata: Metadata = {
 //   title: 'Manage Ads',
@@ -32,6 +35,20 @@ export default function Page({
       setData(result);
     }
     fetchData();
+  }, []);
+  useEffect(() => {
+    const message = Cookies.get('notification_update_ad');
+    if (message) {
+      toast.success(message);
+      Cookies.remove('notification_update_ad');
+    }
+  }, []);
+  useEffect(() => {
+    const message = Cookies.get('notification_create_ad');
+    if (message) {
+      toast.success(message);
+      Cookies.remove('notification_create_ad');
+    }
   }, []);
   const totalPages = GetFilteredAdsPages(adsAll,query);
 return ( 

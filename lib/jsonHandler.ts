@@ -31,7 +31,6 @@ export function createAdvertisement(adUrl:string, adLocation:string, adPhoneNumb
     description: adDescription,
     seo_keywords: adSeoKeywords
   };
-  console.log(ads,newAd);
   ads.push(newAd);
   fs.writeFileSync(adsFilePath, JSON.stringify(ads, null, 2));
   return newAd;

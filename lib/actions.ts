@@ -5,8 +5,9 @@ import { z } from 'zod';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { Advertisement } from './definitions';
+import { cookies } from 'next/headers';
 
-
+const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 const FormSchema = z.object({
     id: z.string(),
       adUrl: z.string().url({message:'Please enter a valid url.'}),
@@ -76,7 +77,7 @@ export async function createAd(prevState: State, formData: FormData) {
     const adSeoKeywords =  formData.get('recommanded');
     // Insert data into the database
     try {
-      const res = await fetch('http://localhost:3000/ad/api/create', {
+      const res = await fetch(`${apiUrl}/ad/api/create`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -89,14 +90,15 @@ export async function createAd(prevState: State, formData: FormData) {
         message: 'Database Error: Failed to Create Ad.',
       };
     }
-   
+  // Set the notification cookie
+  cookies().set('notification_create_ad', 'The ad is created successfully!');
     // Revalidate the cache for the ads page and redirect the user.
     revalidatePath('/manage');
     redirect('/manage');
   }
 
   export async function updateAd(id: string, prevState: State, formData: FormData) {
-    
+
     // Validate form using Zod
     const validatedFields = UpdateAd.safeParse({
       adUrl: formData.get('url'),
@@ -123,7 +125,7 @@ export async function createAd(prevState: State, formData: FormData) {
     const { adUrl, adLocation, adPhoneNumber, adChannel, adBudget, adHeadline1,adTargetAudience,adStartDate,adEndDate,adDescription }= validatedFields.data;
     const adSeoKeywords =  formData.get('recommanded');
     try {
-      const res = await fetch(`http://localhost:3000/ad/api/${id}/update`, {
+      const res = await fetch(`${apiUrl}/ad/api/${id}/update`, {
         method: 'POST',
         body: JSON.stringify({id, adUrl, adLocation, adPhoneNumber, adChannel, adBudget, adHeadline1,adTargetAudience,adStartDate,adEndDate,adDescription,adSeoKeywords }),
       });
@@ -132,7 +134,8 @@ export async function createAd(prevState: State, formData: FormData) {
         message: 'Database Error: Failed to Update Ad.',
       };
     }
-   
+   // Set the notification cookie
+    cookies().set('notification_update_ad', 'The ad is updated successfully!');
     // Revalidate the cache for the ads page and redirect the user.
     revalidatePath('/manage');
     redirect('/manage');
