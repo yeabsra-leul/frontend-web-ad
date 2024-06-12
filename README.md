@@ -1,6 +1,5 @@
 
 <div align="center"><strong>Next.js 14 Advertiment</strong></div>
-</div>
 
 ## Overview
 
