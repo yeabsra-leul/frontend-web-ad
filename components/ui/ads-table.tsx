@@ -1,17 +1,14 @@
 'use client';
 import { UpdateAd, StopAd, RepostAd, AdDetails } from '@/components/ui/button';
 import {GetFilteredAds } from '@/lib/data';
-import { Advertisement } from '@/lib/definitions';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 export default function AdsTable({
   query,
   currentPage,
-  adsAll,
 }: {
   query: string;
   currentPage: number;
-  adsAll:Advertisement[]
 }) {
   const [sortColumn, setSortColumn] = useState("headline");
   const [sortOrder, setSortOrder] = useState("asc");
@@ -40,8 +37,7 @@ export default function AdsTable({
         <path d="M0 0h24v24H0z" fill="none" />
       </svg>
     ) : null;
-
-  const ads = GetFilteredAds(adsAll, query, currentPage, sortColumn,sortOrder);
+  const ads = GetFilteredAds(query, currentPage, sortColumn,sortOrder);
   return (
       <div className="mt-6 flow-root">
         <div className="overflow-x-auto">
@@ -111,7 +107,7 @@ export default function AdsTable({
                       </td>
                       <td className="whitespace-nowrap py-3 pl-6 pr-3">
                         <div className="flex gap-3">
-                          <AdDetails id={ad.id}/>
+                          <AdDetails id={ad.id} />
                           <UpdateAd id={ad.id} />
                           <StopAd id={ad.id} />
                           <RepostAd id={ad.id} />
