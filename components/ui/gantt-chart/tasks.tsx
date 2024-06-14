@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useRef } from 'react';
 
 interface Task {
-  id: number;
+  id: string;
   name: string;
 }
 

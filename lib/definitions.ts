@@ -5,14 +5,16 @@ export type ChannelField = {
 
   export type Advertisement = {
     id: string;
+    name: string;
+    version:string;
     headline: string;
     url: string;
     location: string;
     phone: string;
     budget: number;
     channel: string;
-    start_date: string;
-    end_date:string;
+    startDateTime: string;
+    endDateTime:string;
     target_audience: string;
     image_url?: string;
     description?: string;
@@ -21,20 +23,21 @@ export type ChannelField = {
     headline3?: string;
     headline4?: string;
     headline5?: string;
+    status:string
   };
 
   export type Task = {
-    id: number;
+    id: string;
     name: string
   }
   
   export type TaskDuration ={
-    id: number;
+    id: string;
     start: string;
     end: string;
-    task: number;
-    headline: string;
-    channel: string;
+    task: string;
+    name: string;
+    //channel: string;
     url: string;
     budget:number;
   }

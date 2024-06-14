@@ -22,59 +22,59 @@ export async function fetchChannels() {
     }
   }
 
-  export function GetAllAds(){
-    const ads:Advertisement[] = [{id:'1', headline:'The sweet drink', url:'http://www.drink.com', location:'address1', phone:'800-000-0001', 
-                                channel: 'Google', budget:20000, start_date:'2024-01-01', end_date:'2024-01-13', target_audience:'teenager', 
-                                seo_keywords:'sample1,sample2, drink,sweet', description:'drink for teenager',image_url:'/ad/upload/images/ads-001.jpg'},
-                                {id:'2', headline:'The most delicious food', url:'http://www.food.com', location:'address2', phone:'800-000-0002', 
-                                channel: 'Facebook', budget:30000, start_date:'2024-02-01', end_date:'2024-02-15', target_audience:'yang people ', 
-                                seo_keywords:'sample1,sample2,food,delicious', description:'food for yang people',image_url:'/ad/upload/images/ads-002.jpg'},
-                                {id:'3', headline:'The electric car', url:'http://www.car.com', location:'address3', phone:'800-000-0003', 
-                                channel: 'Twitter', budget:300000, start_date:'2024-01-11', end_date:'2024-02-19', target_audience:'Business guys ', 
-                                seo_keywords:'sample1,sample2,car,electric', description:'car for business guys',image_url:'/ad/upload/images/ads-003.jpg'},
-                                {id:'4', headline:'The big bowl', url:'http://www.bowl.com', location:'address4', phone:'800-000-0004', 
-                                channel: 'LinkedIn', budget:60000, start_date:'2024-01-16', end_date:'2024-03-16', target_audience:'house wife ', 
-                                seo_keywords:'sample1,sample2,bowl,big', description:'bowl for house wife',image_url:'/ad/upload/images/ads-004.jpg'},
-                                {id:'5', headline:'The clearest tv', url:'http://www.tv.com', location:'address5', phone:'800-000-0005', 
-                                channel: 'Google', budget:90000, start_date:'2024-02-16', end_date:'2024-03-09', target_audience:'old guys ', 
-                                seo_keywords:'sample1,sample2,tv,clear', description:'tv for old guys',image_url:'/ad/upload/images/ads-005.jpg'},
-                                {id:'6', headline:'The cheapest laptop', url:'http://www.laptop.com', location:'address6', phone:'800-000-0006', 
-                                channel: 'Facebook', budget:100000, start_date:'2024-02-19', end_date:'2024-03-26', target_audience:'student ', 
-                                seo_keywords:'sample1,sample2,laptop,cheap', description:'laptop for student',image_url:'/ad/upload/images/ads-006.jpg'},
-                                {id:'7', headline:'The fashionable sun glass', url:'http://www.sunglass.com', location:'address7', phone:'800-000-0007', 
-                                channel: 'Twitter', budget:4000, start_date:'2024-01-01', end_date:'2024-01-26', target_audience:'driver ', 
-                                seo_keywords:'sample1,sample2,sun glass, fashionable', description:'sun glass for driver',image_url:'/ad/upload/images/ads-007.jpg'},
-                                {id:'8', headline:'The foldable phone', url:'http://www.phone.com', location:'address8', phone:'800-000-0008', 
-                                channel: 'LinkedIn', budget:80000, start_date:'2024-01-20', end_date:'2024-02-20', target_audience:'student ', 
-                                seo_keywords:'sample1,sample2,phone,foldable', description:'phone for student',image_url:'/ad/upload/images/ads-008.jpg'},
-                              ];
-    return ads;
-  }
+  // export function GetAllAds(){
+  //   const ads:Advertisement[] = [{id:'1', headline:'The sweet drink', url:'http://www.drink.com', location:'address1', phone:'800-000-0001', 
+  //                               channel: 'Google', budget:20000, start_date:'2024-01-01', end_date:'2024-01-13', target_audience:'teenager', 
+  //                               seo_keywords:'sample1,sample2, drink,sweet', description:'drink for teenager',image_url:'/ad/upload/images/ads-001.jpg'},
+  //                               {id:'2', headline:'The most delicious food', url:'http://www.food.com', location:'address2', phone:'800-000-0002', 
+  //                               channel: 'Facebook', budget:30000, start_date:'2024-02-01', end_date:'2024-02-15', target_audience:'yang people ', 
+  //                               seo_keywords:'sample1,sample2,food,delicious', description:'food for yang people',image_url:'/ad/upload/images/ads-002.jpg'},
+  //                               {id:'3', headline:'The electric car', url:'http://www.car.com', location:'address3', phone:'800-000-0003', 
+  //                               channel: 'Twitter', budget:300000, start_date:'2024-01-11', end_date:'2024-02-19', target_audience:'Business guys ', 
+  //                               seo_keywords:'sample1,sample2,car,electric', description:'car for business guys',image_url:'/ad/upload/images/ads-003.jpg'},
+  //                               {id:'4', headline:'The big bowl', url:'http://www.bowl.com', location:'address4', phone:'800-000-0004', 
+  //                               channel: 'LinkedIn', budget:60000, start_date:'2024-01-16', end_date:'2024-03-16', target_audience:'house wife ', 
+  //                               seo_keywords:'sample1,sample2,bowl,big', description:'bowl for house wife',image_url:'/ad/upload/images/ads-004.jpg'},
+  //                               {id:'5', headline:'The clearest tv', url:'http://www.tv.com', location:'address5', phone:'800-000-0005', 
+  //                               channel: 'Google', budget:90000, start_date:'2024-02-16', end_date:'2024-03-09', target_audience:'old guys ', 
+  //                               seo_keywords:'sample1,sample2,tv,clear', description:'tv for old guys',image_url:'/ad/upload/images/ads-005.jpg'},
+  //                               {id:'6', headline:'The cheapest laptop', url:'http://www.laptop.com', location:'address6', phone:'800-000-0006', 
+  //                               channel: 'Facebook', budget:100000, start_date:'2024-02-19', end_date:'2024-03-26', target_audience:'student ', 
+  //                               seo_keywords:'sample1,sample2,laptop,cheap', description:'laptop for student',image_url:'/ad/upload/images/ads-006.jpg'},
+  //                               {id:'7', headline:'The fashionable sun glass', url:'http://www.sunglass.com', location:'address7', phone:'800-000-0007', 
+  //                               channel: 'Twitter', budget:4000, start_date:'2024-01-01', end_date:'2024-01-26', target_audience:'driver ', 
+  //                               seo_keywords:'sample1,sample2,sun glass, fashionable', description:'sun glass for driver',image_url:'/ad/upload/images/ads-007.jpg'},
+  //                               {id:'8', headline:'The foldable phone', url:'http://www.phone.com', location:'address8', phone:'800-000-0008', 
+  //                               channel: 'LinkedIn', budget:80000, start_date:'2024-01-20', end_date:'2024-02-20', target_audience:'student ', 
+  //                               seo_keywords:'sample1,sample2,phone,foldable', description:'phone for student',image_url:'/ad/upload/images/ads-008.jpg'},
+  //                             ];
+  //   return ads;
+  // }
 
-  export function GetAllTasks(){
+  export function GetAllTasks(adsAll:Advertisement[]){
     const tasks: Task[]  = [];
-    const allAds = GetAllAds();
-    allAds.forEach(ad => {
-      var task:Task = {"id":0,"name":""};
-      task.id = +ad.id;
-      task.name = ad.headline;
+    //const allAds = GetAllAds();
+    adsAll.forEach(ad => {
+      var task:Task = {"id":"","name":""};
+      task.id = ad.id;
+      task.name = ad.name;
       tasks.push(task);
     });
     return tasks;
   }
 
-  export function GetAllTaskDurations(){
+  export function GetAllTaskDurations(adsAll:Advertisement[]){
     const taskDuration: TaskDuration[]  = [];
-    const allAds = GetAllAds();
-    allAds.forEach(ad => {
-      var taskD:TaskDuration = {"id":0,"start":"","end":"","task":0,"headline":"", "channel":"", "url":"", "budget":0};
-      taskD.id = +ad.id;
-      taskD.start = ad.start_date;
-      taskD.end = ad.end_date;
-      taskD.task = +ad.id;  
-      taskD.headline = ad.headline;
+    //const allAds = GetAllAds();
+    adsAll.forEach(ad => {
+      var taskD:TaskDuration = {"id":"","start":"","end":"","task":"","name":"", "url":"", "budget":0};
+      taskD.id = ad.id;
+      taskD.start = ad.startDateTime.split('T')[0];
+      taskD.end = ad.endDateTime.split('T')[0];
+      taskD.task = ad.id;  
+      taskD.name = ad.name;
       taskD.url = ad.url;
-      taskD.channel = ad.channel;
+      //taskD.channel = ad.channel;
       taskD.budget = ad.budget;
       taskDuration.push(taskD);
     });
@@ -91,47 +91,48 @@ export async function fetchChannels() {
     return initialSeoKeywords;
   }
 
-  export async function GetAdById(id: string) {
-    noStore();
-    try {
-      // const data = await sql<Advertisement>`
-      //   SELECT
-      //     ads.id,
-      //     ads.headline,
-      //     ads.url,
-      //     ads.location,
-      //     ads.phone,
-      //     ads.budget,
-      //     ads.channel,
-      //     ads.start_date,
-      //     ads.end_date,
-      //     ads.target_audience,
-      //     ads.image_url,
-      //     ads.description,
-      //     ads.seo_keywords,
-      //   FROM ads
-      //   WHERE ads.id = ${id};
-      // `;
+  // export async function GetAdById(id: string) {
+  //   noStore();
+  //   try {
+  //     // const data = await sql<Advertisement>`
+  //     //   SELECT
+  //     //     ads.id,
+  //     //     ads.headline,
+  //     //     ads.url,
+  //     //     ads.location,
+  //     //     ads.phone,
+  //     //     ads.budget,
+  //     //     ads.channel,
+  //     //     ads.start_date,
+  //     //     ads.end_date,
+  //     //     ads.target_audience,
+  //     //     ads.image_url,
+  //     //     ads.description,
+  //     //     ads.seo_keywords,
+  //     //   FROM ads
+  //     //   WHERE ads.id = ${id};
+  //     // `;
   
-      // const ad = data.rows.map((ad:Advertisement) => ({
-      //   ...ad,
-      // }));
-      // console.log(ad); // Invoice is an empty array []
-      // return ad[0];
-      const ads = GetAllAds();
-      const ad = ads.find(ad => ad.id == id);
-      if (ad === undefined) {
-        throw new TypeError('The value was promised to always be there!');
-      }
-      return ad;
-    } catch (error) {
-      console.error('Database Error:', error);
-      throw new Error('Failed to fetch ad.');
-    }
-  }
+  //     // const ad = data.rows.map((ad:Advertisement) => ({
+  //     //   ...ad,
+  //     // }));
+  //     // console.log(ad); // Invoice is an empty array []
+  //     // return ad[0];
+  //     const ads = GetAllAds();
+  //     const ad = ads.find(ad => ad.id == id);
+  //     if (ad === undefined) {
+  //       throw new TypeError('The value was promised to always be there!');
+  //     }
+  //     return ad;
+  //   } catch (error) {
+  //     console.error('Database Error:', error);
+  //     throw new Error('Failed to fetch ad.');
+  //   }
+  // }
   
   const ITEMS_PER_PAGE = 6;
   export function GetFilteredAds(
+    adsAll:Advertisement[],
     query: string,
     currentPage: number,
     sortColumn: string,
@@ -140,14 +141,14 @@ export async function fetchChannels() {
       const offset = (currentPage - 1) * ITEMS_PER_PAGE;
       noStore();
       try {
-        const ads = GetAllAds();
-        const filteredAds = ads.filter(ad=>ad.headline.toLowerCase().includes(query.toLowerCase()) 
-        || ad.location.toLowerCase().includes(query.toLowerCase())
-        || ad.phone.toLowerCase().includes(query.toLowerCase())
+        //const ads = GetAllAds();
+        const filteredAds = adsAll.filter(ad=>ad.name.toLowerCase().includes(query.toLowerCase()) 
+        //|| ad.location.toLowerCase().includes(query.toLowerCase())
+        //|| ad.phone.toLowerCase().includes(query.toLowerCase())
         || ad.url.toLowerCase().includes(query.toLowerCase())
-        || ad.channel.toLowerCase().includes(query.toLowerCase())
-        || ad.start_date.toLowerCase().includes(query.toLowerCase())
-        || ad.end_date.toLowerCase().includes(query.toLowerCase())
+        //|| ad.channel.toLowerCase().includes(query.toLowerCase())
+        || ad.startDateTime.toLowerCase().includes(query.toLowerCase())
+        || ad.endDateTime.toLowerCase().includes(query.toLowerCase())
         )
         const start = Math.min(filteredAds.length - 1, offset);
         const end = Math.min(filteredAds.length, offset + ITEMS_PER_PAGE);
@@ -170,17 +171,17 @@ export async function fetchChannels() {
       }
   }
 
-  export async function GetFilteredAdsPages(query: string) {
+  export function GetFilteredAdsPages(adsAll:Advertisement[],query: string) {
     noStore();
     try {
-      const ads = GetAllAds();
-      const filteredAds = ads.filter(ad=>ad.headline.toLowerCase().includes(query.toLowerCase()) 
-      || ad.location.toLowerCase().includes(query.toLowerCase())
-      || ad.phone.toLowerCase().includes(query.toLowerCase())
+      //const ads = GetAllAds();
+      const filteredAds = adsAll.filter(ad=>ad.name.toLowerCase().includes(query.toLowerCase()) 
+      //|| ad.location.toLowerCase().includes(query.toLowerCase())
+      //|| ad.phone.toLowerCase().includes(query.toLowerCase())
       || ad.url.toLowerCase().includes(query.toLowerCase())
-      || ad.channel.toLowerCase().includes(query.toLowerCase())
-      || ad.start_date.toLowerCase().includes(query.toLowerCase())
-      || ad.end_date.toLowerCase().includes(query.toLowerCase())
+      //|| ad.channel.toLowerCase().includes(query.toLowerCase())
+      || ad.startDateTime.toLowerCase().includes(query.toLowerCase())
+      || ad.endDateTime.toLowerCase().includes(query.toLowerCase())
       )
       const totalPages = Math.ceil(Number(filteredAds.length) / ITEMS_PER_PAGE);
       return totalPages;

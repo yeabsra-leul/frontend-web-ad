@@ -5,6 +5,7 @@ import { SessionProvider } from 'next-auth/react';
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import Navbar from '@mitech/shared-components/ui/navbar';
 import { NextUIProvider } from '@nextui-org/react';
+import { NotificationProvider } from '@/components/ui/NotificationContext';
 
 export const metadata = {
   title: 'Welcome to Mitech Recruitment',
@@ -25,7 +26,7 @@ export default async function RootLayout({
           <NextUIProvider>
             <main className="text-foreground bg-background">
               <Navbar />
-              {children}
+              <NotificationProvider>{children}</NotificationProvider>
               <Analytics />
               <SpeedInsights />{/* Vercel Speed Insights */}
             </main>

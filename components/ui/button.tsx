@@ -2,9 +2,13 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { PlusIcon, PencilIcon, StopIcon, ArrowUpOnSquareIcon, EyeIcon } from '@heroicons/react/24/outline';
+import { PlusIcon, PencilIcon, StopIcon, ArrowUpOnSquareIcon, EyeIcon, TrashIcon } from '@heroicons/react/24/outline';
 import {Tooltip, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure} from "@nextui-org/react";
-import { useRouter } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
+import { deleteAd, publishAd, unpublishAd } from '@/lib/api';
+import { toast } from 'react-toastify';
+import Cookies from 'js-cookie';
+
 
 export function CreateAd() {
   return (
@@ -51,7 +55,13 @@ export function AdDetails({ id }: { id: string }) {
 
 export function StopAd({ id }: { id: string }) {
   const stopAdWithId = "Stopped the Ad";
-  const {isOpen, onOpen, onOpenChange} = useDisclosure();
+  const {isOpen, onOpen,onClose, onOpenChange} = useDisclosure();
+  const stopAdHandler = async (id:string) => {
+    await unpublishAd(id);
+    Cookies.set('notification_stop_ad', 'The ad is stopped successfully!');
+    onClose(); // Close the modal
+    location.reload();
+  };
   return (
     <form action={stopAdWithId}>
       <Tooltip content={"Stop"} offset={-4}>
@@ -74,7 +84,7 @@ export function StopAd({ id }: { id: string }) {
                 <Button color="danger" variant="light" onPress={onClose} className='flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200'>
                   No
                 </Button>
-                <Button color="primary" onPress={onClose} className='flex h-10 items-center rounded-lg bg-blue-600 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600'>
+                <Button color="primary" onPress={()=>stopAdHandler(id)} className='flex h-10 items-center rounded-lg bg-blue-600 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600'>
                   Yes
                 </Button>
               </ModalFooter>
@@ -86,14 +96,20 @@ export function StopAd({ id }: { id: string }) {
   );
 }
 
-export function RepostAd({ id }: { id: string }) {
-  const repostAdWithId = "Reposted the Ad";
-  const {isOpen, onOpen, onOpenChange} = useDisclosure();
+export function PostAd({ id }: { id: string }) {
+  const postAdWithId = "Posted the Ad";
+  const {isOpen, onOpen, onClose, onOpenChange} = useDisclosure();
+  const repostAdHandler = async (id:string) => {
+    await publishAd(id);
+    Cookies.set('notification_post_ad', 'The ad is posted successfully!');
+    onClose(); // Close the modal
+    location.reload();
+  };
   return (
-    <form action={repostAdWithId}>
-      <Tooltip content={"Repost"} offset={-4}>
+    <form action={postAdWithId}>
+      <Tooltip content={"Post"} offset={-4}>
         <Button className="rounded-md border p-2 hover:bg-gray-100 min-w-0" onPress={onOpen}>
-          <span className="sr-only">Repost</span>
+          <span className="sr-only">Post</span>
           <ArrowUpOnSquareIcon className="w-4" />
         </Button>
       </Tooltip>
@@ -101,17 +117,59 @@ export function RepostAd({ id }: { id: string }) {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">Repost Ad</ModalHeader>
+              <ModalHeader className="flex flex-col gap-1">Post Ad</ModalHeader>
               <ModalBody>
                 <p> 
-                 Do you really want to repost this ad?
+                 Do you really want to post this ad?
                 </p>               
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="light" onPress={onClose} className='flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200'>
                   No
                 </Button>
-                <Button color="primary" onPress={onClose} className='flex h-10 items-center rounded-lg bg-blue-600 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600'>
+                <Button color="primary" onPress={()=>repostAdHandler(id)} className='flex h-10 items-center rounded-lg bg-blue-600 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600'>
+                  Yes
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
+    </form>
+  );
+}
+
+export function DeleteAd({ id }: { id: string }) {
+  const deleteAdWithId = "Deleted the Ad";
+  const {isOpen, onOpen, onClose, onOpenChange} = useDisclosure();
+  const deleteAdHandler = async (id:string) => {
+    await deleteAd(id);
+    onClose(); // Close the modal
+    location.reload();
+  };
+  return (
+    <form action={deleteAdWithId}>
+      <Tooltip content={"Delete"} offset={-4}>
+        <Button className="rounded-md border p-2 hover:bg-gray-100 min-w-0" onPress={onOpen}>
+          <span className="sr-only">Delete</span>
+          <TrashIcon className="w-4" />
+        </Button>
+      </Tooltip>
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement='top' classNames={{base:"bg-white"}}>
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">Delete Ad</ModalHeader>
+              <ModalBody>
+                <p> 
+                 Do you really want to delete this ad?
+                </p>               
+              </ModalBody>
+              <ModalFooter>
+                <Button color="danger" variant="light" onPress={onClose} className='flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200'>
+                  No
+                </Button>
+                <Button color="primary" onPress={()=>deleteAdHandler(id)} className='flex h-10 items-center rounded-lg bg-blue-600 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600'>
                   Yes
                 </Button>
               </ModalFooter>
