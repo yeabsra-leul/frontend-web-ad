@@ -40,7 +40,3 @@ yarn-error.log*
 next-env.d.ts
 package-lock.json
 dev.next.config.js
-
-
-/app/api
-/data

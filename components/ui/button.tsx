@@ -5,8 +5,6 @@ import Link from 'next/link';
 import { PlusIcon, PencilIcon, StopIcon, ArrowUpOnSquareIcon, EyeIcon } from '@heroicons/react/24/outline';
 import {Tooltip, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure} from "@nextui-org/react";
 import { useRouter } from 'next/navigation';
-import { toast } from 'react-toastify';
-import { onChange } from 'react-toastify/dist/core/store';
 
 export function CreateAd() {
   return (
@@ -53,11 +51,7 @@ export function AdDetails({ id }: { id: string }) {
 
 export function StopAd({ id }: { id: string }) {
   const stopAdWithId = "Stopped the Ad";
-  const {isOpen, onOpen, onClose, onOpenChange} = useDisclosure();
-  const stopAdHandler = () => {
-    toast.success("The ad is stopped successfully!");
-    onClose(); // Close the modal
-  };
+  const {isOpen, onOpen, onOpenChange} = useDisclosure();
   return (
     <form action={stopAdWithId}>
       <Tooltip content={"Stop"} offset={-4}>
@@ -80,7 +74,7 @@ export function StopAd({ id }: { id: string }) {
                 <Button color="danger" variant="light" onPress={onClose} className='flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200'>
                   No
                 </Button>
-                <Button color="primary" onPress={stopAdHandler} className='flex h-10 items-center rounded-lg bg-blue-600 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600'>
+                <Button color="primary" onPress={onClose} className='flex h-10 items-center rounded-lg bg-blue-600 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600'>
                   Yes
                 </Button>
               </ModalFooter>
@@ -94,11 +88,7 @@ export function StopAd({ id }: { id: string }) {
 
 export function RepostAd({ id }: { id: string }) {
   const repostAdWithId = "Reposted the Ad";
-  const {isOpen, onOpen, onClose, onOpenChange} = useDisclosure();
-  const repostAdHandler = () => {
-    toast.success("The ad is reposted successfully!");
-    onClose(); // Close the modal
-  };
+  const {isOpen, onOpen, onOpenChange} = useDisclosure();
   return (
     <form action={repostAdWithId}>
       <Tooltip content={"Repost"} offset={-4}>
@@ -121,7 +111,7 @@ export function RepostAd({ id }: { id: string }) {
                 <Button color="danger" variant="light" onPress={onClose} className='flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200'>
                   No
                 </Button>
-                <Button color="primary" onPress={repostAdHandler} className='flex h-10 items-center rounded-lg bg-blue-600 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600'>
+                <Button color="primary" onPress={onClose} className='flex h-10 items-center rounded-lg bg-blue-600 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600'>
                   Yes
                 </Button>
               </ModalFooter>
@@ -132,4 +122,3 @@ export function RepostAd({ id }: { id: string }) {
     </form>
   );
 }
-
