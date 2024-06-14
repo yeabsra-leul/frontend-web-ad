@@ -29,7 +29,7 @@ const Tasks: FC<TasksProps> = ({ tasks, setTasks, setTaskDurations }) => {
       {tasks &&
         tasks.map((tsk, i) => (
           <div key={`${i}-${tsk?.id}-${tsk.name}`} className="gantt-task-row">
-            <input
+            <input className='text-right pr-2 text-ellipsis'
               data-task-id={tsk?.id}
               value={tsk?.name}            
             />
@@ -49,11 +49,11 @@ const Tasks: FC<TasksProps> = ({ tasks, setTasks, setTaskDurations }) => {
         }
 
         input {
-          width: 127px;
+          width: 157px;
           border: none;
           outline: none;
           background: none;
-          font-size: 0.875rem;
+          font-size: 0.75rem;
         }
       `}</style>
     </div>

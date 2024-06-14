@@ -2,11 +2,12 @@
 'use server';
 
 import { z } from 'zod';
-//import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-//import { signIn } from '@/auth';
+import { Advertisement } from './definitions';
+import { cookies } from 'next/headers';
 
+const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 const FormSchema = z.object({
     id: z.string(),
       adUrl: z.string().url({message:'Please enter a valid url.'}),
@@ -25,10 +26,11 @@ const FormSchema = z.object({
       adStartDate: z.string().min(1, { message: 'This is required' }),
       adEndDate: z.string().min(1, { message: 'This is required' }),
       adDescription: z.string().min(1, { message: 'This is required' }),
+      adSeoKeywords: z.string()
   });
 
-  const CreateAd = FormSchema.omit({ id: true, adHeadline2: true, adHeadline3: true });
-  const UpdateAd = FormSchema.omit({ id: true, adHeadline2: true, adHeadline3: true });
+  const CreateAd = FormSchema.omit({ id: true, adHeadline2: true, adHeadline3: true, adSeoKeywords: true});
+  const UpdateAd = FormSchema.omit({ id: true, adHeadline2: true, adHeadline3: true, adSeoKeywords: true});
 
   export type State = {
     errors?: {
@@ -45,26 +47,6 @@ const FormSchema = z.object({
     };
     message?: string | null;
   };
-
-  // export async function authenticate(
-  //   prevState: string | undefined,
-  //   formData: FormData,
-  // ) {
-  //   try {
-  //     await signIn('credentials', formData);
-  //   } catch (error) {
-  //     if (error instanceof AuthError) {
-  //       switch (error.type) {
-  //         case 'CredentialsSignin':
-  //           return 'Invalid credentials.';
-  //         default:
-  //           return 'Something went wrong.';
-  //       }
-  //     }
-  //     throw error;
-  //   }
-  // }
-
 
 export async function createAd(prevState: State, formData: FormData) {
     
@@ -91,28 +73,32 @@ export async function createAd(prevState: State, formData: FormData) {
     }
    
     // Prepare data for insertion into the database
-    //const { adUrl, adLocation, adPhoneNumber, adChannel, adBudget, adHeadline1, adHeadline2,adHeadline3,adTargetAudience,adDescription }= validatedFields.data;
-   
+    const { adUrl, adLocation, adPhoneNumber, adChannel, adBudget, adHeadline1,adTargetAudience,adStartDate,adEndDate,adDescription }= validatedFields.data;
+    const adSeoKeywords =  formData.get('recommanded');
     // Insert data into the database
     try {
-    //   await sql`
-    //     INSERT INTO ads (url, location, phone, channel,budget,headline1,targetAudience)
-    //     VALUES (${adUrl}, ${adLocation}, ${adPhoneNumber}, ${adChannel}, ${adBudget},${adHeadline1},${adHeadline2},${adHeadline3},${adTargetAudience},${adDescription})
-    //   `;
+      const res = await fetch(`${apiUrl}/ad/api/create`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ adUrl, adLocation, adPhoneNumber, adChannel, adBudget, adHeadline1,adTargetAudience,adStartDate,adEndDate,adDescription,adSeoKeywords }),
+      });
+      
     } catch (error) {
-      // If a database error occurs, return a more specific error.
       return {
         message: 'Database Error: Failed to Create Ad.',
       };
     }
-   
+  // Set the notification cookie
+  cookies().set('notification_create_ad', 'The ad is created successfully!');
     // Revalidate the cache for the ads page and redirect the user.
-    revalidatePath('/');
-    redirect('/');
+    revalidatePath('/manage');
+    redirect('/manage');
   }
 
   export async function updateAd(id: string, prevState: State, formData: FormData) {
-    
+
     // Validate form using Zod
     const validatedFields = UpdateAd.safeParse({
       adUrl: formData.get('url'),
@@ -135,23 +121,21 @@ export async function createAd(prevState: State, formData: FormData) {
       };
     }
    
-    // Prepare data for insertion into the database
-    //const { adUrl, adLocation, adPhoneNumber, adChannel, adBudget, adHeadline1, adHeadline2,adHeadline3,adTargetAudience,adDescription }= validatedFields.data;
-   
-    // Update the database data
+    // Prepare data for updating the database
+    const { adUrl, adLocation, adPhoneNumber, adChannel, adBudget, adHeadline1,adTargetAudience,adStartDate,adEndDate,adDescription }= validatedFields.data;
+    const adSeoKeywords =  formData.get('recommanded');
     try {
-    //   await sql`
-    //     UPDATE ads 
-    //     Set ...
-    //     WHERE id = ${id}
-    //   `;
+      const res = await fetch(`${apiUrl}/ad/api/${id}/update`, {
+        method: 'POST',
+        body: JSON.stringify({id, adUrl, adLocation, adPhoneNumber, adChannel, adBudget, adHeadline1,adTargetAudience,adStartDate,adEndDate,adDescription,adSeoKeywords }),
+      });
     } catch (error) {
-      // If a database error occurs, return a more specific error.
       return {
         message: 'Database Error: Failed to Update Ad.',
       };
     }
-   
+   // Set the notification cookie
+    cookies().set('notification_update_ad', 'The ad is updated successfully!');
     // Revalidate the cache for the ads page and redirect the user.
     revalidatePath('/manage');
     redirect('/manage');

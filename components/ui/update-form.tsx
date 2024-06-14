@@ -21,7 +21,6 @@ export default function Form({ channels, ad }: { channels: ChannelField[], ad:Ad
   })
   const initialSeoKeywords = GetInitialSeoKeywords();
   const oldSeoKeywords = ad.seo_keywords.split(',');
-  console.log(oldSeoKeywords);
   const [inputsRecommanded, setInputs] = useState(oldSeoKeywords);
   const [valueSeoInput, setValue] = useState('');
 
@@ -479,7 +478,7 @@ export default function Form({ channels, ad }: { channels: ChannelField[], ad:Ad
             <div className="md:flex md:items-center mb-6">
               <div className="md:w-1/4">
                 <label className="block text-gray-500 font-bold mb-1 md:mb-0 pr-4" htmlFor="adDescription">
-                  Discription*
+                  Description*
                 </label>
               </div>
               <div className="md:w-3/4">
