@@ -1,5 +1,5 @@
 "use client";
-import Footer from '@/packages/shared-components/ui/4_column_with_newsletter_below_dark';
+import { Footer } from '@mitech/shared-components/ui/footer';
 
 
 
