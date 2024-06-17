@@ -5,7 +5,7 @@ export default async function Page() {
   const channels = GetAllChannels();
   //console.log(channels);
   return (
-    <main>
+    <main className='mx-auto'>
       <Form channels={channels} />
     </main>
   );
