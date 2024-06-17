@@ -28,7 +28,7 @@ return (
           <h2 className="text-lg font-medium">Manage Ads</h2>
         </div>       
       </header>
-    <div className='w-full max-w-[80%] justify-center items-center m-auto'>
+    <div className='w-full justify-center items-center m-auto'>
       <div className="mt-4 flex items-center justify-center gap-2 md:mt-8">
         <Search placeholder="Search ad..." />
         <CreateAd />
@@ -39,7 +39,7 @@ return (
       </div>
     </div>   
     <br /><hr />
-    <div className='w-full max-w-[80%] justify-center items-center m-auto pb-40'>
+    <div className='w-full justify-center items-center m-auto pb-40'>
       <div className="mt-4 items-center justify-center gap-2 md:mt-8">
         <div className='row'><p className='ml-3 font-bold'>AD Campaign Gantt Chart</p></div>
         <div className="row">
