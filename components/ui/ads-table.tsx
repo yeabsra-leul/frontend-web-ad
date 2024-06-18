@@ -130,7 +130,7 @@ export default function AdsTable({
                       </td>
                       <td className="whitespace-nowrap py-3 pl-2 pr-2 w-0.5">
                         <div className="flex gap-3">                       
-                        {ad.id && <UpdateAd id={ad.id} />}
+                        {ad.status !== "published" && ad.id && <UpdateAd id={ad.id} />}
                         </div>
                       </td>
                       <td className="whitespace-nowrap py-3 pl-2 pr-2 w-0.5">
@@ -145,7 +145,7 @@ export default function AdsTable({
                       </td>
                       <td className="whitespace-nowrap py-3 pl-2 pr-2 w-0.5">
                         <div className="flex gap-3">                         
-                          {ad.id &&<DeleteAd id={ad.id} />}
+                          {ad.status !== "published" && ad.id &&<DeleteAd id={ad.id} />}
                         </div>
                       </td>
                     </tr>

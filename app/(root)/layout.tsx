@@ -6,6 +6,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next"
 import { NextUIProvider } from '@nextui-org/react';
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import Frame  from '@mitech/shared-components/component/frame-with-sidebar-and-navbar';
+import { NotificationProvider } from '@/components/ui/NotificationContext';
 export const metadata = {
   title: 'Welcome to Mitech Recruitment',
   description:
@@ -26,7 +27,7 @@ export default async function RootLayout({
             <NextThemesProvider attribute="class" defaultTheme='light'>
               <main className="text-foreground bg-background">
                 <Frame>
-                  {children}
+                <NotificationProvider>{children}</NotificationProvider>
                 </Frame>
               </main>
               <Analytics />

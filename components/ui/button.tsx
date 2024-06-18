@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { PlusIcon, PencilIcon, StopIcon, ArrowUpOnSquareIcon, EyeIcon, TrashIcon } from '@heroicons/react/24/outline';
+import { PlusIcon, PencilIcon, StopIcon, EyeIcon, TrashIcon, ArrowUpOnSquareStackIcon } from '@heroicons/react/24/outline';
 import {Tooltip, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure} from "@nextui-org/react";
 import { redirect, useRouter } from 'next/navigation';
 import { deleteAd, publishAd, unpublishAd } from '@/lib/api';
@@ -110,7 +110,7 @@ export function PostAd({ id }: { id: string }) {
       <Tooltip content={"Post"} offset={-4}>
         <Button className="rounded-md border p-2 hover:bg-gray-100 min-w-0" onPress={onOpen}>
           <span className="sr-only">Post</span>
-          <ArrowUpOnSquareIcon className="w-4" />
+          <ArrowUpOnSquareStackIcon className="w-4" />
         </Button>
       </Tooltip>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement='top' classNames={{base:"bg-white"}}>
