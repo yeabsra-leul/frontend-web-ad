@@ -1,19 +1,12 @@
 "use client";
-import Head from 'next/head';
-import Image from 'next/image';
+import { Footer } from '@mitech/shared-components/ui/footer';
 
 
 
-
-export default function IndexPage({
-    searchParams
-}: {
-    searchParams: { q: string };
-}) {
+export default function IndexPage() {
 
     return (
         <main className="min-h-screen bg-gray-100 flex flex-col">
- 
             <main className="flex-grow">
                 <section className="text-center py-20 bg-white">
                     <h1 className="text-4xl font-bold text-gray-900">Welcome to MiTech</h1>
@@ -28,13 +21,14 @@ export default function IndexPage({
                 {/* Other sections */}
             </main>
 
-            <footer className="bg-white shadow-t-md py-6">
+            {/* <footer className="bg-white shadow-t-md py-6">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                     Contact us at: contact@example.com
                     <br />
                     © 2024 MiTech Recruitment Website
                 </div>
-            </footer>
+            </footer> */}
+            <Footer />
         </main>
     );
 }
