@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from "react";
-import { Advertisement, ChannelField } from '@/lib/definitions';
+import { Advertisement, ChannelField, ad_attribute } from '@/lib/definitions';
 import { Button, Link } from "@nextui-org/react";
 import Image from "next/image";
 
@@ -44,7 +44,7 @@ export default function Form({ channels, ad }: { channels: ChannelField[], ad:an
                 </div>
               </div>
             </div>
-            {ad.attributes.filter((attr:any) => attr.type === 'headline')[0] &&
+            {ad.attributes.filter((attr:any) => attr.type === 'headline' && attr.version === ad.version)[0] &&
               <div className="md:flex md:items-center mb-6">
                 <div className="md:w-1/4">
                   <label className="block text-gray-500 font-bold mb-1 md:mb-0 pr-4" htmlFor="adHeadline">
@@ -52,11 +52,11 @@ export default function Form({ channels, ad }: { channels: ChannelField[], ad:an
                   </label>
                 </div>
                 <div className="md:w-3/4">
-                  {ad.attributes.filter((attr:any) => attr.type === 'headline')[0].value}
+                  {ad.attributes.filter((attr:any) => attr.type === 'headline' && attr.version === ad.version)[0].value}
                 </div>
               </div>
             }
-            {ad.attributes.filter((attr:any) => attr.type === 'location')[0] && 
+            {ad.attributes.filter((attr:any) => attr.type === 'location' && attr.version === ad.version)[0] && 
               <div className="md:flex md:items-center mb-6">
                 <div className="md:w-1/4">
                   <label className="block text-gray-500 font-bold mb-1 md:mb-0 pr-4" htmlFor="adLocation">
@@ -64,11 +64,11 @@ export default function Form({ channels, ad }: { channels: ChannelField[], ad:an
                   </label>
                 </div>
                 <div className="md:w-3/4">
-                  {ad.attributes.filter((attr:any) => attr.type === 'location')[0].value}
+                  {ad.attributes.filter((attr:any) => attr.type === 'location' && attr.version === ad.version)[0].value}
                 </div>
               </div>
             }
-            {ad.attributes.filter((attr:any) => attr.type === 'phone')[0] &&
+            {ad.attributes.filter((attr:any) => attr.type === 'phone' && attr.version === ad.version)[0] &&
               <div className="md:flex md:items-center mb-6">
                 <div className="md:w-1/4">
                   <label className="block text-gray-500 font-bold mb-1 md:mb-0 pr-4" htmlFor="adPhoneNumber">
@@ -76,11 +76,11 @@ export default function Form({ channels, ad }: { channels: ChannelField[], ad:an
                   </label>
                 </div>
                 <div className="md:w-3/4">
-                  {ad.attributes.filter((attr:any) => attr.type === 'phone')[0].value}
+                  {ad.attributes.filter((attr:any) => attr.type === 'phone' && attr.version === ad.version)[0].value}
                 </div>
               </div>
             }
-            {ad.attributes.filter((attr:any) => attr.type === 'channel')[0] &&
+            {ad.attributes.filter((attr:any) => attr.type === 'channel' && attr.version === ad.version)[0] &&
               <div className="md:flex md:items-center mb-6">
                 <div className="md:w-1/4">
                   <label className="block text-gray-500 font-bold mb-1 md:mb-0 pr-4" htmlFor="adChannel">
@@ -88,7 +88,7 @@ export default function Form({ channels, ad }: { channels: ChannelField[], ad:an
                   </label>
                 </div>
                 <div className="md:w-3/4">
-                  {ad.attributes.filter((attr:any) => attr.type === 'channel')[0].value}
+                  {ad.attributes.filter((attr:any) => attr.type === 'channel' && attr.version === ad.version)[0].value}
                 </div>
               </div>
             }
@@ -115,21 +115,8 @@ export default function Form({ channels, ad }: { channels: ChannelField[], ad:an
                   </div>
                 </div>
               </div>
-            </div>
-            {ad.attributes.filter((attr:any) => attr.type === 'headline')[0] &&
-              <div className="md:flex md:items-center mb-6">
-                <div className="md:w-1/4">
-                  <label className="block text-gray-500 font-bold mb-1 md:mb-0 pr-4" htmlFor="adHeadline">
-                    Headline:
-                  </label>
-                </div>
-                <div className="md:w-3/4">
-                  {ad.attributes.filter((attr:any) => attr.type === 'headline')[0].value}
-                </div>
-              </div>
-            }
-            
-            {ad.attributes.filter((attr:any) => attr.type === 'audience')[0] &&
+            </div>           
+            {ad.attributes.filter((attr:any) => attr.type === 'audience' && attr.version === ad.version)[0] &&
               <div className="md:flex md:items-center mb-6">
                 <div className="md:w-1/4">
                   <label className="block text-gray-500 font-bold mb-1 md:mb-0 pr-4" htmlFor="adTargetAudience">
@@ -138,13 +125,13 @@ export default function Form({ channels, ad }: { channels: ChannelField[], ad:an
                 </div>
                 <div className="md:w-3/4 inline-flex">
                   <div className='md:w-3/4'>
-                    {ad.attributes.filter((attr:any) => attr.type === 'audience')[0].value}
+                    {ad.attributes.filter((attr:any) => attr.type === 'audience' && attr.version === ad.version)[0].value}
                   </div>
                 </div>
               </div>
             }
             
-            {ad.attributes.filter((attr:any) => attr.type === 'image')[0] && 
+            {ad.attributes.filter((attr:any) => attr.type === 'image' && attr.version === ad.version)[0] && 
               <div>
                 <hr /><br />
                 <div className="md:flex md:items-center mb-6">
@@ -154,14 +141,14 @@ export default function Form({ channels, ad }: { channels: ChannelField[], ad:an
                     </label>
                   </div>
                   <div className="md:w-1/4 inline-flex">
-                  <Image src={ad.attributes.filter((attr:any) => attr.type === 'image')[0].value} alt={ad.attributes.filter((attr:any) => attr.type === 'image')[0].value} width={500} height={500}/>
+                  <Image src={ad.attributes.filter((attr:any) => attr.type === 'image' && attr.version === ad.version)[0].value} alt={ad.attributes.filter((attr:any) => attr.type === 'image')[0].value} width={500} height={500}/>
                   </div>
                 </div>
               </div>
             }
             
             <hr /><br />
-            {ad.attributes.filter((attr:any) => attr.type === 'description')[0] &&
+            {ad.attributes.filter((attr:any) => attr.type === 'description' && attr.version === ad.version)[0] &&
               <div className="md:flex md:items-center mb-6">
                 <div className="md:w-1/4">
                   <label className="block text-gray-500 font-bold mb-1 md:mb-0 pr-4" htmlFor="adDescription">
@@ -169,13 +156,13 @@ export default function Form({ channels, ad }: { channels: ChannelField[], ad:an
                   </label>
                 </div>
                 <div className="md:w-3/4">
-                  {ad.attributes.filter((attr:any) => attr.type === 'description')[0].value}
+                  {ad.attributes.filter((attr:any) => attr.type === 'description' && attr.version === ad.version)[0].value}
                 </div>
               </div>
             }
 
             <hr /><br />
-            {ad.attributes.filter((attr:any) => attr.type === 'keyword')[0] &&
+            {ad.attributes.filter((attr:any) => attr.type === 'keyword' && attr.version === ad.version)[0] &&
               <div className="md:flex md:items-center mb-6">
                 <div className="md:w-1/4">
                   <label className="block text-gray-500 font-bold mb-1 md:mb-0 pr-4" htmlFor="adSeoKeywords">
@@ -183,7 +170,7 @@ export default function Form({ channels, ad }: { channels: ChannelField[], ad:an
                   </label>
                 </div>
                 <div className="md:w-3/4">
-                  {ad.attributes.filter((attr:any) => attr.type === 'keyword')[0].value}
+                  {ad.attributes.filter((attr:any) => attr.type === 'keyword' && attr.version === ad.version)[0].value}
                 </div>
               </div>
             }

@@ -125,27 +125,27 @@ export default function AdsTable({
                       </td>
                       <td className="whitespace-nowrap py-3 pl-2 pr-2 w-0.5">
                         <div className="flex gap-3">
-                          <AdDetails id={ad.id} />                         
+                          {ad.id && <AdDetails id={ad.id} />   }                      
                         </div>
                       </td>
                       <td className="whitespace-nowrap py-3 pl-2 pr-2 w-0.5">
                         <div className="flex gap-3">                       
-                          <UpdateAd id={ad.id} />
+                        {ad.id && <UpdateAd id={ad.id} />}
                         </div>
                       </td>
                       <td className="whitespace-nowrap py-3 pl-2 pr-2 w-0.5">
                         <div className="flex gap-3">                         
-                          {ad.status === "published" && <StopAd id={ad.id} />}                       
+                          {ad.status === "published" && ad.id && <StopAd id={ad.id} />}                       
                         </div>
                       </td>
                       <td className="whitespace-nowrap py-3 pl-2 pr-2 w-0.5">
                         <div className="flex gap-3">                      
-                          {(ad.status === "unpublished" || ad.status === "draft") && <PostAd id={ad.id} />}
+                          {(ad.status === "unpublished" || ad.status === "draft") && ad.id &&  <PostAd id={ad.id} />}
                         </div>
                       </td>
                       <td className="whitespace-nowrap py-3 pl-2 pr-2 w-0.5">
                         <div className="flex gap-3">                         
-                          <DeleteAd id={ad.id} />
+                          {ad.id &&<DeleteAd id={ad.id} />}
                         </div>
                       </td>
                     </tr>

@@ -1,7 +1,8 @@
 const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 const API_BASE_URL = '/api/ad';
 
-export const createAd = async (adData: any) => {
+export const createAdvertisement = async (adData: any) => {
+ const data = JSON.stringify(adData);
   const response = await fetch(`${apiUrl}${API_BASE_URL}/create`, {
     method: 'POST',
     headers: {
@@ -12,9 +13,9 @@ export const createAd = async (adData: any) => {
   return response.json();
 };
 
-export const updateAd = async (id: string, adData: any) => {
-  const response = await fetch(`${apiUrl}${API_BASE_URL}/${id}`, {
-    method: 'PUT',
+export const updateAdvertisement = async (adData: any) => {
+  const response = await fetch(`${apiUrl}${API_BASE_URL}/update`, {
+    method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
     },

@@ -1,14 +1,17 @@
 
-'use server';
-
+'use client';
 import { z } from 'zod';
-//import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-//import { signIn } from '@/auth';
+import { Advertisement, ad_attribute } from './definitions';
+import { GetInitialSeoKeywords } from './data';
+import { createAdvertisement, updateAdvertisement } from './api';
+import Cookies from 'js-cookie';
+import { convertToISO8601, updateVersion } from './utils';
 
 const FormSchema = z.object({
     id: z.string(),
+      adName: z.string().min(1, { message: 'This is required' }),
       adUrl: z.string().url({message:'Please enter a valid url.'}),
       adLocation: z.string().min(1, { message: 'This is required' }),
       adPhoneNumber: z.string().min(1, { message: 'This is required' }),
@@ -32,6 +35,7 @@ const FormSchema = z.object({
 
   export type State = {
     errors?: {
+      adName?: string[];
       adUrl?: string[];
       adLocation?: string[];
       adPhoneNumber?: string[];
@@ -46,30 +50,10 @@ const FormSchema = z.object({
     message?: string | null;
   };
 
-  // export async function authenticate(
-  //   prevState: string | undefined,
-  //   formData: FormData,
-  // ) {
-  //   try {
-  //     await signIn('credentials', formData);
-  //   } catch (error) {
-  //     if (error instanceof AuthError) {
-  //       switch (error.type) {
-  //         case 'CredentialsSignin':
-  //           return 'Invalid credentials.';
-  //         default:
-  //           return 'Something went wrong.';
-  //       }
-  //     }
-  //     throw error;
-  //   }
-  // }
-
-
-export async function createAd(prevState: State, formData: FormData) {
-    
+export function createAd(prevState: State, formData: FormData) {
     // Validate form using Zod
     const validatedFields = CreateAd.safeParse({
+      adName: formData.get('name'),
       adUrl: formData.get('url'),
       adLocation: formData.get('location'),
       adPhoneNumber: formData.get('phone'),
@@ -89,32 +73,25 @@ export async function createAd(prevState: State, formData: FormData) {
         message: 'Missing Fields. Failed to Create Ad.',
       };
     }
-   
-    // Prepare data for insertion into the database
-    //const { adUrl, adLocation, adPhoneNumber, adChannel, adBudget, adHeadline1, adHeadline2,adHeadline3,adTargetAudience,adDescription }= validatedFields.data;
-   
-    // Insert data into the database
+    
+    let adData = assembleAd(null,formData,validatedFields)
     try {
-    //   await sql`
-    //     INSERT INTO ads (url, location, phone, channel,budget,headline1,targetAudience)
-    //     VALUES (${adUrl}, ${adLocation}, ${adPhoneNumber}, ${adChannel}, ${adBudget},${adHeadline1},${adHeadline2},${adHeadline3},${adTargetAudience},${adDescription})
-    //   `;
+      createAdvertisement(adData);
     } catch (error) {
-      // If a database error occurs, return a more specific error.
       return {
         message: 'Database Error: Failed to Create Ad.',
       };
     }
-   
+    Cookies.set('notification_create_ad', 'The ad is created successfully!');
     // Revalidate the cache for the ads page and redirect the user.
-    revalidatePath('/');
-    redirect('/');
+    //revalidatePath('/manage');
+    redirect('/manage');
   }
 
-  export async function updateAd(id: string, prevState: State, formData: FormData) {
-    
+  export function updateAd(ad: Advertisement, prevState: State, formData: FormData) {
     // Validate form using Zod
     const validatedFields = UpdateAd.safeParse({
+      adName: formData.get('name'),
       adUrl: formData.get('url'),
       adLocation: formData.get('location'),
       adPhoneNumber: formData.get('phone'),
@@ -126,7 +103,6 @@ export async function createAd(prevState: State, formData: FormData) {
       adEndDate: formData.get('end'),
       adDescription: formData.get('description'),
     });
-   
     // If form validation fails, return errors early. Otherwise, continue.
     if (!validatedFields.success) {
       return {
@@ -135,24 +111,113 @@ export async function createAd(prevState: State, formData: FormData) {
       };
     }
    
-    // Prepare data for insertion into the database
-    //const { adUrl, adLocation, adPhoneNumber, adChannel, adBudget, adHeadline1, adHeadline2,adHeadline3,adTargetAudience,adDescription }= validatedFields.data;
-   
-    // Update the database data
+    let adData = assembleAd(ad,formData,validatedFields);
     try {
-    //   await sql`
-    //     UPDATE ads 
-    //     Set ...
-    //     WHERE id = ${id}
-    //   `;
+      updateAdvertisement(adData);
     } catch (error) {
       // If a database error occurs, return a more specific error.
       return {
         message: 'Database Error: Failed to Update Ad.',
       };
     }
-   
+    Cookies.set('notification_update_ad', 'The ad is updated successfully!');
     // Revalidate the cache for the ads page and redirect the user.
-    revalidatePath('/manage');
     redirect('/manage');
   }
+
+  const assembleAd = (ad: Advertisement|null, formData: FormData, validatedFields: any): Advertisement => {
+    const { adName, adUrl, adLocation, adPhoneNumber, adChannel, adBudget, adHeadline1,adTargetAudience, adStartDate, adEndDate, adDescription }= validatedFields.data;
+    let adHeadline = adHeadline1;
+    if (formData.get('headline2') !== null && formData.get('headline2')?.toString().length !== 0 ) {
+      adHeadline += ', ' + formData.get('headline2');
+    }
+    if (formData.get('headline3') !== null && formData.get('headline3')?.toString().length !== 0 ) {
+      adHeadline += ', ' + formData.get('headline3');
+    }
+    if (formData.get('headline4') !== null && formData.get('headline4')?.toString().length !== 0 ) {
+      adHeadline += ', ' + formData.get('headline4');
+    }
+    if (formData.get('headline5') !== null && formData.get('headline5')?.toString().length !== 0 ) {
+      adHeadline += ', ' + formData.get('headline5');
+    }
+    let seo_keywords = formData.get('recommanded')?.toString();
+  
+    let adData:Advertisement = {
+      name: adName,
+      url: adUrl,
+      budget: adBudget,
+      startDateTime: convertToISO8601(adStartDate),
+      endDateTime: convertToISO8601(adEndDate),
+      expiredDateTime: "",
+      media_ids: [],
+      status: 'draft',
+      version:'1.0.1',
+      notes: adDescription,
+    }
+    adData.attributes = [];
+    let ad_attr_location:ad_attribute = {
+      mandatory:true,
+      version:"1.0.1",
+      type:'location',
+      subtype: "text",
+      value:adLocation
+    }
+    let ad_attr_phone:ad_attribute = {
+      mandatory:true,
+      version:"1.0.1",
+      type:'phone',
+      subtype: "text",
+      value:adPhoneNumber
+    }
+    let ad_attr_channel:ad_attribute = {
+      mandatory:true,
+      version:"1.0.1",
+      type:'channel',
+      subtype: "text",
+      value:adChannel
+    }
+    let ad_attr_headline:ad_attribute = {
+      mandatory:true,
+      version:"1.0.1",
+      type:'headline',
+      subtype: "text",
+      value:adHeadline
+    }
+    let ad_attr_audience:ad_attribute = {
+      mandatory:true,
+      version:"1.0.1",
+      type:'audience',
+      subtype: "text",
+      value:adTargetAudience
+    }
+    let ad_attr_description:ad_attribute = {
+      mandatory:true,
+      version:"1.0.1",
+      type:'description',
+      subtype: "text",
+      value:adDescription
+    }
+    let ad_attr_keyword:ad_attribute = {
+      mandatory:true,
+      version:"1.0.1",
+      type:'keyword',
+      subtype: "text",
+      value:seo_keywords?seo_keywords:GetInitialSeoKeywords().toString()
+    }
+    adData.attributes.push(ad_attr_location);
+    adData.attributes.push(ad_attr_phone);
+    adData.attributes.push(ad_attr_channel);
+    adData.attributes.push(ad_attr_headline);
+    adData.attributes.push(ad_attr_audience);
+    adData.attributes.push(ad_attr_description);
+    adData.attributes.push(ad_attr_keyword);
+    if(ad !== null){
+      let updatedVersion = updateVersion(ad.version);
+      adData.version = updatedVersion;
+      adData.id = ad.id;
+      adData.attributes.forEach(function(ad_attr){
+        ad_attr.version = updatedVersion;
+      })
+    }
+    return adData;
+  };

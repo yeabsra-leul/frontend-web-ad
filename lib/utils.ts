@@ -52,3 +52,14 @@ export const generatePagination = (currentPage: number, totalPages: number) => {
     totalPages,
   ];
 };
+
+export const convertToISO8601 = (dateString: string): string => {
+  const date = new Date(dateString);
+  return date.toISOString();
+};
+
+export const updateVersion = (oldVersion: string): string => {
+  let versionArray = oldVersion.split('.');
+  versionArray[2] = (parseInt(versionArray[2]) + 1).toString();
+  return versionArray.join('.');
+};

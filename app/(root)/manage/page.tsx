@@ -13,10 +13,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
- 
-// export const metadata: Metadata = {
-//   title: 'Manage Ads',
-// };
 
 export default function Page({
   searchParams,
@@ -50,6 +46,36 @@ export default function Page({
     if (message) {
       setTimeout(showToast, 1000);
       Cookies.remove('notification_post_ad');
+    }
+  }, []);
+  useEffect(() => {
+    const message = Cookies.get('notification_delete_ad');
+    function showToast() {
+      toast.success(message);
+    }
+    if (message) {
+      setTimeout(showToast, 1000);
+      Cookies.remove('notification_delete_ad');
+    }
+  }, []);
+  useEffect(() => {
+    const message = Cookies.get('notification_create_ad');
+    function showToast() {
+      toast.success(message);
+    }
+    if (message) {
+      setTimeout(showToast, 1000);
+      Cookies.remove('notification_create_ad');
+    }
+  }, []);
+  useEffect(() => {
+    const message = Cookies.get('notification_update_ad');
+    function showToast() {
+      toast.success(message);
+    }
+    if (message) {
+      setTimeout(showToast, 1000);
+      Cookies.remove('notification_update_ad');
     }
   }, []);
   const totalPages = GetFilteredAdsPages(adsAll,query);

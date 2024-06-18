@@ -144,6 +144,7 @@ export function DeleteAd({ id }: { id: string }) {
   const {isOpen, onOpen, onClose, onOpenChange} = useDisclosure();
   const deleteAdHandler = async (id:string) => {
     await deleteAd(id);
+    Cookies.set('notification_delete_ad', 'The ad is deleted successfully!');
     onClose(); // Close the modal
     location.reload();
   };
