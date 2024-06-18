@@ -103,6 +103,29 @@ export default function Form({ channels }: { channels: ChannelField[] }) {
       <div className="flex justify-center py-8">
         <div className="w-full max-w-[60%] space-y-6">
           <div className="grid">
+          <div className="md:flex md:items-center mb-6">
+              <div className="md:w-1/4">
+                <label className="block text-gray-500 font-bold mb-1 md:mb-0 pr-4" htmlFor="adName">
+                  Name*
+                </label>
+              </div>
+              <div className="md:w-3/4">
+                <input id="adName" name="name" aria-describedby="name-error" placeholder="Enter namae" className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="text" />
+              </div>
+            </div>
+            <div className="md:flex md:items-center mb-6">
+              <div className="md:w-1/4"> </div>
+              <div className="md:w-3/4">
+                <div id="name-error" aria-live="polite" aria-atomic="true">
+                  {state.errors?.adName &&
+                    state.errors.adName.map((error: string) => (
+                      <p className="-mt-6 text-sm text-red-500" key={error}>
+                        {error}
+                      </p>
+                    ))}
+                </div>
+              </div>
+            </div>
             <div className="md:flex md:items-center mb-6">
               <div className="md:w-1/4">
                 <label className="block text-gray-500 font-bold mb-1 md:mb-0 pr-4" htmlFor="adUrl">
@@ -328,7 +351,7 @@ export default function Form({ channels }: { channels: ChannelField[] }) {
                 </label>
               </div>
               <div className="md:w-3/4">
-                <input id="adHeadline2" placeholder="Enter the 2nd headline" className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="text" />
+                <input id="adHeadline2" name="headline2" placeholder="Enter the 2nd headline" className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="text" />
               </div>
             </div>
             <div className="md:flex md:items-center mb-6">
@@ -338,30 +361,30 @@ export default function Form({ channels }: { channels: ChannelField[] }) {
                 </label>
               </div>
               <div className="md:w-3/4">
-                <input id="adHeadline3" placeholder="Enter the 3rd headline" className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="text" />
+                <input id="adHeadline3" name="headline3" placeholder="Enter the 3rd headline" className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="text" />
               </div>
             </div>
             {addHeadline.showHeadline4 && (
               <div className="md:flex md:items-center mb-6">
               <div className="md:w-1/4">
-                <label className="block text-gray-500 font-bold mb-1 md:mb-0 pr-4" htmlFor="adHeadline3">
+                <label className="block text-gray-500 font-bold mb-1 md:mb-0 pr-4" htmlFor="adHeadline4">
                   Headline 4
                 </label>
               </div>
               <div className="md:w-3/4">
-                <input id="adHeadline3" placeholder="Enter the 4th headline" className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="text" />
+                <input id="adHeadline4" name="headline4" placeholder="Enter the 4th headline" className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="text" />
               </div>
             </div>)
             }
             {addHeadline.showHeadline5 && (
               <div className="md:flex md:items-center mb-6">
               <div className="md:w-1/4">
-                <label className="block text-gray-500 font-bold mb-1 md:mb-0 pr-4" htmlFor="adHeadline3">
+                <label className="block text-gray-500 font-bold mb-1 md:mb-0 pr-4" htmlFor="adHeadline5">
                   Headline 5
                 </label>
               </div>
               <div className="md:w-3/4">
-                <input id="adHeadline3" placeholder="Enter the 5th headline" className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="text" />
+                <input id="adHeadline5" name="headline5" placeholder="Enter the 5th headline" className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="text" />
               </div>
             </div>)
             }
@@ -420,7 +443,7 @@ export default function Form({ channels }: { channels: ChannelField[] }) {
             <div className="md:flex md:items-center mb-6">
               <div className="md:w-1/4">
                 <label className="block text-gray-500 font-bold mb-1 md:mb-0 pr-4" htmlFor="adDescription">
-                  Discription*
+                  Description*
                 </label>
               </div>
               <div className="md:w-3/4">

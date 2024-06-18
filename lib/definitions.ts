@@ -4,36 +4,46 @@ export type ChannelField = {
   };
 
   export type Advertisement = {
-    id: string;
-    headline: string;
+    id?: string;
+    name: string;
+    version:string
     url: string;
-    location: string;
-    phone: string;
     budget: number;
-    channel: string;
-    start_date: string;
-    end_date:string;
-    target_audience: string;
-    image_url?: string;
-    description?: string;
-    seo_keywords: string;
-    headline2?: string;
-    headline3?: string;
-    headline4?: string;
-    headline5?: string;
+    startDateTime: string;
+    endDateTime:string;
+    expiredDateTime:string;
+    status:string;
+    notes?:string;
+    attributes?:ad_attribute[]
+    media_ids?:ad_media[]
   };
+  export type ad_attribute = {
+    id?: string;
+    ad_id?: string;
+    version:string;
+    mandatory:boolean;
+    type:string; //headline, address, phone, seokeyword,audience
+    subtype?:string;
+    value:string;
+  }
+  export type ad_media = {
+    id?: string;
+    ad_id?: string;
+    data:string;
+    type:string;
+  }
 
   export type Task = {
-    id: number;
+    id?: string;
     name: string
   }
   
   export type TaskDuration ={
-    id: number;
+    id?: string;
     start: string;
     end: string;
-    task: number;
-    headline: string;
+    task?: string;
+    name: string;
     channel: string;
     url: string;
     budget:number;

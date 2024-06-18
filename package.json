@@ -16,7 +16,9 @@
     "@vercel/analytics": "^1.1.1",
     "@vercel/speed-insights": "^1.0.5",
     "axios": "^1.6.5",
+    "js-cookie": "^3.0.5",
     "next": "^14.2.3",
+    "react-toastify": "^10.0.5",
     "sharp": "*",
     "zod": "^3.23.7"
   },
@@ -28,16 +30,16 @@
   },
   "devDependencies": {
     "@tailwindcss/typography": "*",
+    "@types/js-cookie": "^3.0.6",
     "@types/node": "*",
     "@types/react": "*",
     "@types/react-dom": "*",
+    "autoprefixer": "*",
     "eslint": "*",
     "eslint-config-next": "*",
-    "prettier": "*",
-    "typescript": "*",
-    "autoprefixer": "*",
     "postcss": "*",
-    "tailwindcss": "*"
-
+    "prettier": "*",
+    "tailwindcss": "*",
+    "typescript": "*"
   }
 }

@@ -17,7 +17,7 @@ interface TimeTableProps {
       start: string;
       end: string;
       id: string;
-      headline: string;
+      name: string;
       channel: string;
       url: string;
       budget: number;
@@ -28,7 +28,7 @@ interface TimeTableProps {
     start: string;
     end: string;
     id: string;
-    headline: string;
+    name: string;
     channel: string;
     url: string;
     budget: number;
@@ -172,7 +172,7 @@ const TimeTable: FC<TimeTableProps> = ({
                     <div key={`${i}-${el?.id}`}>
                       <Tooltip content={
                         <div className="px-1 py-2">
-                          <div className="text-small font-bold">{el?.headline}</div>
+                          <div className="text-small font-bold">{el?.name}</div>
                           <div className="text-tiny">Channel: {el?.channel}</div>
                           <div className="text-tiny">Url: {el?.url}</div>
                           <div className="text-tiny">Budget: ${el?.budget}</div>
