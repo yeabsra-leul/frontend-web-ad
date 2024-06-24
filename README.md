@@ -27,8 +27,6 @@ Here is the procedure on how to work with the GitHub repo, when you want to star
 3. When your code is ready to merge, pls create a PULL REQUEST from your repo to the origin repo
 4. Before merging, pls make sure you have run the following commands:
    ```console
-   git submodule update --init
-   npm install
    npm run build
    ```
    and then commit the changes to the PR
@@ -48,10 +46,15 @@ Here is the procedure on how to work with the GitHub repo, when you want to star
 
 * copy `dev.next.config.js.sample` file to `dev.next.config.js`
 
+Initial your project with the following commands:
+```console
+git submodule update --init
+npm install
+```
+
 Finally, run the following commands to start the development server:
 
 ```console
-npm install
 npm run dev
 ```
 
