@@ -6,36 +6,36 @@ import { updateAd } from '@/lib/actions';
 import { useFormState } from 'react-dom';
 import { DatePicker } from "@nextui-org/date-picker";
 import { FileUpload } from '@/components/ui/file-upload';
-import {parseDate} from "@internationalized/date";
+import { parseDate } from "@internationalized/date";
 import { GetInitialSeoKeywords } from "@/lib/data";
-import { Button} from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
 
-export default function Form({ channels, ad }: { channels: ChannelField[], ad:Advertisement }) {
+export default function Form({ channels, ad }: { channels: ChannelField[], ad: Advertisement }) {
   const initialState = { message: "", errors: {} };
   const updateAdWithId = updateAd.bind(null, ad as Advertisement);
   const [state, dispatch] = useFormState(updateAdWithId, initialState);
   const [addHeadline, setHeadlines] = useState({
-    showHeadline4:false,
-    showHeadline5:false,
-    showAddHeadlineButton:true
+    showHeadline4: false,
+    showHeadline5: false,
+    showAddHeadlineButton: true
   })
   const initialSeoKeywords = GetInitialSeoKeywords();
-  const oldSeoKeywords = ad.attributes?.filter(item=>item.type==="keyword")[0].value.split(',') as string[];
+  const oldSeoKeywords = ad.attributes?.filter(item => item.type === "keyword")[0].value.split(',') as string[];
   const [inputsRecommanded, setInputs] = useState(oldSeoKeywords);
   const [valueSeoInput, setValue] = useState('');
 
   const [seoButtons, setSeoButtons] = useState({
-    disableAddButton:true,
-    disableRefreshButton:true
+    disableAddButton: true,
+    disableRefreshButton: true
   })
   const handleAddInput = () => {
     let onChangeValue = [...inputsRecommanded];
     onChangeValue.push(valueSeoInput);
     setInputs(onChangeValue);
-    setSeoButtons(() =>{
+    setSeoButtons(() => {
       return {
-        disableAddButton:true,
-        disableRefreshButton:false
+        disableAddButton: true,
+        disableRefreshButton: false
       }
     })
   };
@@ -43,44 +43,44 @@ export default function Form({ channels, ad }: { channels: ChannelField[], ad:Ad
   const handleRefresh = () => {
     setValue("");
     setInputs(initialSeoKeywords);
-    setSeoButtons(() =>{
+    setSeoButtons(() => {
       return {
-        disableAddButton:true,
-        disableRefreshButton:true
+        disableAddButton: true,
+        disableRefreshButton: true
       }
     })
   };
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     let inputValue = event.currentTarget.value;
     setValue(inputValue);
-    setSeoButtons(() =>{
+    setSeoButtons(() => {
       return {
-        disableAddButton:false,
-        disableRefreshButton:true
+        disableAddButton: false,
+        disableRefreshButton: true
       }
     })
   }
 
-  const handleAddHeadlines = () =>{ 
-      if (!addHeadline.showHeadline4 && !addHeadline.showHeadline5){
-        setHeadlines(() => { 
-          return { 
-            showHeadline4:true,
-            showHeadline5:false,
-            showAddHeadlineButton:true
-          }; 
-        });
-      }
-      else if (addHeadline.showHeadline4 && !addHeadline.showHeadline5){
-        setHeadlines(() => { 
-          return { 
-            showHeadline4:true,
-            showHeadline5:true,
-            showAddHeadlineButton:false
-          }; 
-        });
-      }
-  }; 
+  const handleAddHeadlines = () => {
+    if (!addHeadline.showHeadline4 && !addHeadline.showHeadline5) {
+      setHeadlines(() => {
+        return {
+          showHeadline4: true,
+          showHeadline5: false,
+          showAddHeadlineButton: true
+        };
+      });
+    }
+    else if (addHeadline.showHeadline4 && !addHeadline.showHeadline5) {
+      setHeadlines(() => {
+        return {
+          showHeadline4: true,
+          showHeadline5: true,
+          showAddHeadlineButton: false
+        };
+      });
+    }
+  };
 
   return (
     <form action={dispatch}>
@@ -103,21 +103,21 @@ export default function Form({ channels, ad }: { channels: ChannelField[], ad:Ad
       <div className="flex justify-center py-8">
         <div className="w-full max-w-[60%] space-y-6">
           <div className="grid">
-          <div className="md:flex md:items-center mb-6">
+            <div className="md:flex md:items-center mb-6">
               <div className="md:w-1/4">
                 <label className="block text-gray-500 font-bold mb-1 md:mb-0 pr-4" htmlFor="adName">
                   Name*
                 </label>
               </div>
               <div className="md:w-3/4">
-                <input 
-                id="adName" 
-                name="name" 
-                aria-describedby="name-error" 
-                placeholder="Enter Name" 
-                className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" 
-                type="text" 
-                defaultValue={ad.name}/>
+                <input
+                  id="adName"
+                  name="name"
+                  aria-describedby="name-error"
+                  placeholder="Enter Name"
+                  className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                  type="text"
+                  defaultValue={ad.name} />
               </div>
             </div>
             <div className="md:flex md:items-center mb-6">
@@ -141,14 +141,14 @@ export default function Form({ channels, ad }: { channels: ChannelField[], ad:Ad
               </div>
               <div className="md:w-3/4 inline-flex">
                 <div className='md:w-3/4'>
-                  <input 
-                  id="adUrl" 
-                  name="url" 
-                  placeholder="https://" 
-                  aria-describedby="url-error" 
-                  className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" 
-                  type="text" 
-                  defaultValue={ad.url}/>
+                  <input
+                    id="adUrl"
+                    name="url"
+                    placeholder="https://"
+                    aria-describedby="url-error"
+                    className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                    type="text"
+                    defaultValue={ad.url} />
                 </div>
                 <div className='md:w-1/4'>
                   <Button className='float-right' type='button' color="primary">
@@ -178,14 +178,14 @@ export default function Form({ channels, ad }: { channels: ChannelField[], ad:Ad
                 </label>
               </div>
               <div className="md:w-3/4">
-                <input 
-                id="adLocation" 
-                name="location" 
-                aria-describedby="location-error" 
-                placeholder="Enter location" 
-                className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" 
-                type="text" 
-                defaultValue={ad.attributes?.filter(item=>item.type==="location" && item.version === ad.version)[0].value}/>
+                <input
+                  id="adLocation"
+                  name="location"
+                  aria-describedby="location-error"
+                  placeholder="Enter location"
+                  className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                  type="text"
+                  defaultValue={ad.attributes?.filter(item => item.type === "location" && item.version === ad.version)[0].value} />
               </div>
             </div>
             <div className="md:flex md:items-center mb-6">
@@ -208,14 +208,14 @@ export default function Form({ channels, ad }: { channels: ChannelField[], ad:Ad
                 </label>
               </div>
               <div className="md:w-3/4">
-                <input 
-                id="adPhoneNumber" 
-                name="phone" 
-                aria-describedby="phone-error" 
-                placeholder="xxx-xxx-xxxx" 
-                className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" 
-                type="text" 
-                defaultValue={ad.attributes?.filter(item=>item.type==="phone" && item.version === ad.version)[0].value}/>
+                <input
+                  id="adPhoneNumber"
+                  name="phone"
+                  aria-describedby="phone-error"
+                  placeholder="xxx-xxx-xxxx"
+                  className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                  type="text"
+                  defaultValue={ad.attributes?.filter(item => item.type === "phone" && item.version === ad.version)[0].value} />
               </div>
             </div>
             <div className="md:flex md:items-center mb-6">
@@ -242,7 +242,7 @@ export default function Form({ channels, ad }: { channels: ChannelField[], ad:Ad
                   id="adChannel"
                   name="channel"
                   className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-2 text-sm outline-2 placeholder:text-gray-500"
-                  defaultValue={ad.attributes?.filter(item=>item.type==="channel" && item.version === ad.version)[0].value}
+                  defaultValue={ad.attributes?.filter(item => item.type === "channel" && item.version === ad.version)[0].value}
                   aria-describedby="channel-error"
                 >
                   <option value="" disabled>
@@ -276,14 +276,14 @@ export default function Form({ channels, ad }: { channels: ChannelField[], ad:Ad
                 </label>
               </div>
               <div className="md:w-3/4">
-                <input 
-                id="adBudget" 
-                name="budget" 
-                placeholder="$" 
-                aria-describedby="budget-error" 
-                className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" 
-                type="text" 
-                defaultValue={ad.budget}/>
+                <input
+                  id="adBudget"
+                  name="budget"
+                  placeholder="$"
+                  aria-describedby="budget-error"
+                  className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                  type="text"
+                  defaultValue={ad.budget} />
               </div>
             </div>
             <div className="md:flex md:items-center mb-6">
@@ -314,7 +314,7 @@ export default function Form({ channels, ad }: { channels: ChannelField[], ad:Ad
                       name="start"
                       className="max-w-[284px]"
                       aria-describedby="start-error"
-                      defaultValue={parseDate(ad.startDateTime.split('T')[0])}
+                      defaultValue={parseDate(ad.startDateTime?.split('T')[0] ?? "") }
                     />
                   </div>
                 </div>
@@ -326,12 +326,12 @@ export default function Form({ channels, ad }: { channels: ChannelField[], ad:Ad
                       name="end"
                       className="max-w-[284px]"
                       aria-describedby="end-error"
-                      defaultValue={parseDate(ad.endDateTime.split('T')[0])}
+                      defaultValue={parseDate(ad.endDateTime?.split('T')[0] ?? "")}
                     />
                   </div>
                 </div>
               </div>
-            </div>     
+            </div>
             <div className="md:flex md:items-center mb-6">
               <div className="md:w-1/4"></div>
               <div className="md:w-3/4 inline-flex">
@@ -364,14 +364,14 @@ export default function Form({ channels, ad }: { channels: ChannelField[], ad:Ad
                 </label>
               </div>
               <div className="md:w-3/4">
-                <input 
-                id="adHeadline1" 
-                name="headline1" 
-                aria-describedby="headline1-error" 
-                placeholder="Enter the 1st headline" 
-                className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" 
-                type="text" 
-                defaultValue={ad.attributes?.filter(item=>item.type==="headline" && item.version === ad.version)[0].value}/>
+                <input
+                  id="adHeadline1"
+                  name="headline1"
+                  aria-describedby="headline1-error"
+                  placeholder="Enter the 1st headline"
+                  className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                  type="text"
+                  defaultValue={ad.attributes?.filter(item => item.type === "headline" && item.version === ad.version)[0].value} />
               </div>
             </div>
             <div className="md:flex md:items-center mb-6">
@@ -395,9 +395,9 @@ export default function Form({ channels, ad }: { channels: ChannelField[], ad:Ad
               </div>
               <div className="md:w-3/4">
                 <input id="adHeadline2" name="headline2"
-                placeholder="Enter the 2nd headline" 
-                className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" 
-                type="text" />
+                  placeholder="Enter the 2nd headline"
+                  className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                  type="text" />
               </div>
             </div>
             <div className="md:flex md:items-center mb-6">
@@ -408,50 +408,50 @@ export default function Form({ channels, ad }: { channels: ChannelField[], ad:Ad
               </div>
               <div className="md:w-3/4">
                 <input id="adHeadline3" name="headline3"
-                placeholder="Enter the 3rd headline" 
-                className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" 
-                type="text" />
+                  placeholder="Enter the 3rd headline"
+                  className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                  type="text" />
               </div>
             </div>
             {addHeadline.showHeadline4 && (
               <div className="md:flex md:items-center mb-6">
-              <div className="md:w-1/4">
-                <label className="block text-gray-500 font-bold mb-1 md:mb-0 pr-4" htmlFor="adHeadline3">
-                  Headline 4
-                </label>
-              </div>
-              <div className="md:w-3/4">
-                <input id="adHeadline4" name="headline4"
-                placeholder="Enter the 4th headline" 
-                className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" 
-                type="text" />
-              </div>
-            </div>)
+                <div className="md:w-1/4">
+                  <label className="block text-gray-500 font-bold mb-1 md:mb-0 pr-4" htmlFor="adHeadline3">
+                    Headline 4
+                  </label>
+                </div>
+                <div className="md:w-3/4">
+                  <input id="adHeadline4" name="headline4"
+                    placeholder="Enter the 4th headline"
+                    className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                    type="text" />
+                </div>
+              </div>)
             }
             {addHeadline.showHeadline5 && (
               <div className="md:flex md:items-center mb-6">
-              <div className="md:w-1/4">
-                <label className="block text-gray-500 font-bold mb-1 md:mb-0 pr-4" htmlFor="adHeadline3">
-                  Headline 5
-                </label>
-              </div>
-              <div className="md:w-3/4">
-                <input id="adHeadline5" name="headline5"
-                placeholder="Enter the 5th headline" 
-                className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" 
-                type="text" />
-              </div>
-            </div>)
+                <div className="md:w-1/4">
+                  <label className="block text-gray-500 font-bold mb-1 md:mb-0 pr-4" htmlFor="adHeadline3">
+                    Headline 5
+                  </label>
+                </div>
+                <div className="md:w-3/4">
+                  <input id="adHeadline5" name="headline5"
+                    placeholder="Enter the 5th headline"
+                    className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                    type="text" />
+                </div>
+              </div>)
             }
             {addHeadline.showAddHeadlineButton && (
               <div className="md:flex md:items-center mb-6">
-              <div className="md:w-1/4"> </div>
-              <div className="md:w-3/4">
-                <Button className='float-left' color="primary" type='button' onClick={handleAddHeadlines}>
-                  Add new headline
-                </Button>
-              </div>
-            </div> )
+                <div className="md:w-1/4"> </div>
+                <div className="md:w-3/4">
+                  <Button className='float-left' color="primary" type='button' onClick={handleAddHeadlines}>
+                    Add new headline
+                  </Button>
+                </div>
+              </div>)
             }
             <div className="md:flex md:items-center mb-6">
               <div className="md:w-1/4">
@@ -461,14 +461,14 @@ export default function Form({ channels, ad }: { channels: ChannelField[], ad:Ad
               </div>
               <div className="md:w-3/4 inline-flex">
                 <div className='md:w-3/4'>
-                  <input 
-                  id="adTargetAudience" 
-                  name="target" 
-                  aria-describedby="target-error" 
-                  placeholder="Enter Target Audience" 
-                  className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" 
-                  type="text" 
-                  defaultValue={ad.attributes?.filter(item=>item.type==="audience" && item.version === ad.version)[0].value}/>
+                  <input
+                    id="adTargetAudience"
+                    name="target"
+                    aria-describedby="target-error"
+                    placeholder="Enter Target Audience"
+                    className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                    type="text"
+                    defaultValue={ad.attributes?.filter(item => item.type === "audience" && item.version === ad.version)[0].value} />
                 </div>
                 <div className='md:w-1/4'>
                   <Button className='float-right' color="primary" type='button'>
@@ -498,7 +498,7 @@ export default function Form({ channels, ad }: { channels: ChannelField[], ad:Ad
                 </label>
               </div>
               <div className="md:w-3/4 inline-flex">
-                <FileUpload/>
+                <FileUpload />
               </div>
             </div>
             <hr /><br />
@@ -509,13 +509,13 @@ export default function Form({ channels, ad }: { channels: ChannelField[], ad:Ad
                 </label>
               </div>
               <div className="md:w-3/4">
-                <textarea 
-                id="adDescription" 
-                name="description" 
-                aria-describedby="description-error" 
-                placeholder="Enter the discription" 
-                className="min-h-[150px] appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" 
-                defaultValue={ad.attributes?.filter(item=>item.type==="description" && item.version === ad.version)[0].value}
+                <textarea
+                  id="adDescription"
+                  name="description"
+                  aria-describedby="description-error"
+                  placeholder="Enter the discription"
+                  className="min-h-[150px] appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                  defaultValue={ad.attributes?.filter(item => item.type === "description" && item.version === ad.version)[0].value}
                 />
               </div>
             </div>
@@ -546,39 +546,39 @@ export default function Form({ channels, ad }: { channels: ChannelField[], ad:Ad
                       <label htmlFor="adRecommandedSeo">Recommanded</label>
                     </div>
                     <div className='md:w-3/4 inline-flex'>
-                      <input 
-                      id="adRecommandedSeo" 
-                      name="recommanded" 
-                      type="text" 
-                      defaultValue={ad.attributes?.filter(item=>item.type==="keyword" && item.version === ad.version)[0].value}
-                      value={inputsRecommanded} 
-                      readOnly 
-                      className="bg-gray-100 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" 
+                      <input
+                        id="adRecommandedSeo"
+                        name="recommanded"
+                        type="text"
+                        defaultValue={ad.attributes?.filter(item => item.type === "keyword" && item.version === ad.version)[0].value}
+                        value={inputsRecommanded}
+                        readOnly
+                        className="bg-gray-100 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
                       />
                       <Button disabled={seoButtons.disableRefreshButton} color="primary" className='float-right ml-4 disabled:bg-gray-200 disabled:text-gray-500' type='button' onClick={handleRefresh}>
                         Refresh
                       </Button>
                     </div>
                   </div>
-                 <div className="inline-flex">
+                  <div className="inline-flex">
                     <div className='md:w-3/4'>
-                      <input 
-                      id="adSeoKeywords" 
-                      name="seo" 
-                      placeholder="keyword1, keyword2, ..." 
-                      className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" 
-                      type="text" 
-                      value={valueSeoInput}
-                      onChange={event => handleInputChange(event)}
+                      <input
+                        id="adSeoKeywords"
+                        name="seo"
+                        placeholder="keyword1, keyword2, ..."
+                        className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                        type="text"
+                        value={valueSeoInput}
+                        onChange={event => handleInputChange(event)}
                       />
                     </div>
                     <div className='md:w-1/4'>
                       <Button disabled={seoButtons.disableAddButton} color="primary" className='float-right disabled:bg-gray-200 disabled:text-gray-500' type='button' onClick={handleAddInput}>
                         Add New SEO Keywords
                       </Button>
-                    </div>                  
-                 </div>
-                </div>                 
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
