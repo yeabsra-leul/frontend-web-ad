@@ -118,10 +118,10 @@ export default function AdsTable({
                         {ad.channel}
                       </td> */}
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
-                        {ad.startDateTime.split('T')[0]}
+                        {ad.startDateTime?.split('T')[0]}
                       </td>
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm group-first-of-type:rounded-md group-last-of-type:rounded-md">
-                        {ad.endDateTime.split('T')[0]}
+                        {ad.endDateTime?.split('T')[0]}
                       </td>
                       <td className="whitespace-nowrap py-3 pl-2 pr-2 w-0.5">
                         <div className="flex gap-3">

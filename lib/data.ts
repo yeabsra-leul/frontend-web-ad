@@ -23,8 +23,8 @@ import { Advertisement, Task } from './definitions';
     adsAll.forEach(ad => {
       var taskD:TaskDuration = {"id":"","start":"","end":"","task":"","name":"", "channel":"", "url":"", "budget":0};
       taskD.id = ad.id;
-      taskD.start = ad.startDateTime.split('T')[0];
-      taskD.end = ad.endDateTime.split('T')[0];
+      taskD.start = ad.startDateTime?.split('T')[0];
+      taskD.end = ad.endDateTime?.split('T')[0];
       taskD.task = ad.id;  
       taskD.name = ad.name;
       taskD.url = ad.url;
@@ -62,8 +62,8 @@ import { Advertisement, Task } from './definitions';
         //|| ad.phone.toLowerCase().includes(query.toLowerCase())
         || ad.url.toLowerCase().includes(query.toLowerCase())
         //|| ad.channel.toLowerCase().includes(query.toLowerCase())
-        || ad.startDateTime.toLowerCase().includes(query.toLowerCase())
-        || ad.endDateTime.toLowerCase().includes(query.toLowerCase())
+        || ad.startDateTime?.toLowerCase().includes(query.toLowerCase())
+        || ad.endDateTime?.toLowerCase().includes(query.toLowerCase())
         )
         const start = Math.min(filteredAds.length - 1, offset);
         const end = Math.min(filteredAds.length, offset + ITEMS_PER_PAGE);
@@ -95,8 +95,8 @@ import { Advertisement, Task } from './definitions';
       //|| ad.phone.toLowerCase().includes(query.toLowerCase())
       || ad.url.toLowerCase().includes(query.toLowerCase())
       //|| ad.channel.toLowerCase().includes(query.toLowerCase())
-      || ad.startDateTime.toLowerCase().includes(query.toLowerCase())
-      || ad.endDateTime.toLowerCase().includes(query.toLowerCase())
+      || ad.startDateTime?.toLowerCase().includes(query.toLowerCase())
+      || ad.endDateTime?.toLowerCase().includes(query.toLowerCase())
       )
       const totalPages = Math.ceil(Number(filteredAds.length) / ITEMS_PER_PAGE);
       return totalPages;

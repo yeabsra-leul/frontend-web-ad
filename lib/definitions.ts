@@ -9,9 +9,9 @@ export type ChannelField = {
     version:string
     url: string;
     budget: number;
-    startDateTime: string;
-    endDateTime:string;
-    expiredDateTime:string;
+    startDateTime?: string;
+    endDateTime?:string;
+    expiredDateTime?:string;
     status:string;
     notes?:string;
     attributes?:ad_attribute[]
@@ -40,8 +40,8 @@ export type ChannelField = {
   
   export type TaskDuration ={
     id?: string;
-    start: string;
-    end: string;
+    start?: string;
+    end?: string;
     task?: string;
     name: string;
     channel: string;
