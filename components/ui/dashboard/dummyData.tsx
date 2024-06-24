@@ -355,3 +355,21 @@ export const campaignsData = [
         connections: 345,
     }
 ];
+export const BarData = [
+    {
+        age: '22-24',
+        'This Year': 68560,
+    },
+    {
+        age: '24-25',
+        'This Year': 80233,
+    },
+    {
+        age: '25-26',
+        'This Year': 55123,
+    },
+    {
+        age: '26-27',
+        'This Year': 56000,
+    }
+];

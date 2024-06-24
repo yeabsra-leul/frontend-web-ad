@@ -1,12 +1,12 @@
 "use client"
 import Link from "next/link";
-import { useState} from "react";
-import { CircleAlertIcon, SearchIcon, BellIcon , Question} from "./icons";
+import { useState } from "react";
+import { CircleAlertIcon, SearchIcon, BellIcon, Question } from "./icons";
 import { Avatar } from '@nextui-org/react';
 import BarListChart from "./barList";
-import BarCharts from "./barChart";
+import BarChartComponent from "./barChart";
 import LineCharts from "./lineChart";
-import { data, demoData, pages, keyWords, campaignsData } from "./dummyData";
+import { data, pages, keyWords, campaignsData, BarData } from "./dummyData";
 import CampaignTable from './table'
 import { format } from 'date-fns';
 
@@ -82,7 +82,6 @@ const DashboardChart = () => {
                 <label htmlFor="startDateLabel" className="ml-2">{formatDate(new Date().getTime())}</label>
             </div>
             <div className="grid grid-cols-4 gap-2">
-
                 <LineCharts
                     title="View Through Rates"
                     subTitle="$231"
@@ -123,10 +122,8 @@ const DashboardChart = () => {
                     showLegend={true}
                     showYAxis={true}
                     startEndOnly={false}
-
                 />
             </div>
-
             <div className="grid grid-cols-4 gap-2 mt-4">
                 <LineCharts
                     title="Connection"
@@ -197,7 +194,14 @@ const DashboardChart = () => {
                     initialExtended={false}
                     maxCollapsedHeight="max-h-[300px]"
                 />
-                <BarCharts />
+                <BarChartComponent
+                    data={BarData}
+                    indexKey="age"
+                    categoryKeys={['This Year']}
+                    colors={['blue']}
+                    yAxisWidth={49}
+                    className="my-custom-chart"
+                />
             </div>
         </div>
     );

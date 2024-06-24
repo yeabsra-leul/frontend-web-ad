@@ -6,8 +6,6 @@ interface DataPoint {
     name?: string;
     [key: string]: number | string | undefined;
 }
-
-
 interface LineChartsProps {
     title?: string;
     subTitle?: string;
