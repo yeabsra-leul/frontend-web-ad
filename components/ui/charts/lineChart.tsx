@@ -9,7 +9,7 @@ interface DataPoint {
 interface LineChartsProps {
     title?: string;
     subTitle?: string;
-    data: DataPoint[];
+    data: any[];
     categories?: string[];
     colors?: string[];
     valueFormatter?: (number: number | bigint) => string;

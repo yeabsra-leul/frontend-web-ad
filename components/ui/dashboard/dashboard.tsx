@@ -1,22 +1,19 @@
 "use client"
-import Link from "next/link";
 import { useState } from "react";
-import { CircleAlertIcon, SearchIcon, BellIcon, Question } from "./icons";
-import { Avatar } from '@nextui-org/react';
-import BarListChart from "./barList";
-import BarChartComponent from "./barChart";
-import LineCharts from "./lineChart";
-import { data, pages, keyWords, campaignsData, BarData } from "./dummyData";
+import BarListChart from "../charts/barList";
+import BarChartComponent from "../charts/barChart";
+import LineCharts from "../charts/lineChart";
+import { data, pages, keyWords, campaignsData, BarData } from "../dummyData";
 import CampaignTable from './table'
 import { format } from 'date-fns';
-
-const DashboardChart = () => {
+import {Slider } from "@nextui-org/react";
+const Dashboard = () => {
     const [value, setValue] = useState(0);
     const [startDate, setStartDate] = useState(new Date('2023-01-01').getTime());
     const [endDate, setEndDate] = useState(new Date('2023-12-31').getTime());
     const [filteredData, setFilteredData] = useState([]);
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>, isStart: boolean) => {
-        const newValue = +event.target.value;
+        const newValue = +event;
         if (isStart) {
             setValue(newValue);
         } else {
@@ -41,25 +38,6 @@ const DashboardChart = () => {
 
     return (
         <div className="container mx-auto px-4 mb-8">
-            <header className="flex items-center justify-between border-b border-gray-300 pb-4 mt-4">
-                <div className="flex items-center space-x-4">
-                    <CircleAlertIcon className="w-6 h-6 text-yellow-500" />
-                    <div className="bg-orange-100 p-4 rounded-md flex items-center justify-between">
-                        <span>There are 30 days left in your trial. </span>
-                        <Link href="#" className="text-blue-500 ml-2" prefetch={false}>
-                            Upgrade Account
-                        </Link>
-                    </div>
-                </div>
-                <div className="flex items-center space-x-4">
-                    <SearchIcon className="w-6 h-6" />
-                    <BellIcon className="w-6 h-6" />
-                    <Question className="w-6 h-6" />
-                    <Avatar className="w-8 h-8">
-                        XD
-                    </Avatar>
-                </div>
-            </header>
             <div>
                 <div className="h-px bg-gray-300" />
                 <h1 className="text-3xl font-bold mb-4 mt-4">Dashboard</h1>
@@ -67,17 +45,21 @@ const DashboardChart = () => {
                 <p className="text-xl mb-8">Welcome, Xue!</p>
             </div>
             <div className="mb-4 w-1/3 flex items-center mx-auto">
-                <label htmlFor="startDateLabel" className="mr-2">{formatDate(startDate)}</label>
-                <input
+                <label htmlFor="startDateLabel" className="mr-2">{formatDate(value)}</label>
+                <Slider
                     id="startDateLabel"
-                    type="range"
-                    className="w-full bg-orange-300 rounded-full"
-                    min={startDate}
-                    max={endDate}
+                    minValue={startDate}
+                    maxValue={endDate}
                     step={monthMilliseconds}
                     value={value}
-                    onChange={(event) => handleChange(event, true)}
-                    title={formatDate(value)}
+                    defaultValue={[startDate, endDate]}
+                    onChange={(event: any) => handleChange(event, true)}
+                    aria-label={formatDate(value)}
+                    classNames={{
+                        base: "max-w-md",
+                        filler: "bg-orange-500"
+                      }}
+
                 />
                 <label htmlFor="startDateLabel" className="ml-2">{formatDate(new Date().getTime())}</label>
             </div>
@@ -207,4 +189,4 @@ const DashboardChart = () => {
     );
 };
 
-export default DashboardChart;
+export default Dashboard;
