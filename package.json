@@ -17,9 +17,7 @@
     "@vercel/speed-insights": "^1.0.5",
     "axios": "^1.6.5",
     "js-cookie": "^3.0.5",
-    "next": "^14.2.3",
     "react-toastify": "^10.0.5",
-    "sharp": "*",
     "zod": "^3.23.7"
   },
   "prettier": {
@@ -28,18 +26,22 @@
     "tabWidth": 2,
     "trailingComma": "none"
   },
+  "peerDependencies": {
+    "@tailwindcss/typography": ">=0.5.10",
+    "@types/node": ">=20.13.0",
+    "@types/react": ">=18.3.3",
+    "@types/react-dom": ">=18.3.0",
+    "eslint": ">=8.52.0",
+    "eslint-config-next": ">=14.2.3",
+    "next": ">=14.2.4",
+    "prettier": ">=3.0.3",
+    "sharp": ">=0.33.2",
+    "typescript": ">=5.2.2",
+    "tailwindcss": ">=3.4.3",
+    "postcss": ">=8.4.38",
+    "autoprefixer": ">=10.4.19"
+  },
   "devDependencies": {
-    "@tailwindcss/typography": "*",
-    "@types/js-cookie": "^3.0.6",
-    "@types/node": "*",
-    "@types/react": "*",
-    "@types/react-dom": "*",
-    "autoprefixer": "*",
-    "eslint": "*",
-    "eslint-config-next": "*",
-    "postcss": "*",
-    "prettier": "*",
-    "tailwindcss": "*",
-    "typescript": "*"
+    "@types/js-cookie": "^3.0.6"
   }
 }
