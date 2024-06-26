@@ -1,7 +1,5 @@
 "use client"
 import { useState } from "react";
-import BarListChart from "../charts/barList";
-import BarChartComponent from "../charts/barChart";
 import LineCharts from "../charts/lineChart";
 import { data, ChartData, Reports, Channels, Campaigns, chartsMetaData, chartsSet1 } from "../dummyData";
 import { format } from 'date-fns';
@@ -11,16 +9,16 @@ import { jsPDF } from "jspdf";
 
 
 const Report = () => {
-    const [value, setValue] = useState(0);
+    const [value, setValue] = useState(new Date('2023-01-01').getTime());
     const [selectedChannels, setSelectedChannels] = useState<string[]>([]);
     const [selectedCampaigns, setSelectedCampaigns] = useState<string[]>([]);
     const [selectedReports, setSelectedReports] = useState<string[]>([]);
     const [startDate, setStartDate] = useState(new Date('2023-01-01').getTime());
-    const [endDate, setEndDate] = useState(new Date('2023-12-31').getTime());
+    const [endDate, setEndDate] = useState(new Date('2024-01-28').getTime());
     const [filteredData, setFilteredData] = useState<any[]>();
     const [chartTypes, setChartTypes] = useState<any[]>();
 
-    const handleChange = (event: any, isStart: boolean) => {
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>, isStart: boolean) => {
         const newValue = +event;
         if (isStart) {
             setValue(newValue);
@@ -36,16 +34,13 @@ const Report = () => {
     };
     const monthMilliseconds = 30.44 * 24 * 60 * 60 * 1000;
 
-
-
-
     const applyFilters = () => {
         const filteredChartsMetaData = chartsMetaData.filter(meta =>
             selectedReports.includes(meta.categories[0])
         );
         setChartTypes(filteredChartsMetaData)
-        let filteredData = groupChartData(ChartData);
-        // filteredData = filterDataByDate(filteredData, startDate, endDate);
+        let filteredDate = filterDataByDate(ChartData, startDate, endDate)
+        let filteredData = groupChartData(filteredDate);
         setFilteredData(filteredData)
     };
 
@@ -59,11 +54,12 @@ const Report = () => {
             return acc;
         }, {} as any);
     };
-    const filterDataByDate = (data: any[], startDate: number, endDate: number): any[] => {
-        return data.filter(item => {
-            const itemDate = new Date(item.filterDate).getTime();
-            return itemDate >= startDate && itemDate <= endDate;
+    const filterDataByDate = (data: any, startDate: number, endDate: number): any => {
+        const filtered: any = data.filter((entry: any) => {
+            const entryDate = new Date(entry.filterDate.replace(/(\d{2})\/(\d{2})\/(\d{4})/, '$2/$1/$3')).getTime();
+            return entryDate >= value && entryDate <= endDate;
         });
+        return filtered
     };
 
     const transformDataForLineChart = (groupedData: any, valueKey: string): any[] => {
@@ -103,26 +99,26 @@ const Report = () => {
     const downloadPDF = async () => {
         const pdf = new jsPDF();
         try {
-          
-                let element = document.getElementById("graphPart");
-                if (!element || !isVisible(element)) {
-                    throw new Error(`Element with id "${data}" not found or not visible.`);
-                }
-                const canvas = await html2canvas(element);
-                const imgData = canvas.toDataURL("image/png");
 
-                const imgWidth = canvas.width;
-                const imgHeight = canvas.height;
-                const aspectRatio = imgWidth / imgHeight;
-                const pdfWidth = pdf.internal.pageSize.getWidth() - 20;
-                const pdfHeight = pdfWidth / aspectRatio;
-                // if (i > 0) {
-                //     pdf.addPage();
-                // }
-                const x = (pdf.internal.pageSize.getWidth() - pdfWidth) / 2;
-                const y = (pdf.internal.pageSize.getHeight() - pdfHeight) / 2;
-                pdf.addImage(imgData, "PNG", x, y, pdfWidth, pdfHeight);
-            
+            let element = document.getElementById("graphPart");
+            if (!element || !isVisible(element)) {
+                throw new Error(`Element with id "${data}" not found or not visible.`);
+            }
+            const canvas = await html2canvas(element);
+            const imgData = canvas.toDataURL("image/png");
+
+            const imgWidth = canvas.width;
+            const imgHeight = canvas.height;
+            const aspectRatio = imgWidth / imgHeight;
+            const pdfWidth = pdf.internal.pageSize.getWidth() - 20;
+            const pdfHeight = pdfWidth / aspectRatio;
+            // if (i > 0) {
+            //     pdf.addPage();
+            // }
+            const x = (pdf.internal.pageSize.getWidth() - pdfWidth) / 2;
+            const y = (pdf.internal.pageSize.getHeight() - pdfHeight) / 2;
+            pdf.addImage(imgData, "PNG", x, y, pdfWidth, pdfHeight);
+
             pdf.save("chart.pdf");
         } catch (error) {
             console.error("Error generating PDF:", error);
@@ -158,7 +154,6 @@ const Report = () => {
                     }}
 
                 />
-
                 <label htmlFor="startDateLabel" className="ml-2">{formatDate(new Date().getTime())}</label>
             </div>
 

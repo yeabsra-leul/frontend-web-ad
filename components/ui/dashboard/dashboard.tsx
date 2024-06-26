@@ -12,6 +12,7 @@ const Dashboard = () => {
     const [startDate, setStartDate] = useState(new Date('2023-01-01').getTime());
     const [endDate, setEndDate] = useState(new Date('2023-12-31').getTime());
     const [filteredData, setFilteredData] = useState([]);
+    
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>, isStart: boolean) => {
         const newValue = +event;
         if (isStart) {

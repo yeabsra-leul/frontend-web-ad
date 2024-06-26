@@ -191,8 +191,8 @@ const navLinks: NavLinkData[] = [
         icon: CreditCardIcon,
         label: 'Reports',
         submenu: [
-            { href: '#', label: 'Export' },
-            { href: '#', label: 'Import' },
+            { href: '/reports', label: 'Export' },
+            { href: '/reports/import', label: 'Import' },
             { href: '#', label: 'Schedule Automation' }
         ],
     },

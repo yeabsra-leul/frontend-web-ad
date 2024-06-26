@@ -1,13 +1,16 @@
 "use client"
 import { useState } from "react";
-import BarListChart from "../../charts/barList";
+import PieChart from "../../charts/donutChart";
 import LineCharts from "../../charts/lineChart";
 import BarChartComponent from "../../charts/barChart";
 import * as XLSX from 'xlsx';
 
 import { Select, SelectItem } from "@nextui-org/react";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Cookies from "js-cookie";
 
-const ChartType = [{ key: "bar", label: "Bar Graph" }, { key: "line_chart", label: "Line_Chart" }]
+const ChartType = [{ key: "bar", label: "Bar Graph" }, { key: "line_chart", label: "Line Graph" }, { key: "pie_chart", label: "Pie Chart" }]
 
 const Report = () => {
     const [file, setFile] = useState<any>();
@@ -17,6 +20,7 @@ const Report = () => {
     const [selectedReports, setSelectedReports] = useState<string[]>([]);
     const [filteredData, setFilteredData] = useState<any[]>();
     const [chartTypes, setChartTypes] = useState<any>();
+    const [rawData, setRawData] = useState<any>();
 
 
     const handleOnChange = (e: any) => {
@@ -48,7 +52,7 @@ const Report = () => {
             if (obj.channel) uniqueChannels.add(obj.channel);
             result.push(obj);
         }
-
+        setRawData(result)
         const groupedData = groupChartData(result, "campaign");
         setFilteredData(groupedData);
         setSelectedCampaigns(Array.from(uniqueCampaigns));
@@ -58,28 +62,36 @@ const Report = () => {
     };
 
     const handleOnSubmit = (e: any) => {
-        const fileReader = new FileReader();
-        e.preventDefault();
-        if (file) {
-            fileReader.onload = function (event: any) {
-                const text = event.target.result;
-                if (typeof text === 'string') {
-                    parseCSV(text);
+        try {
+            const fileReader = new FileReader();
+            e.preventDefault();
+            if (file) {
+                fileReader.onload = function (event: any) {
+                    const text = event.target.result;
+                    if (typeof text === 'string') {
+                        parseCSV(text);
+                    } else {
+                        const workbook = XLSX.read(text, { type: 'binary' });
+                        const sheetName = workbook.SheetNames[0];
+                        const csv = XLSX.utils.sheet_to_csv(workbook.Sheets[sheetName]);
+                        parseCSV(csv);
+                    }
+                };
+                const fileName = file.name;
+                const fileExtension = fileName.split('.').pop()?.toLowerCase();
+                if (fileExtension === 'csv') {
+                    fileReader.readAsText(file);
                 } else {
-                    const workbook = XLSX.read(text, { type: 'binary' });
-                    const sheetName = workbook.SheetNames[0];
-                    const csv = XLSX.utils.sheet_to_csv(workbook.Sheets[sheetName]);
-                    parseCSV(csv);
+                    fileReader.readAsArrayBuffer(file);
                 }
-            };
-            const fileName = file.name;
-            const fileExtension = fileName.split('.').pop()?.toLowerCase();
-            if (fileExtension === 'csv') {
-                fileReader.readAsText(file);
+                toast.success('File has been imported successfully.');
             } else {
-                fileReader.readAsArrayBuffer(file);
+                toast.error("Error While Importing File")
             }
+        } catch {
+            toast.error("Error While Importing File")
         }
+
 
     };
 
@@ -95,8 +107,57 @@ const Report = () => {
             return acc;
         }, {} as Record<string, any[]>);
     };
+    const getRandomColor = (): string => {
+        const letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    };
+    const groupAndCalculateShares = (data: any[], groupByKey1: string, groupByKey2: string, numericalValueKey: string, key: string): any => {
+        const groupedData: any = {};
+
+        data.forEach(item => {
+            const campaignKey = item[groupByKey1];
+            const saleType = item[groupByKey2];
+            const numericalValue = item[numericalValueKey];
+
+            if (!groupedData[campaignKey]) {
+                groupedData[campaignKey] = [];
+            }
+
+            const existingEntryIndex = groupedData[campaignKey].findIndex((entry: any) => entry.name === saleType);
+
+            if (existingEntryIndex !== -1) {
+                groupedData[campaignKey][existingEntryIndex].total += numericalValue;
+            } else {
+                groupedData[campaignKey].push({
+                    name: saleType,
+                    total: numericalValue,
+                    share: '',
+                    color: getRandomColor()
+                });
+            }
+        });
+
+        Object.keys(groupedData).forEach(campaignKey => {
+            const totalCampaignValue = groupedData[campaignKey].reduce((total: number, sale: any) => total + sale.total, 0);
+
+            groupedData[campaignKey].forEach((sale: any) => {
+                sale.share = ((sale.total / totalCampaignValue) * 100).toFixed(1) + '%';
+            });
+        });
+        let resultData = groupedData[key].map((obj: any) => {
+            return Object.fromEntries(
+                Object.entries(obj).map(([key, value]) => [key.replace(/^"(.*)"$/, '$1'), value])
+            );
+        });
+        return resultData;
+    };
+
+
     const transformDataForLineChart = (groupedData: any, valueKey: string): any[] => {
-        transformData(groupedData, valueKey, "campaign", "channel")
         const transformedData: any[] = [];
         Object.keys(groupedData).forEach(campaign => {
             groupedData[campaign].forEach((data: any) => {
@@ -137,7 +198,6 @@ const Report = () => {
                 }
             });
         });
-        console.log("example data", transformedData)
         return transformedData;
     };
 
@@ -184,54 +244,61 @@ const Report = () => {
                     <p className="mt-2 text-tremor-label text-tremor-content dark:text-dark-tremor-content">                You are only allowed to upload CSV, XLSX or XLS files.              </p>
                 </div>
                 <button
-                    className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline items-start"
                     onClick={(e) => {
                         handleOnSubmit(e);
                     }}
                 >
                     Import
                 </button>
-                <div className="grid gap-5 md:grid-cols-2 items-start">
-                {chartTypes ?
-                    <Select
-                        name="reports"
-                        label="Select Report(s)"
-                        placeholder="Select Report(s)"
-                        selectionMode="multiple"
-                        className="max-w-xs"
-                        value={selectedReports}
-                        onChange={(e: any) => { handleSelect(e) }}
-                    >
-                        {chartTypes && chartTypes.map((report: any) => (
-                            <SelectItem key={report}>
-                                {report}
-                            </SelectItem>
-                        ))}
-                    </Select>
-                    : null}
-                {ChartType && chartTypes ?
-                    <Select
-                        name="charts"
-                        label="Select Graph Type"
-                        placeholder="Select Graph Type"
-                        selectionMode="multiple"
-                        className="max-w-xs"
-                        value={selectedReports}
-                        onChange={(e: any) => { handleSelect(e) }}
-                    >
-                        {ChartType && ChartType.map((report: any) => (
-                            <SelectItem key={report.key}>
-                                {report.label}
-                            </SelectItem>
-                        ))}
-                    </Select>
-                    : null}
-                    </div>
+                <div className="grid gap-2 grid-cols-3 items-start align-center">
+                    {chartTypes ?
+                        <Select
+                            name="reports"
+                            label="Select Report(s)"
+                            placeholder="Select Report(s)"
+                            selectionMode="multiple"
+                            className="max-w-xs"
+                            value={selectedReports}
+                            onChange={(e: any) => { handleSelect(e) }}
+                        >
+                            {chartTypes && chartTypes.map((report: any) => (
+                                <SelectItem key={report}>
+                                    {report}
+                                </SelectItem>
+                            ))}
+                        </Select>
+                        : null}
+                    {ChartType && chartTypes ?
+                        <Select
+                            name="charts"
+                            label="Select Graph Type"
+                            placeholder="Select Graph Type"
+                            selectionMode="multiple"
+                            className="max-w-xs"
+                            value={selectedReports}
+                            onChange={(e: any) => { handleSelect(e) }}
+                        >
+                            {ChartType && ChartType.map((report: any) => (
+                                <SelectItem key={report.key}>
+                                    {report.label}
+                                </SelectItem>
+                            ))}
+                        </Select>
+                        : null}
+                    {chartTypes ?
+                        <button
+                            className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                        >
+                            Confirm Importing
+                        </button> : null}
+                </div>
                 <br />
             </div>
 
 
             {selectedCharts.includes("line_chart") ? <div className="space-y-8" id="graphPart">
+                <p className="text-lg font-semibold text-center mt-4">Line Graph</p>
                 {selectedCampaigns?.map((group, rowIndex) => (
                     <div key={rowIndex} className="space-y-4">
                         <p className="text-lg font-semibold">{group}</p>
@@ -240,7 +307,6 @@ const Report = () => {
                                 <div key={colIndex} className="bg-white p-4 rounded-lg shadow-md">
                                     <LineCharts
                                         title={chart}
-                                        // subTitle={chart.subTitle}
                                         data={transformDataForLineChart(filteredData, chart)}
                                         categories={selectedChannels}
                                         colors={['blue', 'violet', 'fuchsia']}
@@ -255,23 +321,30 @@ const Report = () => {
                     </div>
                 ))}
             </div> : null}
-            {/* <div className="space-y-8" id="graphPart">
+            {selectedCharts.includes("pie_chart") ? <div className="space-y-8" id="graphPart">
+                <p className="text-lg font-semibold text-center mt-4">Pie Chart</p>
                 {selectedCampaigns?.map((group, rowIndex) => (
                     <div key={rowIndex} className="space-y-4">
                         <p className="text-lg font-semibold">{group}</p>
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                             {selectedReports?.map((chart, colIndex) => (
                                 <div key={colIndex} className="bg-white p-4 rounded-lg shadow-md">
-                                    <BarListChart
+                                    <PieChart
                                         title={chart}
-                                        data={transformData(filteredData, chart, "campaign", "channel")}
+                                        data={groupAndCalculateShares(rawData, 'campaign', "channel", chart, group)}
+                                        categories="total"
+                                        colors={['blue', 'violet', 'fuchsia']}
+                                        showLegend={true}
+                                        showYAxis={true}
+                                        startEndOnly={false}
+                                        index="name"
                                     />
                                 </div>
                             ))}
                         </div>
                     </div>
                 ))}
-            </div> */}
+            </div> : null}
 
             {selectedCharts.includes("bar") ? <div className="space-y-8" id="graphPart">
                 <p className="text-lg font-semibold text-center mt-4">Bar Graph</p>
@@ -283,7 +356,6 @@ const Report = () => {
                                 <div key={colIndex} className="bg-white p-4 rounded-lg shadow-md">
                                     <BarChartComponent
                                         title={chart}
-                                        // subTitle={chart.subTitle}
                                         data={transformDataForLineChart(filteredData, chart)}
                                         categories={selectedChannels}
                                         colors={['blue', 'violet', 'fuchsia']}
