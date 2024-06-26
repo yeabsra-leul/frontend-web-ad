@@ -153,7 +153,7 @@ export const assembleAd = (ad: Advertisement|null, formData: FormData, validated
     value:seo_keywords?seo_keywords:GetInitialSeoKeywords().toString()
   }
   let ad_attr_imageId:ad_attribute = {
-    mandatory:false,
+    mandatory:true,
     version:"1.0.1",
     type:'image',
     subtype: "text",
