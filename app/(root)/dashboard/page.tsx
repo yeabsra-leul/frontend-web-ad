@@ -4,7 +4,7 @@ import React from "react";
 import DashBoard from "@/components/ui/dashboard/index";
 import DashboardChart from "@/components/ui/dashboard/charts";
 
-const Page: React.FC<any> = () => {
+export default function Page() {
   return (
     <React.Fragment>
       <DashBoard>
@@ -14,6 +14,3 @@ const Page: React.FC<any> = () => {
   );
 };
 
-
- 
-export default Page

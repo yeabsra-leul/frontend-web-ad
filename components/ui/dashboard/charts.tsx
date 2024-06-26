@@ -1,8 +1,5 @@
 "use client"
-import Link from "next/link";
 import { useState } from "react";
-import { CircleAlertIcon, SearchIcon, BellIcon, Question } from "./icons";
-import { Avatar } from '@nextui-org/react';
 import BarListChart from "./barList";
 import BarChartComponent from "./barChart";
 import LineCharts from "./lineChart";
@@ -40,26 +37,7 @@ const DashboardChart = () => {
     };
 
     return (
-        <div className="container mx-auto px-4 mb-8">
-            <header className="flex items-center justify-between border-b border-gray-300 pb-4 mt-4">
-                <div className="flex items-center space-x-4">
-                    <CircleAlertIcon className="w-6 h-6 text-yellow-500" />
-                    <div className="bg-orange-100 p-4 rounded-md flex items-center justify-between">
-                        <span>There are 30 days left in your trial. </span>
-                        <Link href="#" className="text-blue-500 ml-2" prefetch={false}>
-                            Upgrade Account
-                        </Link>
-                    </div>
-                </div>
-                <div className="flex items-center space-x-4">
-                    <SearchIcon className="w-6 h-6" />
-                    <BellIcon className="w-6 h-6" />
-                    <Question className="w-6 h-6" />
-                    <Avatar className="w-8 h-8">
-                        XD
-                    </Avatar>
-                </div>
-            </header>
+        <div>
             <div>
                 <div className="h-px bg-gray-300" />
                 <h1 className="text-3xl font-bold mb-4 mt-4">Dashboard</h1>
