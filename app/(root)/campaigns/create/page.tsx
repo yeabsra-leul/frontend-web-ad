@@ -10,7 +10,7 @@ export default function Page() {
   }, []);
   return (
     <main className='mx-auto'>
-      <CampaignForm channels={channels} />
+      <CampaignForm />
     </main>
   );
 }

@@ -48,3 +48,23 @@ export type TaskDuration ={
   url: string;
   budget:number;
 }
+
+export type Campaign = {
+  id?: string;
+  name: string;
+  version: string;  
+  budget: number;
+  startDateTime: string;
+  endDateTime:string;  
+  status:string;
+  notes?:string;  
+};
+
+export type campaign_attribute = {
+  id?: string;
+  version: string;
+  mandatory: boolean;
+  type: string; 
+  subtype?: string;
+  value: string;
+}
