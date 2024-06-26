@@ -1,10 +1,16 @@
 'use client';
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Advertisement, ChannelField, ad_attribute } from '@/lib/definitions';
 import { Button, Link } from "@nextui-org/react";
 import Image from "next/image";
+import { fetchImage } from "@/lib/api";
 
 export default function Form({ channels, ad }: { channels: ChannelField[], ad:any }) {
+  const [imageLink, setImageLink] = useState<string>('');
+  const imageId = ad.attributes.filter((attr:any) => attr.type === 'image' && attr.version === ad.version)[0].value;
+  useEffect(() => {
+    fetchImage(imageId).then(data => setImageLink(data.result.link));
+  }, [imageId]);
   return (
     <> <header className="flex items-center justify-between px-6 py-4 bg-gray-900 text-white">
       <div className="flex items-center space-x-4">
@@ -141,7 +147,7 @@ export default function Form({ channels, ad }: { channels: ChannelField[], ad:an
                     </label>
                   </div>
                   <div className="md:w-1/4 inline-flex">
-                  <Image src={ad.attributes.filter((attr:any) => attr.type === 'image' && attr.version === ad.version)[0].value} alt={ad.attributes.filter((attr:any) => attr.type === 'image')[0].value} width={500} height={500}/>
+                  <Image src={imageLink} alt={ad.attributes.filter((attr:any) => attr.type === 'image')[0].value} width={500} height={500}/>
                   </div>
                 </div>
               </div>
