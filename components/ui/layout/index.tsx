@@ -25,7 +25,7 @@ export default function Layout(props: any) {
         setIsOpen(!isOpen);
     };
     return (
-        <div className="flex">
+        <div className="flex h-screen" >
             <aside className="w-1/5 bg-[#ff7f00] text-white p-4">
                 <div className="flex items-center justify-between mb-8">
                     <div className="px-4 py-2">

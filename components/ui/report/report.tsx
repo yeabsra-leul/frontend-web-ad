@@ -18,6 +18,7 @@ const Report = () => {
     const [startDate, setStartDate] = useState(new Date('2023-01-01').getTime());
     const [endDate, setEndDate] = useState(new Date('2023-12-31').getTime());
     const [filteredData, setFilteredData] = useState<any[]>();
+    const [chartTypes, setChartTypes] = useState<any[]>();
 
     const handleChange = (event: any, isStart: boolean) => {
         const newValue = +event;
@@ -36,60 +37,56 @@ const Report = () => {
     const monthMilliseconds = 30.44 * 24 * 60 * 60 * 1000;
 
 
-    type DataEntry = {
-        channel: string;
-        campaign: string;
-        filterDate: any;
-        date: any;
-        view_through_rates: number;
-        avg_cpc: number;
-        clicks: number;
-        conversion_rate: number;
-        connection: number;
-        cost: number;
-        cost_conversion: number;
-        impression: number;
-    };
 
 
-    type FilterCriteria = {
-        channels: string[];
-        campaigns: string[];
-        startDate?: any;
-        endDate?: any;
-    };
-    const filterData = (DataResource: any[], filters: FilterCriteria): DataEntry[] => {
-        return DataResource.filter((entry) => {
-            if (filters.channels.length > 0 && !filters.channels.includes(entry.channel)) {
-                return false;
-            }
-            if (filters.campaigns.length > 0 && !filters.campaigns.includes(entry.campaign)) {
-                return false;
-            }
-
-            if (filters.startDate && filters.endDate) {
-                const filterDate = new Date(entry.filterDate);
-                const startDate = new Date(filters.startDate);
-                const endDate = new Date(filters.endDate);
-
-                if (filterDate < startDate || filterDate > endDate) {
-                    return false;
-                }
-            }
-            return true;
-        });
-    };
     const applyFilters = () => {
-        const filters: FilterCriteria = {
-            channels: selectedChannels,
-            campaigns: selectedCampaigns,
-            startDate: value,
-            endDate: endDate
-        };
-
-        const filteredData = filterData(ChartData, filters);
+        const filteredChartsMetaData = chartsMetaData.filter(meta =>
+            selectedReports.includes(meta.categories[0])
+        );
+        setChartTypes(filteredChartsMetaData)
+        let filteredData = groupChartData(ChartData);
+        // filteredData = filterDataByDate(filteredData, startDate, endDate);
         setFilteredData(filteredData)
     };
+
+    const groupChartData = (data: any[]): any => {
+        return data.reduce((acc, item) => {
+            const { campaign, ...campaignData } = item;
+            if (!acc[campaign]) {
+                acc[campaign] = [];
+            }
+            acc[campaign].push(campaignData);
+            return acc;
+        }, {} as any);
+    };
+    const filterDataByDate = (data: any[], startDate: number, endDate: number): any[] => {
+        return data.filter(item => {
+            const itemDate = new Date(item.filterDate).getTime();
+            return itemDate >= startDate && itemDate <= endDate;
+        });
+    };
+
+    const transformDataForLineChart = (groupedData: any, valueKey: string): any[] => {
+        const transformedData: any[] = [];
+        Object.keys(groupedData).forEach(campaign => {
+            groupedData[campaign].forEach((data: any) => {
+                const { channel, date } = data;
+                const value = data[valueKey];
+                let dateEntry = transformedData.find(entry => entry.date === date);
+                if (!dateEntry) {
+                    dateEntry = { date };
+                    transformedData.push(dateEntry);
+                }
+                if (!dateEntry[channel]) {
+                    dateEntry[channel] = value;
+                } else {
+                    dateEntry[channel] += value;
+                }
+            });
+        });
+        return transformedData;
+    };
+
 
     const handleSelect = (e: any) => {
         const array = e?.target?.value.split(",");
@@ -106,9 +103,8 @@ const Report = () => {
     const downloadPDF = async () => {
         const pdf = new jsPDF();
         try {
-            for (let i = 0; i < selectedReports.length; i++) {
-                const data = selectedReports[i];
-                let element = document.getElementById(data);
+          
+                let element = document.getElementById("graphPart");
                 if (!element || !isVisible(element)) {
                     throw new Error(`Element with id "${data}" not found or not visible.`);
                 }
@@ -120,13 +116,13 @@ const Report = () => {
                 const aspectRatio = imgWidth / imgHeight;
                 const pdfWidth = pdf.internal.pageSize.getWidth() - 20;
                 const pdfHeight = pdfWidth / aspectRatio;
-                if (i > 0) {
-                    pdf.addPage();
-                }
+                // if (i > 0) {
+                //     pdf.addPage();
+                // }
                 const x = (pdf.internal.pageSize.getWidth() - pdfWidth) / 2;
                 const y = (pdf.internal.pageSize.getHeight() - pdfHeight) / 2;
                 pdf.addImage(imgData, "PNG", x, y, pdfWidth, pdfHeight);
-            }
+            
             pdf.save("chart.pdf");
         } catch (error) {
             console.error("Error generating PDF:", error);
@@ -186,21 +182,7 @@ const Report = () => {
                                         </SelectItem>
                                     ))}
                                 </Select>
-                                <Select
-                                    name="channels"
-                                    label="Select Channel(s)"
-                                    placeholder="Select Channel(s)"
-                                    selectionMode="multiple"
-                                    className="max-w-xs"
-                                    value={selectedChannels}
-                                    onChange={(e: any) => { handleSelect(e) }}
-                                >
-                                    {Channels.map((channel) => (
-                                        <SelectItem key={channel.key}>
-                                            {channel.label}
-                                        </SelectItem>
-                                    ))}
-                                </Select>
+
                                 <Select
                                     name="campaigns"
                                     label="Select Campaign(s)"
@@ -217,6 +199,21 @@ const Report = () => {
                                         </SelectItem>
                                     ))}
                                 </Select>
+                                <Select
+                                    name="channels"
+                                    label="Select Channel(s)"
+                                    placeholder="Select Channel(s)"
+                                    selectionMode="multiple"
+                                    className="max-w-xs"
+                                    value={selectedChannels}
+                                    onChange={(e: any) => { handleSelect(e) }}
+                                >
+                                    {Channels.map((channel) => (
+                                        <SelectItem key={channel.key}>
+                                            {channel.label}
+                                        </SelectItem>
+                                    ))}
+                                </Select>
                             </div>
                         </div>
                     </div>
@@ -225,16 +222,15 @@ const Report = () => {
                     </div>
                 </div>
             </section>
-            <div className="grid grid-cols-4 gap-2" id="charts-container">
-                {chartsMetaData.map((chart, index) => (
+            {/* <div className="grid grid-cols-4 gap-2" id="charts-container">
+                {chartTypes?.map((chart, index) => (
                     <div key={index} id={`${chart.categories}`}>
-
                         <LineCharts
                             title={chart.title}
                             subTitle={chart.subTitle}
                             data={filteredData?.length ? filteredData : ChartData}
                             categories={chart.categories}
-                            colors={chart.colors}
+                            colors={['blue', 'violet', 'fuchsia']}
                             showLegend={false}
                             showYAxis={true}
                             startEndOnly={false}
@@ -242,21 +238,30 @@ const Report = () => {
 
                     </div>
                 ))}
-            </div>
-            <div className="grid grid-cols-4 gap-2 mt-4" id="charts-set-1">
-                {chartsSet1.map((chart, index) => (
-                    <div key={index} id={`${chart.categories}`}>
-                        <LineCharts
-                            title={chart.title}
-                            subTitle={chart.subTitle}
-                            data={filteredData?.length ? filteredData : ChartData}
-                            categories={chart.categories}
-                            colors={chart.colors}
-                            showLegend={false}
-                            showYAxis={true}
-                            startEndOnly={false}
-                        />
+            </div> */}
 
+            <div className="space-y-8" id="graphPart">
+                {selectedCampaigns?.map((group, rowIndex) => (
+                    <div key={rowIndex} className="space-y-4">
+                        <p className="text-lg font-semibold">{Campaigns.filter(data => data.key === group)[0]?.label}</p>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                            {chartTypes?.map((chart, colIndex) => (
+                                <div key={colIndex} className="bg-white p-4 rounded-lg shadow-md">
+                                    <LineCharts
+                                        title={chart.title}
+                                        subTitle={chart.subTitle}
+                                        data={transformDataForLineChart(filteredData, chart?.categories[0])}
+                                        categories={selectedChannels}
+                                        colors={['blue', 'violet', 'fuchsia']}
+                                        showLegend={true}
+                                        showYAxis={true}
+                                        startEndOnly={false}
+                                        index="date"
+
+                                    />
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 ))}
             </div>

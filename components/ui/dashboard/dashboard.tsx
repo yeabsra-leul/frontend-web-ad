@@ -178,8 +178,8 @@ const Dashboard = () => {
                 />
                 <BarChartComponent
                     data={BarData}
-                    indexKey="age"
-                    categoryKeys={['This Year']}
+                    index="age"
+                    categories={['This Year']}
                     colors={['blue']}
                     yAxisWidth={49}
                     className="my-custom-chart"
