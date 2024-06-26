@@ -17,7 +17,7 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'dev-mitech-ai.fe153dab94c62b5c9235e33427e8c87e.r2.cloudflarestorage.com'
+        hostname: '**.r2.cloudflarestorage.com'
       },
       {
         protocol: 'https',
