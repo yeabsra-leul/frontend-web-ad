@@ -64,7 +64,7 @@ export const fetchChannels = async () => {
 };
 
 export const fetchImage = async (imageId:string) => {
-  const response = await fetch(`${apiUrl}${API_BASE_URL}/media/${imageId}`);
+  const response = await fetch(`${API_BASE_URL}/media/${imageId}`);
   return response.json();
 };
 
