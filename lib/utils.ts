@@ -101,7 +101,6 @@ export const assembleAd = (ad: Advertisement|null, formData: FormData, validated
     version:'1.0.1',
     notes: validatedData.description,
   }
-  console.log("2",adData);
   adData.attributes = [];
   let ad_attr_location:ad_attribute = {
     mandatory:true,
@@ -179,4 +178,21 @@ export const assembleAd = (ad: Advertisement|null, formData: FormData, validated
     })
   }
   return adData;
+};
+
+export const assembleAdGroup = (adg: any|null, validatedData: any): any => {
+  
+  let adgData:any = {
+    name: validatedData.name,
+    notes: validatedData.notes,
+    campaignId: validatedData.campaign,
+    version:'1.0.1',
+  }
+  
+  if(adg !== null){
+    let updatedVersion = updateVersion(adg.version);
+    adgData.version = updatedVersion;
+    adgData.id = adg.id;
+  }
+  return adgData;
 };

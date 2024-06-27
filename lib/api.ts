@@ -28,7 +28,7 @@ export const updateAdvertisement = async (adData: any) => {
 };
 
 export const deleteAd = async (ad_id: string) => {
-  const response = await fetch(`${apiUrl}${API_BASE_URL}/delete?ad_id=${ad_id}`, {
+  const response = await fetch(`${apiUrl}${API_BASE_URL}/delete?id=${ad_id}`, {
     method: 'DELETE',
   });
   return response.json();
@@ -144,7 +144,7 @@ export const fetchGroup = async (id: string) => {
   return response.json();
 };
 
-export const fetchGroupList = async () => {
-  const response = await fetch(`${apiUrl}${API_GROUP_URL}/list`);
+export const fetchGroupList = async (campaignId: string) => {
+  const response = await fetch(`${apiUrl}${API_GROUP_URL}/list?campaignId=${campaignId}`);
   return response.json();
 };
