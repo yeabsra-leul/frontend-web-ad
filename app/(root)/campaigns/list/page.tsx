@@ -60,26 +60,25 @@ export default function Page({
   const totalPages = GetFilteredCampaignPages(campaigns,query);
 return ( 
   <div className="w-full">     
-      <header className="flex items-center justify-between px-6 py-4 bg-gray-300 font-bold rounded-t-medium">
+      <header className="flex items-center justify-between px-6 py-4 bg-gray-300 font-bold">
         <div className="flex items-center space-x-4">
           <h2 className="text-lg font-medium">Campaign List</h2>
         </div>        
       </header>
-    <div className='w-full max-w-[80%] justify-center items-center m-auto'>
-      <div className="mt-4 flex items-center justify-center gap-2 md:mt-8">
-        <Search placeholder="Search campaign" />
-        <Link href="/campaigns/create"
-          className="flex h-10 items-center rounded-lg bg-blue-600 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
-    >
-      <span className="hidden md:block">Create New Campaign</span>{' '}
-      <PlusIcon className="h-5 md:ml-4" />
-    </Link>
+      <div className='w-full max-w-[85%] justify-center items-center m-auto'>
+        <div className="mt-4 flex items-center justify-center gap-2 md:mt-8">
+          <Search placeholder="Search campaign" />
+          <Link href="/campaigns/create"
+            className="flex h-10 items-center rounded-lg bg-blue-600 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
+            <span className="hidden md:block">Create New Campaign</span>{' '}
+            <PlusIcon className="h-5 md:ml-4" />
+          </Link>
+        </div>
+        <CampaignListTable query={query} currentPage={currentPage} />
+        <div className="mt-5 flex w-full justify-center">
+          <Pagination totalPages={totalPages} />
+        </div>
       </div>
-      <CampaignListTable query={query} currentPage={currentPage} />
-      <div className="mt-5 flex w-full justify-center">
-        <Pagination totalPages={totalPages} />
-      </div>
-    </div>
   </div>
 );
 }

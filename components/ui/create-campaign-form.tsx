@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { createCampaignAction } from '@/lib/campaignActions';
 import { useFormState } from 'react-dom';
 import { DatePicker } from "@nextui-org/date-picker";
-import { Button } from "@nextui-org/react";
+import { Button, Textarea} from "@nextui-org/react";
 
 export default function CampaignForm() {
   const initialState = { message: "", errors: {} };
@@ -12,7 +12,7 @@ export default function CampaignForm() {
   
   return (
     <form action={dispatch}>
-      <header className="flex items-center justify-between px-6 py-4 bg-gray-300 font-bold rounded-t-medium">
+      <header className="flex items-center justify-between px-6 py-4 bg-gray-300 font-bold">
         <div className="flex items-center space-x-4">
           <h2 className="text-lg font-medium">Create Campaign</h2>
         </div>        
@@ -73,7 +73,7 @@ export default function CampaignForm() {
                 </label>
               </div>
               <div className="md:w-3/4">
-                <textarea id="campaignNotes" name="notes" placeholder="Campaign notes" className="min-h-[150px] appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" />
+                <Textarea id="campaignNotes" name="notes" placeholder="Campaign notes" className="" />
               </div>
             </div>                
             <div className="md:flex md:items-center mb-6">
@@ -138,7 +138,7 @@ export default function CampaignForm() {
       <footer className="flex items-center justify-center px-6">
         <div className="flex justify-between px-6 w-1/2">
         <Link
-          href="/"
+          href="/campaigns/list"
           className="flex h-10 items-center rounded-lg px-4 border-1 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
         >
           Cancel
