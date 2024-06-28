@@ -70,7 +70,7 @@ export const fetchImage = async (imageId:string) => {
 
 export const createCampaign = async (campaignData: any) => {
   const data = JSON.stringify(campaignData);
-   const response = await fetch(`${API_BASE_URL}/campaign/create`, {
+   const response = await fetch(`${API_CAMPAIGN_URL}/create`, {
      method: 'POST',
      headers: {
        'Content-Type': 'application/json',
@@ -81,7 +81,7 @@ export const createCampaign = async (campaignData: any) => {
  };
 
  export const updateCampaign = async (campaignData: any) => {
-  const response = await fetch(`${API_CAMPAIGN_URL}/campaign/update`, {
+  const response = await fetch(`${API_CAMPAIGN_URL}/update`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',

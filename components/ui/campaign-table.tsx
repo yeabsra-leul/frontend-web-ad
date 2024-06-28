@@ -3,6 +3,8 @@ import { fetchCampaignList } from '@/lib/api';
 import { GetFilteredCampaign } from '@/lib/data';
 import { Campaign } from '@/lib/definitions';
 import { useEffect, useState } from 'react';
+import { PlusIcon, PencilIcon, StopIcon, EyeIcon, TrashIcon, ArrowUpOnSquareStackIcon } from '@heroicons/react/24/outline';
+import Link from 'next/link';
 
 export default function CampaignListTable({
   query,
@@ -63,15 +65,9 @@ export default function CampaignListTable({
                     <th scope="col" onClick={() => handleSort("endDateTime")} className="px-4 py-5 font-medium">
                       <p className='inline-flex cursor-pointer font-bold'>End Date{sortSvg("endDateTime")}</p> 
                     </th>
-                    <th scope="col" className="relative py-3 pl-2 pr-2 w-0.5">
-                      <span className="sr-only">Detail</span>
-                    </th>
-                    <th scope="col" className="relative py-3 pl-2 pr-2 w-0.5">
-                      <span className="sr-only">Edit</span>
+                    <th scope="col" className="px-4 py-5 font-medium" >
+                      <p className='inline-flex font-bold'>Actions</p>
                     </th>                    
-                    <th scope="col" className="relative py-3 pl-2 pr-2 w-0.5">
-                      <span className="sr-only">Delete</span>
-                    </th>
                   </tr>
                 </thead>
 
@@ -94,19 +90,17 @@ export default function CampaignListTable({
                       </td>
                       <td className="whitespace-nowrap py-3 pl-2 pr-2 w-0.5">
                         <div className="flex gap-3">
-                          {campaign.id && 'View' }                      
-                        </div>
-                      </td>
-                      <td className="whitespace-nowrap py-3 pl-2 pr-2 w-0.5">
-                        <div className="flex gap-3">                       
-                        {campaign.id && 'Update'}
+                          {campaign.id && (
+                            <Link href={`/campaigns/${campaign.id}`}><EyeIcon className="w-5" /></Link>
+                          )}
+                          {campaign.id && (
+                            <Link href={`/campaigns/update/${campaign.id}`}><PencilIcon className="w-5" /></Link>
+                          )}
+                          {campaign.id  && (
+                            <Link href={`/campaigns/${campaign.id}/delete`}><TrashIcon className="w-5" /></Link>
+                          )}
                         </div>
                       </td>                      
-                      <td className="whitespace-nowrap py-3 pl-2 pr-2 w-0.5">
-                        <div className="flex gap-3">                         
-                          {campaign.id  && 'Delete'}
-                        </div>
-                      </td>
                     </tr>
                   ))}
                 </tbody>

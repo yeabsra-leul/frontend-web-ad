@@ -9,12 +9,11 @@ import { convertToISO8601, updateVersion } from './utils';
 
 const FormSchema = z.object({
     id: z.string(),
-      campaignName: z.string().min(1, { message: 'Please enter a name' }),      
-      campaignBudget: z.coerce
-      .number()
-      .gt(0, { message: 'Please enter an budget greater than $0.' }),   
-      campaignStartDate: z.string().min(1, { message: 'This is required' }),
-      campaignEndDate: z.string().min(1, { message: 'This is required' }),
+    campaignName: z.string().min(1, { message: 'Please enter a name' }),      
+    campaignBudget: z.coerce.number().gt(0, { message: 'Please enter an budget greater than $0.' }),   
+    campaignStartDate: z.string().min(1, { message: 'This is required' }),
+    campaignEndDate: z.string().min(1, { message: 'This is required' }),
+    campaignNotes: z.string().min(1, { message: '' }),   
   });
 
   const CreateCampaignAction = FormSchema.omit({ id: true });
@@ -91,7 +90,7 @@ export function createCampaignAction(prevState: State, formData: FormData) {
     redirect('/campaigns/list');
   }
 
-  const assembleCampaign = (campaign: Campaign | null, formData: FormData, validatedFields: any): Campaign => {
+  export const assembleCampaign = (campaign: Campaign | null, formData: FormData, validatedFields: any): Campaign => {
     const { campaignName, campaignBudget, campaignStartDate, campaignEndDate, campaignNotes }= validatedFields.data;   
   
     let campaignData:Campaign = {
