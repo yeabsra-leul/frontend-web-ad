@@ -1,7 +1,7 @@
+'use client';
 import React, { useCallback, useState, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 import Image from "next/image";
-const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 const API_BASE_URL = '/api/ad';
 interface FileWithPreview extends File {
   preview: string;
@@ -32,7 +32,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onUploadComplete,imageLin
     
     setUploading(true);
     try {
-      const response = await fetch(`${apiUrl}${API_BASE_URL}/media/upload`, {
+      const response = await fetch(`${API_BASE_URL}/media/upload`, {
         method: 'POST',
         body: formData,
       });
