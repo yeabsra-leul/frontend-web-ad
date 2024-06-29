@@ -5,9 +5,11 @@ import Link from 'next/link';
 import { PlusIcon, PencilIcon, StopIcon, EyeIcon, TrashIcon, ArrowUpOnSquareStackIcon } from '@heroicons/react/24/outline';
 import {Tooltip, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure} from "@nextui-org/react";
 import { redirect, useRouter } from 'next/navigation';
-import { deleteAd, deleteGroup, publishAd, unpublishAd } from '@/lib/api';
+import { deleteAd, deleteGroup, publishAd, unpublishAd, deleteCampaign } from '@/lib/api';
 import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
+import { useState } from 'react';
+
 
 
 export function CreateAd() {
@@ -250,5 +252,21 @@ export function DeleteAdGroup({ id }: { id: string }) {
         </ModalContent>
       </Modal>
     </form>
-  );
+  );  
 }
+
+// export function DeleteCampaignButton({id}:{id:string}) {
+//   const handleDelete = async () => {
+//       const userConfirmed = window.confirm("Are you sure you want to delete this campaign?");
+//       if (userConfirmed) {
+//           console.log('delete campaign:'+id);
+//           await deleteCampaign(id);
+//           Cookies.set('notification_delete_campaign', 'The campaign is deleted successfully!');
+//           location.reload();
+//       }
+//   };
+
+//   return (
+//       <button onClick={handleDelete}><TrashIcon  className="w-5"/></button>      
+//   );
+// };
