@@ -8,9 +8,12 @@ import { z } from "zod";
 import { parseDate, DateValue, CalendarDate } from '@internationalized/date';
 import { Button, Textarea } from '@nextui-org/react';
 import { assembleAd } from "@/lib/utils";
-import { createAdvertisement } from "@/lib/api";
+import { GenerateContent, createAdvertisement } from "@/lib/api";
 import Cookies from "js-cookie";
 import { useRouter } from 'next/navigation';
+import { generate_content_result } from "@/lib/definitions";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure} from "@nextui-org/react";
+import {Spinner} from "@nextui-org/react";
 
 const schema = z.object({
       name: z.string().min(1, { message: 'Name is required' }),
@@ -26,12 +29,20 @@ const schema = z.object({
       description: z.string().min(1, { message: 'Description is required' }),
       image: z.string().min(1, { message: 'Image is required' }),
 });
-
+interface ApiResponse {
+  result: {
+    type: string;
+    result: generate_content_result[];
+  }[];
+}
 export default function Form({ channels }: { channels: any[] }) {
 
-  const [formData, setFormData] = useState({ name: '', url: '', location: '', phone: '', channel: '', budget: '', headline1: '', target: '', start: '', end: '', description: '', image:''});
+  const [formData, setFormData] = useState({ name: '', url: '', location: '', phone: '', channel: '', budget: '', headline1: '',headline2: '',headline3: '',headline4: '',headline5: '', target: '', start: '', end: '', description: '', image:''});
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const router = useRouter();
+  const [showGenerateHeadline, setShowGenerateHeadline] = useState(false);
+  const [showLoading, setShowLoading] = useState(true);
+  const [generatedHeadline,setGeneratedHeadline] = useState<any[]>([]);
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formElement = e.currentTarget;
@@ -77,6 +88,13 @@ const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElem
       ...prevErrors,
       [name]: '',
   }));
+  // Generate headline button is showed when headline1 is filled
+  if(name === 'headline1' && value !== ''){
+    setShowGenerateHeadline(true)
+  }
+  else if(name === 'headline1' && value === ''){
+    setShowGenerateHeadline(false);
+  }
 };
 const handleDateChange = (name: string, date: CalendarDate | null) => {
   setFormData((prevData) => ({
@@ -93,10 +111,11 @@ const handleDateChange = (name: string, date: CalendarDate | null) => {
     showHeadline5:false,
     showAddHeadlineButton:true
   })
+
+  //about seo keywords
   const initialSeo = GetInitialSeoKeywords();
   const [inputsRecommanded, setInputs] = useState(initialSeo);
   const [valueSeoInput, setValue] = useState('');
-
   const [seoButtons, setSeoButtons] = useState({
     disableAddButton:true,
     disableRefreshButton:true
@@ -134,6 +153,7 @@ const handleDateChange = (name: string, date: CalendarDate | null) => {
     })
   }
 
+  //about adding headlines
   const handleAddHeadlines = () =>{ 
       if (!addHeadline.showHeadline4 && !addHeadline.showHeadline5){
         setHeadlines(() => { 
@@ -155,8 +175,8 @@ const handleDateChange = (name: string, date: CalendarDate | null) => {
       }
   }; 
 
+  //about image upload
   const [uploadedFile, setUploadedFile] = useState<any | null>(null);
-
   const handleUploadComplete = (file: any) => {
     setUploadedFile(file);
       setFormData((prevData) => ({
@@ -171,6 +191,48 @@ const handleDateChange = (name: string, date: CalendarDate | null) => {
   useEffect(() => {
     console.log('uploaded file updated:', uploadedFile);
   }, [uploadedFile]);
+
+  //about generate headlines
+  const handleGenerateHeadlines = async () => {
+    const headline1 = formData.headline1;
+    const indexArray = [1,2,3];
+    if(addHeadline.showHeadline4){
+      indexArray.push(4);
+    }
+    if(addHeadline.showHeadline5){
+      indexArray.push(5);
+    }
+    let gcData ={
+      attributes: [{
+        index:0,
+        headline:headline1,
+      }],
+      output_type:[{
+        index:indexArray,
+        type: "headline"
+      }]
+    }
+    
+    const response: ApiResponse = await GenerateContent(gcData).finally(() => {
+      setShowLoading(false);
+    });
+    const headlineResult = response.result.find(item => item.type === 'headline');
+    if (headlineResult && headlineResult.result) {
+      setGeneratedHeadline(headlineResult.result)
+    }
+  };
+  //about Modal for generated headlines
+  const {isOpen, onOpen,onClose, onOpenChange} = useDisclosure();
+  const AcceptContentHandler = async () => {
+    generatedHeadline.map((item:generate_content_result) => {
+      setFormData((prevData) => ({
+        ...prevData,
+        ["headline"+item.index]: item.data,
+      }));
+    });
+    setShowGenerateHeadline(false);
+    onClose(); // Close the modal
+  };
   return (
     <form onSubmit={handleSubmit}>
       <header className="flex items-center justify-between px-6 py-4 bg-gray-900 text-white">
@@ -179,7 +241,7 @@ const handleDateChange = (name: string, date: CalendarDate | null) => {
         </div>
         <div className="mt-6 flex justify-end gap-4">
           <Link
-            href="/"
+            href="/manage"
             className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
           >
             Cancel
@@ -224,7 +286,6 @@ const handleDateChange = (name: string, date: CalendarDate | null) => {
                 </label>
               </div>
               <div className="md:w-3/4 inline-flex">
-                <div className='md:w-3/4'>
                   <input id="adUrl" 
                   name="url" 
                   placeholder="https://" 
@@ -233,12 +294,6 @@ const handleDateChange = (name: string, date: CalendarDate | null) => {
                   type="text" 
                   value={formData.url}
                   onChange={handleChange} />
-                </div>
-                <div className='md:w-1/4'>
-                  <Button className='float-right' color="primary" type='button'>
-                    Generate info below
-                  </Button>
-                </div>
               </div>
             </div>
             <div className="md:flex md:items-center mb-6">
@@ -442,7 +497,13 @@ const handleDateChange = (name: string, date: CalendarDate | null) => {
                 </label>
               </div>
               <div className="md:w-3/4">
-                <input id="adHeadline2" name="headline2" placeholder="Enter the 2nd headline" className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="text" />
+                <input id="adHeadline2" 
+                name="headline2" 
+                placeholder="Enter the 2nd headline" 
+                className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" 
+                type="text" 
+                value={formData.headline2}
+                />
               </div>
             </div>
             <div className="md:flex md:items-center mb-6">
@@ -452,7 +513,12 @@ const handleDateChange = (name: string, date: CalendarDate | null) => {
                 </label>
               </div>
               <div className="md:w-3/4">
-                <input id="adHeadline3" name="headline3" placeholder="Enter the 3rd headline" className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="text" />
+                <input id="adHeadline3" 
+                name="headline3" 
+                placeholder="Enter the 3rd headline" 
+                className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" 
+                type="text" 
+                value={formData.headline3}/>
               </div>
             </div>
             {addHeadline.showHeadline4 && (
@@ -463,7 +529,12 @@ const handleDateChange = (name: string, date: CalendarDate | null) => {
                 </label>
               </div>
               <div className="md:w-3/4">
-                <input id="adHeadline4" name="headline4" placeholder="Enter the 4th headline" className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="text" />
+                <input id="adHeadline4" 
+                name="headline4" 
+                placeholder="Enter the 4th headline" 
+                className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" 
+                type="text" 
+                value={formData.headline4}/>
               </div>
             </div>)
             }
@@ -475,20 +546,54 @@ const handleDateChange = (name: string, date: CalendarDate | null) => {
                 </label>
               </div>
               <div className="md:w-3/4">
-                <input id="adHeadline5" name="headline5" placeholder="Enter the 5th headline" className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="text" />
+                <input id="adHeadline5" 
+                name="headline5" 
+                placeholder="Enter the 5th headline" 
+                className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" 
+                type="text" 
+                value={formData.headline5}/>
               </div>
             </div>)
             }
-            {addHeadline.showAddHeadlineButton && (
+            
               <div className="md:flex md:items-center mb-6">
               <div className="md:w-1/4"> </div>
               <div className="md:w-3/4">
-                <Button className='float-left' color="primary" type='button' onClick={handleAddHeadlines}>
-                  Add new headline
-                </Button>
+               <div className="flow-root">
+                  {addHeadline.showAddHeadlineButton && <Button className='float-left' color="primary" type='button' onClick={handleAddHeadlines}>
+                    Add new headline
+                  </Button>}
+                  {showGenerateHeadline && <Button className='float-right' color="primary" type='button' onPress={onOpen} onClick={handleGenerateHeadlines}>
+                      Generate headlines
+                    </Button>              
+                    }
+                    <Modal size="4xl" isOpen={isOpen} onOpenChange={onOpenChange} placement='top' classNames={{base:"bg-white"}}>
+                      <ModalContent>
+                        {(onClose) => (
+                          <>
+                            <ModalHeader className="flex flex-col gap-1">Do you accept the following generated headlines?</ModalHeader>
+                            <ModalBody>
+                            {showLoading && <Spinner label="Generating headlines..." color="default" />}
+                              {!showLoading && generatedHeadline.map((item:generate_content_result) => (
+                                <div key={item.index}><label>Headline{item.index}:&nbsp;&nbsp;</label>{item.data}</div>
+                              ))}               
+                            </ModalBody>
+                            <ModalFooter>
+                              <Button color="danger" variant="light" onPress={onClose} className='flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200'>
+                                No
+                              </Button>
+                              <Button color="primary" onPress={()=>AcceptContentHandler()} className='flex h-10 items-center rounded-lg bg-blue-600 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600'>
+                                Yes
+                              </Button>
+                            </ModalFooter>
+                          </>
+                        )}
+                      </ModalContent>
+                    </Modal>
+                </div>               
               </div>
-            </div> )
-            }
+            </div> 
+            
             <div className="md:flex md:items-center mb-6">
               <div className="md:w-1/4">
                 <label className="block text-gray-500 font-bold mb-1 md:mb-0 pr-4" htmlFor="adTargetAudience">
@@ -496,7 +601,6 @@ const handleDateChange = (name: string, date: CalendarDate | null) => {
                 </label>
               </div>
               <div className="md:w-3/4 inline-flex">
-                <div className='md:w-3/4'>
                   <input id="adTargetAudience" 
                   name="target" 
                   aria-describedby="target-error" 
@@ -505,13 +609,7 @@ const handleDateChange = (name: string, date: CalendarDate | null) => {
                   type="text" 
                   value={formData.target}
                   onChange={handleChange}
-                  />
-                </div>
-                <div className='md:w-1/4'>
-                  <Button className='float-right' color="primary" type='button'>
-                    ReGenerate
-                  </Button>
-                </div>
+                  />               
               </div>
             </div>
             <div className="md:flex md:items-center mb-6">

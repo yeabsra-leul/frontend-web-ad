@@ -10,6 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
 import AdGroupTable from '@/components/ui/ad-group-table';
+import {Spinner} from "@nextui-org/react";
 
 export default function Page({
   searchParams,
@@ -28,6 +29,7 @@ export default function Page({
   const [campaignId, setCampaignId] = useState<string>('');
   const [campaignName, setCampaignName] = useState<string>('');
   const [adGroupAll, setAdGroupAll] = useState<any[]>([]);
+  const [showLoading, setShowLoading] = useState(true);
   useEffect(() => {
     const message = Cookies.get('notification_create_adgroup');
     function showToast() {
@@ -59,13 +61,14 @@ export default function Page({
     }
   }, []);
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setShowLoading(true);
     const selectedOption = event.target.selectedOptions[0];
     const campaignName = selectedOption.value;
     const campaignId = selectedOption.getAttribute('data-id') as string;
     if(campaignId !== ''){
       setCampaignId(campaignId);
       setAdGroupAll([]);
-      fetchGroupList(campaignId).then(data => setAdGroupAll(data.result));
+      fetchGroupList(campaignId).then(data => setAdGroupAll(data.result)).finally(() => setShowLoading(false));
     }
     if(campaignName !== ''){
       setCampaignName(campaignName);
@@ -105,7 +108,8 @@ return (
       <div className="mt-4 flex items-center justify-center gap-2 md:mt-8">
         <Search placeholder="Search ad..." />
       </div>
-      <AdGroupTable query={query} currentPage={currentPage} campaignId={campaignId} campaignName={campaignName}/>
+      {showLoading && <Spinner label="Loading ad groups..." color="default" />}
+      {!showLoading && <AdGroupTable query={query} currentPage={currentPage} campaignId={campaignId} campaignName={campaignName}/>}
       <div className="mt-5 flex w-full justify-center">
         <Pagination totalPages={totalPages} />
       </div>

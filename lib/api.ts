@@ -4,7 +4,6 @@ const API_CAMPAIGN_URL = API_BASE_URL + '/campaign';
 const API_GROUP_URL = API_BASE_URL + '/group';
 
 export const createAdvertisement = async (adData: any) => {
- const data = JSON.stringify(adData);
   const response = await fetch(`${API_BASE_URL}/create`, {
     method: 'POST',
     headers: {
@@ -69,7 +68,6 @@ export const fetchImage = async (imageId:string) => {
 };
 
 export const createCampaign = async (campaignData: any) => {
-  const data = JSON.stringify(campaignData);
    const response = await fetch(`${API_CAMPAIGN_URL}/create`, {
      method: 'POST',
      headers: {
@@ -109,7 +107,6 @@ export const fetchCampaignList = async () => {
 };
 
 export const createGroup = async (groupData: any) => {
-  const data = JSON.stringify(groupData);
    const response = await fetch(`${API_GROUP_URL}/create`, {
      method: 'POST',
      headers: {
@@ -147,3 +144,16 @@ export const fetchGroupList = async (campaignId: string) => {
   const response = await fetch(`${API_GROUP_URL}/list?campaignId=${campaignId}`);
   return response.json();
 };
+
+export const GenerateContent = async (gcData: any) => {
+  const data = JSON.stringify(gcData);
+  console.log("gcData",data);
+   const response = await fetch(`${API_BASE_URL}/ai/generate_content`, {
+     method: 'POST',
+     headers: {
+       'Content-Type': 'application/json',
+     },
+     body: JSON.stringify(gcData),
+   });
+   return response.json();
+ };
