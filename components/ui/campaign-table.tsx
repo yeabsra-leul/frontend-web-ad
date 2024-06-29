@@ -3,9 +3,56 @@ import { fetchCampaignList } from '@/lib/api';
 import { GetFilteredCampaign } from '@/lib/data';
 import { Campaign } from '@/lib/definitions';
 import { useEffect, useState } from 'react';
-import { PencilIcon, EyeIcon } from '@heroicons/react/24/outline';
+import { PencilIcon, EyeIcon, TrashIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
-import { DeleteCampaignButton } from './button';
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Button,
+  useDisclosure
+} from '@nextui-org/react';
+import { deleteCampaign } from '@/lib/api';
+import Cookies from 'js-cookie';
+import { toast } from 'react-toastify';
+interface ModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  data: { id?: string; name?: string };
+  handleDelete: () => Promise<void>;
+}
+
+const DataPassingModal: React.FC<ModalProps> = ({
+  isOpen,
+  onClose,
+  data,
+  handleDelete
+}) => {
+  return (
+    <Modal isOpen={isOpen} onClose={onClose}>
+      <ModalContent>
+        {(onClose) => (
+          <>
+            <ModalHeader className="flex flex-col gap-1"></ModalHeader>
+            <ModalBody>
+              Are you sure you want to delete this campaign: {data.name}
+            </ModalBody>
+            <ModalFooter>
+              <Button variant="light" onClick={onClose}>
+                Cancel
+              </Button>
+              <Button color="primary" id={data.id} onClick={handleDelete}>
+                Confirm
+              </Button>
+            </ModalFooter>
+          </>
+        )}
+      </ModalContent>
+    </Modal>
+  );
+};
 
 export default function CampaignListTable({
   query,
@@ -14,17 +61,22 @@ export default function CampaignListTable({
   query: string;
   currentPage: number;
 }) {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [modalData, setModalData] = useState<{ id?: string; name?: string }>(
+    {}
+  );
   const [sortColumn, setSortColumn] = useState('name');
   const [sortOrder, setSortOrder] = useState('asc');
   const [campaignAll, setCampaign] = useState<Campaign[]>([]);
+  const [refreshPage, setRefreshPage] = useState(false);
 
-  useEffect(() => {
+  useEffect(() => {    
     fetchCampaignList().then((data) =>
       setCampaign(
         data.result.filter((campaign: any) => campaign.status !== 'deleted')
       )
     );
-  }, []);
+  }, [refreshPage]);
   const handleSort = (column: string) => {
     if (sortColumn === column) {
       setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
@@ -33,6 +85,32 @@ export default function CampaignListTable({
       setSortOrder('asc');
     }
   };
+  useEffect(() => {
+    const message = Cookies.get('notification_delete_campaign');
+    function showToast() {
+      toast.success(message);
+    }
+    if (message) {
+      setTimeout(showToast, 1000);
+      Cookies.remove('notification_delete_campaign');
+    }
+  }, [refreshPage]);
+  const onModalOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const id = event.currentTarget.id;
+    const name = event.currentTarget.name;
+    setModalData({ id: id, name: name });
+    onOpen();
+  };
+
+  const handleDelete = async () => {
+    if (modalData.id) {
+      await deleteCampaign(modalData.id);
+      Cookies.set('notification_delete_campaign', 'The campaign is deleted successfully!');
+      setRefreshPage((prev) => !prev);
+      onClose();      
+    }
+  };
+
   const sortSvg = (column: string) =>
     sortColumn === column ? (
       <svg
@@ -137,7 +215,13 @@ export default function CampaignListTable({
                           </Link>
                         )}
                         {campaign.id && (
-                          <DeleteCampaignButton id={campaign.id} />
+                          <button
+                            name={campaign.name}
+                            id={campaign.id}
+                            onClick={onModalOpen}
+                          >
+                            <TrashIcon className="w-5" />
+                          </button>
                         )}
                       </div>
                     </td>
@@ -148,6 +232,12 @@ export default function CampaignListTable({
           </div>
         </div>
       </div>
+      <DataPassingModal
+        isOpen={isOpen}
+        onClose={onClose}
+        data={modalData}
+        handleDelete={handleDelete}
+      />
     </div>
   );
 }

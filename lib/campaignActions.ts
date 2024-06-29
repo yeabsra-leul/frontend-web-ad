@@ -13,7 +13,7 @@ const FormSchema = z.object({
     campaignBudget: z.coerce.number().gt(0, { message: 'Please enter an budget greater than $0.' }),   
     campaignStartDate: z.string().min(1, { message: 'This is required' }),
     campaignEndDate: z.string().min(1, { message: 'This is required' }),
-    campaignNotes: z.string().min(1, { message: '' }),   
+    campaignNotes: z.string(),   
   });
 
   const CreateCampaignAction = FormSchema.omit({ id: true });

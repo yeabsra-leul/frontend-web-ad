@@ -255,18 +255,18 @@ export function DeleteAdGroup({ id }: { id: string }) {
   );  
 }
 
-export function DeleteCampaignButton({id}:{id:string}) {
-  const handleDelete = async () => {
-      const userConfirmed = window.confirm("Are you sure you want to delete this campaign?");
-      if (userConfirmed) {
-          console.log('delete campaign:'+id);
-          await deleteCampaign(id);
-          Cookies.set('notification_delete_campaign', 'The campaign is deleted successfully!');
-          location.reload();
-      }
-  };
+// export function DeleteCampaignButton({id}:{id:string}) {
+//   const handleDelete = async () => {
+//       const userConfirmed = window.confirm("Are you sure you want to delete this campaign?");
+//       if (userConfirmed) {
+//           console.log('delete campaign:'+id);
+//           await deleteCampaign(id);
+//           Cookies.set('notification_delete_campaign', 'The campaign is deleted successfully!');
+//           location.reload();
+//       }
+//   };
 
-  return (
-      <button onClick={handleDelete}><TrashIcon  className="w-5"/></button>
-  );
-};
+//   return (
+//       <button onClick={handleDelete}><TrashIcon  className="w-5"/></button>      
+//   );
+// };
