@@ -4,7 +4,7 @@ import { SessionProvider } from 'next-auth/react';
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { NextUIProvider } from '@nextui-org/react';
 import { ThemeProvider as NextThemesProvider } from "next-themes";
-import { NotificationProvider } from '@/components/ui/NotificationContext';
+import NotificationProvider from '@mitech/shared-components/lib/notification-context-provider';
 import Navbar from '@mitech/shared-components/ui/navbars/navbar-2';
 import Sidebar from '@mitech/shared-components/ui/sidebars/sidebar-2';
 
