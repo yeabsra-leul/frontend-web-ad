@@ -68,3 +68,9 @@ export type campaign_attribute = {
   subtype?: string;
   value: string;
 }
+
+export type generate_content_result={
+  index:number;
+  data:string;
+}
+  
