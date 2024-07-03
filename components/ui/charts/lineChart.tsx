@@ -9,7 +9,7 @@ interface DataPoint {
 interface LineChartsProps {
     title?: string;
     subTitle?: string;
-    data: DataPoint[];
+    data: any;
     categories?: string[];
     colors?: string[];
     valueFormatter?: (number: number | bigint) => string;
@@ -19,14 +19,15 @@ interface LineChartsProps {
     cardClassName?: string;
     chartClassName?: string;
     index?: string;
+    props?: any
 }
 
-const defaultFormatter = (number: number | bigint) => 
+const defaultFormatter = (number: number | bigint) =>
     `${Intl.NumberFormat('us').format(number).toString()}`;
 
 const LineCharts: React.FC<LineChartsProps> = ({
     title = '',
-    subTitle="",
+    subTitle = "",
     data,
     categories = ['Organic'],
     colors = ['blue'],
@@ -36,7 +37,8 @@ const LineCharts: React.FC<LineChartsProps> = ({
     startEndOnly = true,
     cardClassName = 'sm:mx-auto sm:max-w-md text-center',
     chartClassName = 'mt-6 h-32',
-    index="date"
+    index = "date",
+    props
 }) => {
     return (
         <Card className={cardClassName}>
@@ -47,6 +49,7 @@ const LineCharts: React.FC<LineChartsProps> = ({
                 {subTitle}
             </h3>
             <LineChart
+                {...props}
                 data={data}
                 index={index}
                 categories={categories}

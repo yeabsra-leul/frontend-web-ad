@@ -17,8 +17,7 @@ interface BarListChartProps {
     buttonClassName?: string;
 }
 
-const defaultFormatter = (number: number | bigint) =>
-    `${Intl.NumberFormat('us').format(number).toString()}`;
+const defaultFormatter = (number: number | bigint) => { return number };
 
 const BarListChart: React.FC<BarListChartProps> = ({
     title = 'Top Destination Url',
