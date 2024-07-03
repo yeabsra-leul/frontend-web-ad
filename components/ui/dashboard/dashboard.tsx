@@ -1,19 +1,20 @@
 "use client"
 import { useState } from "react";
-import BarListChart from "./barList";
-import BarChartComponent from "./barChart";
-import LineCharts from "./lineChart";
-import { data, pages, keyWords, campaignsData, BarData } from "./dummyData";
+import BarListChart from "../charts/barList";
+import BarChartComponent from "../charts/barChart";
+import LineCharts from "../charts/lineChart";
+import { data, pages, keyWords, campaignsData, BarData } from "../dummyData";
 import CampaignTable from './table'
 import { format } from 'date-fns';
-
-const DashboardChart = () => {
+import {Slider } from "@nextui-org/react";
+const Dashboard = () => {
     const [value, setValue] = useState(0);
     const [startDate, setStartDate] = useState(new Date('2023-01-01').getTime());
     const [endDate, setEndDate] = useState(new Date('2023-12-31').getTime());
     const [filteredData, setFilteredData] = useState([]);
+    
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>, isStart: boolean) => {
-        const newValue = +event.target.value;
+        const newValue = +event;
         if (isStart) {
             setValue(newValue);
         } else {
@@ -37,7 +38,7 @@ const DashboardChart = () => {
     };
 
     return (
-        <div>
+        <div className="container mx-auto px-4 mb-8">
             <div>
                 <div className="h-px bg-gray-300" />
                 <h1 className="text-3xl font-bold mb-4 mt-4">Dashboard</h1>
@@ -45,17 +46,21 @@ const DashboardChart = () => {
                 <p className="text-xl mb-8">Welcome, Xue!</p>
             </div>
             <div className="mb-4 w-1/3 flex items-center mx-auto">
-                <label htmlFor="startDateLabel" className="mr-2">{formatDate(startDate)}</label>
-                <input
+                <label htmlFor="startDateLabel" className="mr-2">{formatDate(value)}</label>
+                <Slider
                     id="startDateLabel"
-                    type="range"
-                    className="w-full bg-orange-300 rounded-full"
-                    min={startDate}
-                    max={endDate}
+                    minValue={startDate}
+                    maxValue={endDate}
                     step={monthMilliseconds}
                     value={value}
-                    onChange={(event) => handleChange(event, true)}
-                    title={formatDate(value)}
+                    defaultValue={[startDate, endDate]}
+                    onChange={(event: any) => handleChange(event, true)}
+                    aria-label={formatDate(value)}
+                    classNames={{
+                        base: "max-w-md",
+                        filler: "bg-orange-500"
+                      }}
+
                 />
                 <label htmlFor="startDateLabel" className="ml-2">{formatDate(new Date().getTime())}</label>
             </div>
@@ -174,8 +179,8 @@ const DashboardChart = () => {
                 />
                 <BarChartComponent
                     data={BarData}
-                    indexKey="age"
-                    categoryKeys={['This Year']}
+                    index="age"
+                    categories={['This Year']}
                     colors={['blue']}
                     yAxisWidth={49}
                     className="my-custom-chart"
@@ -185,4 +190,4 @@ const DashboardChart = () => {
     );
 };
 
-export default DashboardChart;
+export default Dashboard;

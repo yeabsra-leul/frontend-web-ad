@@ -2,13 +2,16 @@
 
 import React from "react";
 import Layout from "@/components/ui/layout/index";
-import Dashboard from "@/components/ui/dashboard/dashboard";
+import ImportPage from "@/components/ui/report/import/import";
 
-export default function Page() {
+const Page: React.FC<any> = () => {
   return (
         <Layout>
-          <Dashboard />
+          <ImportPage/>
         </Layout>
   );
 };
 
+
+ 
+export default Page

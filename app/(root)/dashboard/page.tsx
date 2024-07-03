@@ -1,16 +1,14 @@
 "use client";
 
 import React from "react";
-import DashBoard from "@/components/ui/dashboard/index";
-import DashboardChart from "@/components/ui/dashboard/charts";
+import Layout from "@/components/ui/layout/index";
+import Dashboard from "@/components/ui/dashboard/dashboard";
 
 export default function Page() {
   return (
-    <React.Fragment>
-      <DashBoard>
-        <DashboardChart />
-      </DashBoard>
-    </React.Fragment>
+        <Layout>
+          <Dashboard />
+        </Layout>
   );
 };
 
