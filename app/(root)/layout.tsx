@@ -1,41 +1,30 @@
-import './globals.css';
+import '../globals.css';
+import Navbar from '@mitech/shared-components/ui/navbars/navbar-2';
+import Sidebar from '@mitech/shared-components/ui/sidebars/sidebar-2';
 
-import { Analytics } from '@vercel/analytics/react';
-import { SessionProvider } from 'next-auth/react';
-import { SpeedInsights } from "@vercel/speed-insights/next"
-import { NextUIProvider } from '@nextui-org/react';
-import { ThemeProvider as NextThemesProvider } from "next-themes";
-import Frame  from '@mitech/shared-components/component/frame-with-sidebar-and-navbar';
-import { NotificationProvider } from '@/components/ui/NotificationContext';
 export const metadata = {
-  title: 'Welcome to Mitech Recruitment',
+  title: 'Welcome to Mitech Marketing',
   description:
-    'A user admin dashboard configured with Next.js, Postgres, NextAuth, Tailwind CSS, TypeScript, ESLint, and Prettier.'
+    'Mitech Marketing is a digital marketing agency that specializes in SEO, PPC, and social media marketing.',
 };
 
-export default async function RootLayout({
-  children
-}: {
-  children: React.ReactNode;
-}) {
 
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   return (
-    <html lang="en" >
-      <body className="static h-full bg-gray-50">
-        <SessionProvider>
-          <NextUIProvider>
-            <NextThemesProvider attribute="class" defaultTheme='light'>
-              <main className="text-foreground bg-background">
-                <Frame>
-                <NotificationProvider>{children}</NotificationProvider>
-                </Frame>
-              </main>
-              <Analytics />
-              <SpeedInsights />{/* Vercel Speed Insights */}
-            </NextThemesProvider>
-          </NextUIProvider>
-        </SessionProvider>
-      </body>
-    </html>
-  );
+    <div className="flex">
+      <aside className="w-1/5 bg-[#ff7f00] text-white p-4">
+        <Sidebar />
+      </aside>
+      <main className="w-full">
+        <div className="container mx-auto px-4 mb-8">
+          <Navbar />
+          {children}
+        </div>
+      </main>
+    </div>
+  )
 }

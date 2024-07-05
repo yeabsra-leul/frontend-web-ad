@@ -19,7 +19,7 @@ export const useNotification = () => {
   return context;
 };
 
-export const NotificationProvider = ({ children }: { children: ReactNode }) => {
+export function NotificationProvider({ children }: { children: ReactNode }) {
   const [message, setMessage] = useState<string | null>(null);
 
   const notify = (message: string) => {
