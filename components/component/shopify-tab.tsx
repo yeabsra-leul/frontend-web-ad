@@ -36,6 +36,7 @@ const ShopifyTab = () => {
       <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
         {shopifySalesChartData.map((data: shopifySalesChartItem) => (
           <ShopifySalesLineChart
+            key={data.cardTitle}
             total={data.total}
             items={data.items}
             cardTitle={data.cardTitle}
@@ -102,7 +103,11 @@ const ShopifyTab = () => {
           </Card>
           <div className="grid grid-cols-3 gap-4">
             {shopifyAdBreakdownList.map((item: shopifyAdBreakdownItem) => (
-              <AdBreakdownCard cardTitle={item.title} value={item.value} />
+              <AdBreakdownCard
+                key={item.title}
+                cardTitle={item.title}
+                value={item.value}
+              />
             ))}
           </div>
         </div>

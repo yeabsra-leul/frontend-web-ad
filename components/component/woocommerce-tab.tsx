@@ -16,7 +16,10 @@ const WooCommerceTab = () => {
     <div className="grid gap-6">
       <div className="flex gap-4 flex-wrap">
         {wooCommerceSalesCardsList.map((data: WooCommerceSalesCardItem) => (
-          <Card className="rounded-small shadow-none text-medium font-semibold border-1.5 border-default-300 h-fit pl-1 pr-3 pb-6 min-w-44">
+          <Card
+            key={data.cardTitle}
+            className="rounded-small shadow-none text-medium font-semibold border-1.5 border-default-300 h-fit pl-1 pr-3 pb-6 min-w-44"
+          >
             <CardHeader>
               <p className="text-muted-foreground font-bold text-default-500 text-small">
                 {data.cardTitle}
