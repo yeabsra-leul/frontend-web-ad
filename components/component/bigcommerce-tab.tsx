@@ -54,7 +54,10 @@ const BigCommerceTab = () => {
       </Card>
       <div className="col-span-12 md:col-span-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 lg:gap-6">
         {bigCommerceSalesCardsList.map((data: BigCommerceSalesCardItem) => (
-          <Card className="rounded-small shadow-none text-medium font-semibold border-1.5 border-default-300 w-36">
+          <Card
+            key={data.title}
+            className="rounded-small shadow-none text-medium font-semibold border-1.5 border-default-300 w-36"
+          >
             <CardHeader>
               <p className="text-muted-foreground font-bold text-default-500 text-xs text-nowrap text-ellipsis whitespace-nowrap">
                 {data.title}
