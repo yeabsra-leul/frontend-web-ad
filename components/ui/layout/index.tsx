@@ -197,7 +197,7 @@ const navLinks: NavLinkData[] = [
         ],
     },
     { href: '#', icon: DollarSignIcon, label: 'Insights' },
-    { href: '#', icon: FolderIcon, label: 'E-commerce' },
+    { href: '/ecommerce', icon: FolderIcon, label: 'E-commerce' },
 ];
 
 const Nav: React.FC = () => {
