@@ -1,3 +1,6 @@
+import { type ClassValue, clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+
 export const formatCurrency = (amount: number) => {
   return (amount / 100).toLocaleString('en-US', {
     style: 'currency',
@@ -63,3 +66,10 @@ export const updateVersion = (oldVersion: string): string => {
   versionArray[2] = (parseInt(versionArray[2]) + 1).toString();
   return versionArray.join('.');
 };
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+
+export const numberDigitFormatter = (number: number) =>
+  `$${Intl.NumberFormat('us').format(number).toString()}`;
