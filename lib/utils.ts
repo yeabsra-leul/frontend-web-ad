@@ -1,5 +1,7 @@
 import { GetInitialSeoKeywords } from "./data";
 import { Advertisement, ad_attribute } from "./definitions";
+import { type ClassValue, clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
 
 export const formatCurrency = (amount: number) => {
   return (amount / 100).toLocaleString('en-US', {
@@ -196,3 +198,9 @@ export const assembleAdGroup = (adg: any|null, validatedData: any): any => {
   }
   return adgData;
 };
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+
+export const numberDigitFormatter = (number: number) =>
+  `$${Intl.NumberFormat('us').format(number).toString()}`;
